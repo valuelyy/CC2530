@@ -1,0 +1,88 @@
+#include <ioCC2530.h>
+#define LED_RED (P1_0)     //交通灯端口定义
+#define LED_GREEN (P1_1)  
+#define SW1  (P1_2)     //SW1端口定义
+//**********************************************************************************
+void initial_gpio()
+{   //步骤1 进行端口功能选择
+    P1SEL &= ~0x07;         //设置P1.0 P1.1 P1.2为GPIO
+    //步骤2 设置输入输出方向
+    P1DIR |= 0X03;          //设置P1.0 P1.1端口为输出
+    P1DIR &= ~0X04;         //设置P1.2端口为输入
+     //步骤3 设置端口输入模式     
+    P1INP &= ~0X04;         //P1.2端口为"上拉/下拉"模式
+    P2INP &= ~0x40;      //设置P1口所有引脚使用上拉
+    xx=0;cs=0;
+    P1=0X00;                //关闭LED灯     
+ }
+//**********************************************************************************
+void delay(unsigned int time)
+{
+    unsigned int i;
+    unsigned char j;
+    for(i = 0;i < time;i++)
+        for(j = 0;j < 240;j++)
+        {
+          //C中用asm嵌入执行汇编指令，
+          //nop为空操作命令，占1个指令周期。
+           asm("NOP"); asm("NOP");  asm("NOP");     
+        }
+}
+//Routine-定义红绿灯交替点亮，指挥车辆正常通行
+void Routine() 
+{
+     LED_RED=1;  LED_GREEN=0;   
+     delay(2000); 
+     LED_RED=0;  LED_GREEN=0;   
+     delay(400); 
+     LED_RED=0;  LED_GREEN=1;   
+     delay(2000); 
+     LED_RED=0;  LED_GREEN=0;
+      delay(400); 
+}
+//Forbid-定义红灯长亮，禁止车辆通行
+void Forbid ()
+{
+    LED_RED=1;  LED_GREEN=0; 
+     delay(15000);
+     LED_RED=0;  LED_GREEN=0; 
+     delay(300);
+     LED_RED=1;  LED_GREEN=0; 
+     delay(300);
+     LED_RED=0;  LED_GREEN=0; 
+     delay(300);
+     LED_RED=1;  LED_GREEN=0; 
+     delay(300);
+     LED_RED=0;  LED_GREEN=0; 
+ }
+//中断使能函数
+void initial_interrupt()  
+{   EA = 1;          //使能总中断
+    IEN2 |= 0X10;    //使能P1端口中断源
+    P1IEN |= 0X04;   //使能P1.2位中断
+    PICTL |= 0X02;   //P1.2中断触发方式为下降沿触发  
+  
+}
+//中断服务函数
+#pragma vector = P1INT_VECTOR   //指定中断向量为P1INT_VECTOR
+__interrupt void P1_ISR(void)  //定义中断服务函数
+{ 
+    if(P1IF!=0x00)    //判断P1口中有中断请求产生中断时调用禁行Forbid函数
+  //if(P1IFG==0x04)    //判断P1.2产生中断时调用禁行Forbid函数
+         //有IF很难捕捉到P1.2中断，因为有抖动吗？
+  {   Forbid();
+      P1IFG = 0x00;            //清除P1.2中断标志位    
+     
+  }             
+   P1IF = 0x00;                //清除P1端口中断标志位
+ }
+//主函数
+void main()
+{  initial_gpio();                  //GPIO初始化 
+   initial_interrupt();              //中断初始化
+   while(1)                         //正常执行状态可响应中断打断
+   {   
+       Routine(); 
+     }
+}
+

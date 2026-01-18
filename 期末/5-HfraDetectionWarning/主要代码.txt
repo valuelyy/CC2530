@@ -1,0 +1,1283 @@
+/*********************************************************************
+ * INCLUDES
+ */
+
+#include <stdio.h>
+#include <string.h>
+#include "AF.h"
+#include "OnBoard.h"
+#include "OSAL_Tasks.h"
+#include "SampleApp.h"
+#include "ZDApp.h"
+#include "ZDObject.h"
+#include "ZDProfile.h"
+
+#include "hal_drivers.h"
+#include "hal_key.h"
+#if defined ( LCD_SUPPORTED )
+  #include "hal_lcd.h"
+#endif
+#include "hal_led.h"
+#include "hal_uart.h"
+#include "hal_adc.h"
+#include "ds18b20.h"
+#include "sapi.h"
+
+/*********************************************************************
+ * MACROS
+ */
+
+/*********************************************************************
+ * CONSTANTS
+ */
+
+// General UART frame offsets
+#define FRAME_SOF_OFFSET                    0
+#define FRAME_LENGTH_OFFSET                 1 
+#define FRAME_CMD0_OFFSET                   2
+#define FRAME_CMD1_OFFSET                   3
+#define FRAME_DATA_OFFSET                   4
+
+// ZB_RECEIVE_DATA_INDICATION offsets
+#define ZB_RECV_SRC_OFFSET                  0
+#define ZB_RECV_CMD_OFFSET                  2
+#define ZB_RECV_LEN_OFFSET                  4
+#define ZB_RECV_DATA_OFFSET                 6
+#define ZB_RECV_FCS_OFFSET                  8
+
+// ZB_RECEIVE_DATA_INDICATION frame length
+#define ZB_RECV_LENGTH                      15
+
+// PING response frame length and offset
+#define SYS_PING_RSP_LENGTH                 7 
+#define SYS_PING_CMD_OFFSET                 1
+
+// Stack Profile
+#define ZIGBEE_2007                         0x0040
+#define ZIGBEE_PRO_2007                     0x0041
+
+#ifdef ZIGBEEPRO
+#define STACK_PROFILE                       ZIGBEE_PRO_2007             
+#else 
+#define STACK_PROFILE                       ZIGBEE_2007
+#endif
+
+#define CPT_SOP                             0xFE
+#define SYS_PING_REQUEST                    0x0021
+#define SYS_PING_RESPONSE                   0x0161
+#define ZB_RECEIVE_DATA_INDICATION          0x8746
+
+#define RX_BUF_LEN                        128
+
+
+
+#if !defined( SAMPLE_APP_PORT )
+#define SAMPLE_APP_PORT  0
+#endif
+
+#if !defined( SAMPLE_APP_BAUD )
+  #define SAMPLE_APP_BAUD  HAL_UART_BR_115200
+#endif
+
+// When the Rx buf space is less than this threshold, invoke the Rx callback.
+#if !defined( SAMPLE_APP_THRESH )
+#define SAMPLE_APP_THRESH  64
+#endif
+
+#if !defined( SAMPLE_APP_RX_SZ )
+#define SAMPLE_APP_RX_SZ  128
+#endif
+
+#if !defined( SAMPLE_APP_TX_SZ )
+#define SAMPLE_APP_TX_SZ  128
+#endif
+
+// Millisecs of idle time after a byte is received before invoking Rx callback.
+#if !defined( SAMPLE_APP_IDLE )
+#define SAMPLE_APP_IDLE  6
+#endif
+
+// Loopback Rx bytes to Tx for throughput testing.
+#if !defined( SAMPLE_APP_LOOPBACK )
+#define SAMPLE_APP_LOOPBACK  FALSE
+#endif
+
+// This is the max byte count per OTA message.
+#if !defined( SAMPLE_APP_TX_MAX )
+#define SAMPLE_APP_TX_MAX  80
+#endif
+
+#define SAMPLE_APP_RSP_CNT  4
+
+
+#define LIGHT         1
+#define GAS           0
+#define LIGHTORGAS    LIGHT
+
+#define YES 1
+#define NO 0
+#define AUTORMATIC    YES
+
+#define LED P1_0
+
+// This list should be filled with Application specific Cluster IDs.
+const cId_t SampleApp_ClusterList[SAMPLE_MAX_CLUSTERS] =
+{
+  SAMPLEAPP_P2P_CLUSTERID,
+  SAMPLEAPP_PERIODIC_CLUSTERID,
+};
+
+const SimpleDescriptionFormat_t SampleApp_SimpleDesc =
+{
+  SAMPLEAPP_ENDPOINT,              //  int   Endpoint;
+  SAMPLEAPP_PROFID,                //  uint16 AppProfId[2];
+  SAMPLEAPP_DEVICEID,              //  uint16 AppDeviceId[2];
+  SAMPLEAPP_DEVICE_VERSION,        //  int   AppDevVer:4;
+  SAMPLEAPP_FLAGS,                 //  int   AppFlags:4;
+  SAMPLE_MAX_CLUSTERS,          //  byte  AppNumInClusters;
+  (cId_t *)SampleApp_ClusterList,  //  byte *pAppInClusterList;
+  SAMPLE_MAX_CLUSTERS,          //  byte  AppNumOutClusters;
+  (cId_t *)SampleApp_ClusterList   //  byte *pAppOutClusterList;
+};
+
+endPointDesc_t SampleApp_epDesc =
+{
+  SAMPLEAPP_ENDPOINT,
+ &SampleApp_TaskID,
+  (SimpleDescriptionFormat_t *)&SampleApp_SimpleDesc,
+  noLatencyReqs
+};
+
+/*********************************************************************
+ * TYPEDEFS
+ */
+
+/*********************************************************************
+ * GLOBAL VARIABLES
+ */
+devStates_t SampleApp_NwkState;   
+uint8 SampleApp_TaskID;           // Task ID for internal task/event processing.
+
+/*********************************************************************
+ * EXTERNAL VARIABLES
+ */
+
+/*********************************************************************
+ * EXTERNAL FUNCTIONS
+ */
+
+/*********************************************************************
+ * LOCAL VARIABLES
+ */
+
+static uint8 SampleApp_MsgID;
+
+afAddrType_t SampleApp_Periodic_DstAddr; //广播
+afAddrType_t SampleApp_Flash_DstAddr;    //组播
+afAddrType_t SampleApp_P2P_DstAddr;      //点播
+
+
+static afAddrType_t SampleApp_TxAddr;
+static uint8 SampleApp_TxSeq;
+static uint8 SampleApp_TxBuf[SAMPLE_APP_TX_MAX+1];
+static uint8 SampleApp_TxLen;
+
+static afAddrType_t SampleApp_RxAddr;
+static uint8 SampleApp_RxSeq;
+static uint8 SampleApp_RspBuf[SAMPLE_APP_RSP_CNT];
+
+/*********************************************************************
+ * LOCAL FUNCTIONS
+ */
+
+static void SampleApp_ProcessMSGCmd( afIncomingMSGPacket_t *pkt );
+void SampleApp_CallBack(uint8 port, uint8 event); 
+static void SampleApp_Send_P2P_Message( void );
+static void packDataAndSend(uint8 fc, uint8* data, uint8 len);
+
+
+/*********************************************************************
+ * @fn      SampleApp_Init
+ *
+ * @brief   This is called during OSAL tasks' initialization.
+ *
+ * @param   task_id - the Task ID assigned by OSAL.
+ *
+ * @return  none
+ */
+void SampleApp_Init( uint8 task_id )
+{
+  halUARTCfg_t uartConfig;
+
+  SampleApp_TaskID = task_id;
+  SampleApp_RxSeq = 0xC3;
+  SampleApp_NwkState = DEV_INIT;       
+
+  MT_UartInit();                  //串口初始化
+  MT_UartRegisterTaskID(task_id); //注册串口任务
+  afRegister( (endPointDesc_t *)&SampleApp_epDesc );
+  RegisterForKeys( task_id );
+  
+  P1DIR |= 0x01;//led p1.0输出
+  LED = 1;
+#ifdef ZDO_COORDINATOR
+  
+  //协调器初始化蜂鸣器
+  // led P1_0
+#else
+  //因为温度传感器在读取时会进行多次初始化，所以终端初始化时并没有初始化温度传感器引脚
+  //P15是光敏传感器的DO引脚
+  //gas or light
+  P1SEL &= ~0x20;                 //设置P1.5为普通IO口
+  P1DIR &= ~0x20;                 //P1.5定义为输入口
+ 
+  //人体红外使用引脚和温湿度相同
+  P0DIR &= ~0x80;          //P0.7定义为输入口    
+  P0INP |= 0x80;
+  
+ //gas or light
+  P1SEL &= ~0x20;                 //设置P1.5为普通IO口
+  P1DIR &= ~0x20;                 //P1.5定义为输入口
+  
+  //人体红外使用引脚和温湿度相同
+  P0DIR &= ~0x80;          //P0.7定义为输入口    
+  P0INP |= 0x80;
+  
+  P0SEL &= ~0x10;         //蜂鸣器  P0_4
+  P0DIR |= 0x10;
+  P0_4 = 1;//默认关闭蜂鸣器
+  
+#endif
+
+  SampleApp_Periodic_DstAddr.addrMode = (afAddrMode_t)AddrBroadcast;//广播
+  SampleApp_Periodic_DstAddr.endPoint = SAMPLEAPP_ENDPOINT;
+  SampleApp_Periodic_DstAddr.addr.shortAddr = 0xFFFF;
+
+  // Setup for the flash command's destination address - Group 1
+  SampleApp_Flash_DstAddr.addrMode = (afAddrMode_t)afAddrGroup;//组播
+  SampleApp_Flash_DstAddr.endPoint = SAMPLEAPP_ENDPOINT;
+  SampleApp_Flash_DstAddr.addr.shortAddr = SAMPLEAPP_FLASH_GROUP;
+  
+  SampleApp_P2P_DstAddr.addrMode = (afAddrMode_t)Addr16Bit; //点播 
+  SampleApp_P2P_DstAddr.endPoint = SAMPLEAPP_ENDPOINT; 
+  SampleApp_P2P_DstAddr.addr.shortAddr = 0x0000;            //发给协调器
+}
+
+#define DATA_PIN P0_7        //定义P0.4口为红外传感器的输入端
+//检测人体传感器是否有人
+//人体传感器接在P04上
+//一旦检测到有人，10次检测内都认为有人
+//返回1表示有人，0表示无人
+uint8 GetPeople(void)
+{
+    static uint8 peopleSencond=0;
+    uint8 people=0;
+    
+    if(DATA_PIN==1)
+    {
+        peopleSencond=10;//一旦检测到有人，10次检测内都认为有人
+        people=1;//检测到有人
+    }
+    else
+    {
+        if(peopleSencond>0)
+        {
+            peopleSencond--;
+            people=1;//倒计时结束前都认为有人
+        }
+        else
+        {
+            peopleSencond=0;
+            people=0;//没有人
+        }
+    }
+    
+    return people;
+}
+
+uint8 data1[2]={0,0};
+/*********************************************************************
+ * @fn      SampleApp_ProcessEvent
+ *
+ * @brief   Generic Application Task event processor.
+ *
+ * @param   task_id  - The OSAL assigned task ID.
+ * @param   events   - Bit map of events to process.
+ *
+ * @return  Event flags of all unprocessed events.
+ */
+UINT16 SampleApp_ProcessEvent( uint8 task_id, UINT16 events )
+{
+  (void)task_id;  // Intentionally unreferenced parameter
+  
+  if ( events & SYS_EVENT_MSG)
+  {
+    afIncomingMSGPacket_t *MSGpkt;
+    while ( (MSGpkt = (afIncomingMSGPacket_t *)osal_msg_receive( SampleApp_TaskID )) )
+    {
+      switch ( MSGpkt->hdr.event )
+      {
+      case AF_INCOMING_MSG_CMD:
+        SampleApp_ProcessMSGCmd( MSGpkt );
+
+        break;
+        
+      case ZDO_STATE_CHANGE:
+        SampleApp_NwkState = (devStates_t)(MSGpkt->hdr.status);
+        if ( //(SampleApp_NwkState == DEV_ZB_COORD)||
+            (SampleApp_NwkState == DEV_ROUTER)
+            || (SampleApp_NwkState == DEV_END_DEVICE) )
+        {
+            
+            osal_start_timerEx( SampleApp_TaskID,
+                              SAMPLEAPP_SEND_PERIODIC_MSG_EVT,
+                              SAMPLEAPP_SEND_PERIODIC_MSG_TIMEOUT );
+        }
+        else
+        {
+          // Device is no longer in the network
+        }
+        break;
+
+      default:
+        break;
+      }
+
+      osal_msg_deallocate( (uint8 *)MSGpkt );
+    }
+
+    return ( events ^ SYS_EVENT_MSG );
+  }
+#ifdef ZDO_COORDINATOR
+  
+  if(events & SAMPLEAPP_SEND_CONTROL_MASG_EVT)
+  {
+   uint8 str[5]={0};         
+  uint16 nwkAddr = NLME_GetShortAddr();
+  uint16 parentShortAddr=NLME_GetCoordShortAddr();
+  
+  str[0] = LO_UINT16(nwkAddr);
+  str[1] = HI_UINT16(nwkAddr);
+  str[2] = LO_UINT16(parentShortAddr);
+  str[3] = HI_UINT16(parentShortAddr);
+  
+  str[4] = 1;
+  
+  uint8 debugStr[50];
+  sprintf(debugStr, "1");
+  HalUARTWrite(0, debugStr, osal_strlen(debugStr));
+
+  SampleApp_TxAddr.addrMode = (afAddrMode_t)Addr16Bit;
+  SampleApp_TxAddr.endPoint = SAMPLEAPP_ENDPOINT;
+  SampleApp_TxAddr.addr.shortAddr = 0xFFFF;
+
+
+  //无线发送到协调器
+  if ( AF_DataRequest( &SampleApp_TxAddr, &SampleApp_epDesc,
+                       SAMPLEAPP_PERIODIC_CLUSTERID,
+                       5,
+                       str,
+                       &SampleApp_MsgID,
+                       AF_DISCV_ROUTE,
+                       AF_DEFAULT_RADIUS ) == afStatus_SUCCESS )
+  {
+    
+  }
+  else
+  {
+
+  }
+    
+    return (events ^ SAMPLEAPP_SEND_CONTROL_MASG_EVT);
+  } 
+#endif
+
+  if ( events & SAMPLEAPP_SEND_PERIODIC_MSG_EVT )
+  {
+    SampleApp_Send_P2P_Message();
+
+    // Setup to send message again in normal period (+ a little jitter)
+    osal_start_timerEx( SampleApp_TaskID, SAMPLEAPP_SEND_PERIODIC_MSG_EVT,
+        (SAMPLEAPP_SEND_PERIODIC_MSG_TIMEOUT + (osal_rand() & 0x00FF)) );
+
+    // return unprocessed events
+    return (events ^ SAMPLEAPP_SEND_PERIODIC_MSG_EVT);
+  }
+
+
+  return ( 0 );  // Discard unknown events.
+}
+
+static uint8 calcFCS(uint8 *pBuf, uint8 len)
+{
+  uint8 rtrn = 0;
+
+  while (len--)
+  {
+    rtrn ^= *pBuf++;
+  }
+
+  return rtrn;
+}
+
+
+//取光照值,接在P06上
+uint8 GetLight(void)
+{
+    uint8 temp=0;//百分比的整数值
+    float vol=0.0; //adc采样电压  
+    uint16 adc= HalAdcRead(HAL_ADC_CHANNEL_6, HAL_ADC_RESOLUTION_14); //ADC 采样值 P06口
+
+    //最大采样值8192(因为最高位是符号位)
+    if(adc>=8192)
+    {
+        return 0;
+    }
+    
+    adc=8192-adc;//反相一下，因为低湿度时AO口输出较高电平
+                   //          高湿度时AO口输出较低电平   
+
+    //转化为百分比
+    vol=(float)((float)adc)/8192.0;
+       
+    //取百分比两位数字
+    temp=vol*100;
+
+    return temp;
+}
+
+uint8 GetGasPercentage(void)
+{
+    uint16 adc = HalAdcRead(HAL_ADC_CHANNEL_6, HAL_ADC_RESOLUTION_14);
+    const uint16 ADC_MAX = 8192;
+    
+    if(adc > ADC_MAX) adc = ADC_MAX;
+    
+    // 转换为百分比（0-100%）
+    return (adc * 100) / ADC_MAX;
+}
+
+
+static void sendGtwReport(uint16 source, uint16 parent, uint8 temp, uint8 voltage)
+{
+  uint8 pFrame[ZB_RECV_LENGTH];
+  
+  // Start of Frame Delimiter
+  pFrame[FRAME_SOF_OFFSET] = CPT_SOP; // Start of Frame Delimiter
+  
+  // Length
+  pFrame[FRAME_LENGTH_OFFSET] = 10;
+  
+  // Command type
+  pFrame[FRAME_CMD0_OFFSET] = LO_UINT16(ZB_RECEIVE_DATA_INDICATION);   
+  pFrame[FRAME_CMD1_OFFSET] = HI_UINT16(ZB_RECEIVE_DATA_INDICATION); 
+  
+  // Source address
+  pFrame[FRAME_DATA_OFFSET+ ZB_RECV_SRC_OFFSET] = LO_UINT16(source); 
+  pFrame[FRAME_DATA_OFFSET+ ZB_RECV_SRC_OFFSET+ 1] = HI_UINT16(source);
+  
+  // Command ID
+  pFrame[FRAME_DATA_OFFSET+ ZB_RECV_CMD_OFFSET] = LO_UINT16(SAMPLEAPP_P2P_CLUSTERID); 
+  pFrame[FRAME_DATA_OFFSET+ ZB_RECV_CMD_OFFSET+ 1] = HI_UINT16(SAMPLEAPP_P2P_CLUSTERID);
+  
+  // Length
+  pFrame[FRAME_DATA_OFFSET+ ZB_RECV_LEN_OFFSET] = LO_UINT16(4); 
+  pFrame[FRAME_DATA_OFFSET+ ZB_RECV_LEN_OFFSET+ 1] = HI_UINT16(4);
+  
+  // Data
+  pFrame[FRAME_DATA_OFFSET+ ZB_RECV_DATA_OFFSET] = temp;
+  pFrame[FRAME_DATA_OFFSET+ ZB_RECV_DATA_OFFSET+ 1] = voltage; 
+  pFrame[FRAME_DATA_OFFSET+ ZB_RECV_DATA_OFFSET+ 2] = LO_UINT16(parent); 
+  pFrame[FRAME_DATA_OFFSET+ ZB_RECV_DATA_OFFSET+ 3] = HI_UINT16(parent);
+  
+  // Frame Check Sequence
+  pFrame[ZB_RECV_LENGTH - 1] = calcFCS(&pFrame[FRAME_LENGTH_OFFSET], (ZB_RECV_LENGTH - 2) );
+  
+  // Write report to UART
+  HalUARTWrite(HAL_UART_PORT_0,pFrame, ZB_RECV_LENGTH);
+}
+//uint8 data[2]={0,0};
+uint8 iswarn = 1;
+void SampleApp_ProcessMSGCmd( afIncomingMSGPacket_t *pkt )
+{
+  uint8 buff[20]={0};
+
+  switch ( pkt->clusterId )
+  {
+  // 接收终端上传的数据
+  case SAMPLEAPP_P2P_CLUSTERID: 
+    {
+      uint16 nwkAddr = BUILD_UINT16(pkt->cmd.Data[0],pkt->cmd.Data[1]);
+      uint16 parentShortAddr = BUILD_UINT16(pkt->cmd.Data[2],pkt->cmd.Data[3]);
+      uint8 t[3];
+      t[0] = pkt->cmd.Data[4];//红外，判断是否有人。
+      t[1] = pkt->cmd.Data[5];//光照
+      t[2] = pkt->cmd.Data[6];
+      data1[0] = t[0];
+      data1[1] = t[1];
+      uint8 debugStr[50];
+      sprintf(debugStr, "mode:%d", t[2]);
+      HalLcdWriteString((char*)debugStr, HAL_LCD_LINE_3 );
+    }
+    break;
+
+  case SAMPLEAPP_PERIODIC_CLUSTERID:
+    {
+      uint16 nwkAddr = BUILD_UINT16(pkt->cmd.Data[0],pkt->cmd.Data[1]);
+      uint16 parentShortAddr = BUILD_UINT16(pkt->cmd.Data[2],pkt->cmd.Data[3]);
+      uint8 t[1];
+      t[0] = pkt->cmd.Data[4];
+      if(t[0]){
+        if(iswarn)iswarn=0;
+        else iswarn=1;
+      }
+    }
+    break;
+
+    default:
+      break;
+  }
+}
+
+
+static void sysPingRsp(void)
+{
+  uint8 pBuf[SYS_PING_RSP_LENGTH];
+  
+  // Start of Frame Delimiter
+  pBuf[FRAME_SOF_OFFSET] = CPT_SOP;
+  
+  // Length
+  pBuf[FRAME_LENGTH_OFFSET] = 2; 
+  
+  // Command type
+  pBuf[FRAME_CMD0_OFFSET] = LO_UINT16(SYS_PING_RESPONSE); 
+  pBuf[FRAME_CMD1_OFFSET] = HI_UINT16(SYS_PING_RESPONSE);
+  
+  // Stack profile
+  pBuf[FRAME_DATA_OFFSET] = LO_UINT16(STACK_PROFILE);
+  pBuf[FRAME_DATA_OFFSET+ 1] = HI_UINT16(STACK_PROFILE);
+  
+  // Frame Check Sequence
+  pBuf[SYS_PING_RSP_LENGTH - 1] = calcFCS(&pBuf[FRAME_LENGTH_OFFSET], (SYS_PING_RSP_LENGTH - 2));
+  
+  // Write frame to UART
+  HalUARTWrite(HAL_UART_PORT_0,pBuf, SYS_PING_RSP_LENGTH);
+}
+
+
+void SampleApp_CallBack(uint8 port, uint8 event)
+{
+  uint8 pBuf[RX_BUF_LEN];
+  uint16 cmd;
+  uint16 len;
+  
+  if ( event != HAL_UART_TX_EMPTY ) 
+  {
+  
+    // Read from UART
+    len = HalUARTRead( HAL_UART_PORT_0, pBuf, RX_BUF_LEN );
+    
+    if ( len>0 ) 
+    {
+      cmd = BUILD_UINT16(pBuf[SYS_PING_CMD_OFFSET+ 1], pBuf[SYS_PING_CMD_OFFSET]);
+  
+      if( (pBuf[FRAME_SOF_OFFSET] == CPT_SOP) && (cmd == SYS_PING_REQUEST) ) 
+      {
+        sysPingRsp();
+      }
+    }
+  }
+}
+
+
+
+/*********************************************************************
+ * @fn      SampleApp_Send_P2P_Message
+ *
+ * @brief   point to point.
+ *
+ * @param   none
+ *
+ * @return  none
+ */
+void SampleApp_Send_P2P_Message( void )
+{
+  uint8 str[7]={0};
+  uint16 temp[2];          
+  uint16 nwkAddr = NLME_GetShortAddr();
+  uint16 parentShortAddr=NLME_GetCoordShortAddr();
+
+  uint8 buff=P1_5>0?0:1;
+  temp[0] = GetPeople();//红外
+  temp[1] = GetLight();//light
+  
+  str[0] = LO_UINT16(nwkAddr);
+  str[1] = HI_UINT16(nwkAddr);
+  str[2] = LO_UINT16(parentShortAddr);
+  str[3] = HI_UINT16(parentShortAddr);
+  
+  str[4] = temp[0];
+  str[5] = temp[1];
+
+  LED=iswarn;
+  if(LED && temp[0] && temp[1]<=20)
+  {
+    P0_4 = 0;//打开蜂鸣器
+  }
+  else
+  {
+    P0_4=1;
+  }
+  
+  if(LED)str[6] = 1;
+  else str[6] = 0;
+  
+  uint8 debugStr[50];
+  sprintf(debugStr, "light:%2d str:%2d", buff, temp[1]);
+  HalLcdWriteString((char*)debugStr, HAL_LCD_LINE_3 ); 
+  
+  sprintf(debugStr, "ispeople:%2d", temp[0]);
+  HalLcdWriteString((char*)debugStr, HAL_LCD_LINE_4 );
+  
+  sprintf(debugStr, "L:%2d S:%2d P:%2d", buff, temp[1],temp[0]);
+  HalUARTWrite(0, debugStr, osal_strlen(debugStr));
+  HalUARTWrite(0, "\r\n", 2);
+  
+  SampleApp_TxAddr.addrMode = (afAddrMode_t)Addr16Bit;
+  SampleApp_TxAddr.endPoint = SAMPLEAPP_ENDPOINT;
+  SampleApp_TxAddr.addr.shortAddr = 0x0;
+
+
+  //无线发送到协调器
+  if ( AF_DataRequest( &SampleApp_P2P_DstAddr, &SampleApp_epDesc,
+                       SAMPLEAPP_P2P_CLUSTERID,
+                       7,
+                       str,
+                       &SampleApp_MsgID,
+                       AF_DISCV_ROUTE,
+                       AF_DEFAULT_RADIUS ) == afStatus_SUCCESS )
+  {
+  }
+  else
+  {
+    // Error occurred in request to send.
+  }
+}
+
+uint8 CheckSum(uint8 *pdata, uint8 len)
+{
+	uint8 i;
+	uint8 check_sum=0;
+
+	for(i=0; i<len; i++)
+	{
+		check_sum += pdata[i];
+	}
+	return check_sum;
+}
+
+//数据打包发送
+/**
+*fc:功能码
+*data:上传的数据
+*len:数据长度
+格式:len,校验,fc,内容,$,@,
+*/
+void packDataAndSend(uint8 fc, uint8* data, uint8 len)
+{
+    osal_memset(SampleApp_TxBuf, 0, SAMPLE_APP_TX_MAX+1);
+
+
+    //数据包长度
+    SampleApp_TxBuf[0]=3+len;
+
+    //功能码
+    SampleApp_TxBuf[2]=fc;
+
+    //发送的数据
+    if(len>0)
+    {
+        osal_memcpy(SampleApp_TxBuf+3, data, len);
+    }
+
+    //校验和,从fc开始，
+    SampleApp_TxBuf[1]=CheckSum(SampleApp_TxBuf+2, len+1);
+
+    //数据结尾
+    SampleApp_TxBuf[3+len]='$';
+    SampleApp_TxBuf[4+len]='@';
+
+    //发送长度
+    SampleApp_TxLen=5+len;
+
+    //接着发数据包
+    HalUARTWrite(0,SampleApp_TxBuf, SampleApp_TxLen);
+}
+
+
+/**************************************************************************************************
+  Filename:       hal_key.c
+  Revised:        $Date: 2010-09-15 19:02:45 -0700 (Wed, 15 Sep 2010) $
+  Revision:       $Revision: 23815 $
+
+  Description:    This file contains the interface to the HAL KEY Service.
+
+
+  Copyright 2006-2010 Texas Instruments Incorporated. All rights reserved.
+
+  IMPORTANT: Your use of this Software is limited to those specific rights
+  granted under the terms of a software license agreement between the user
+  who downloaded the software, his/her employer (which must be your employer)
+  and Texas Instruments Incorporated (the "License").  You may not use this
+  Software unless you agree to abide by the terms of the License. The License
+  limits your use, and you acknowledge, that the Software may not be modified,
+  copied or distributed unless embedded on a Texas Instruments microcontroller
+  or used solely and exclusively in conjunction with a Texas Instruments radio
+  frequency transceiver, which is integrated into your product.  Other than for
+  the foregoing purpose, you may not use, reproduce, copy, prepare derivative
+  works of, modify, distribute, perform, display or sell this Software and/or
+  its documentation for any purpose.
+
+  YOU FURTHER ACKNOWLEDGE AND AGREE THAT THE SOFTWARE AND DOCUMENTATION ARE
+  PROVIDED 揂S IS?WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED,
+  INCLUDING WITHOUT LIMITATION, ANY WARRANTY OF MERCHANTABILITY, TITLE,
+  NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT SHALL
+  TEXAS INSTRUMENTS OR ITS LICENSORS BE LIABLE OR OBLIGATED UNDER CONTRACT,
+  NEGLIGENCE, STRICT LIABILITY, CONTRIBUTION, BREACH OF WARRANTY, OR OTHER
+  LEGAL EQUITABLE THEORY ANY DIRECT OR INDIRECT DAMAGES OR EXPENSES
+  INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, PUNITIVE
+  OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT
+  OF SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
+  (INCLUDING BUT NOT LIMITED TO ANY DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
+
+  Should you have any questions regarding your right to use this Software,
+  contact Texas Instruments Incorporated at www.TI.com.
+**************************************************************************************************/
+/*********************************************************************
+ NOTE: If polling is used, the hal_driver task schedules the KeyRead()
+       to occur every 100ms.  This should be long enough to naturally
+       debounce the keys.  The KeyRead() function remembers the key
+       state of the previous poll and will only return a non-zero
+       value if the key state changes.
+
+ NOTE: If interrupts are used, the KeyRead() function is scheduled
+       25ms after the interrupt occurs by the ISR.  This delay is used
+       for key debouncing.  The ISR disables any further Key interrupt
+       until KeyRead() is executed.  KeyRead() will re-enable Key
+       interrupts after executing.  Unlike polling, when interrupts
+       are enabled, the previous key state is not remembered.  This
+       means that KeyRead() will return the current state of the keys
+       (not a change in state of the keys).
+
+ NOTE: If interrupts are used, the KeyRead() fucntion is scheduled by
+       the ISR.  Therefore, the joystick movements will only be detected
+       during a pushbutton interrupt caused by S1 or the center joystick
+       pushbutton.
+
+ NOTE: When a switch like S1 is pushed, the S1 signal goes from a normally
+       high state to a low state.  This transition is typically clean.  The
+       duration of the low state is around 200ms.  When the signal returns
+       to the high state, there is a high likelihood of signal bounce, which
+       causes a unwanted interrupts.  Normally, we would set the interrupt
+       edge to falling edge to generate an interrupt when S1 is pushed, but
+       because of the signal bounce, it is better to set the edge to rising
+       edge to generate an interrupt when S1 is released.  The debounce logic
+       can then filter out the signal bounce.  The result is that we typically
+       get only 1 interrupt per button push.  This mechanism is not totally
+       foolproof because occasionally, signal bound occurs during the falling
+       edge as well.  A similar mechanism is used to handle the joystick
+       pushbutton on the DB.  For the EB, we do not have independent control
+       of the interrupt edge for the S1 and center joystick pushbutton.  As
+       a result, only one or the other pushbuttons work reasonably well with
+       interrupts.  The default is the make the S1 switch on the EB work more
+       reliably.
+
+*********************************************************************/
+
+/**************************************************************************************************
+ *                                            INCLUDES
+ **************************************************************************************************/
+#include "hal_mcu.h"
+#include "hal_defs.h"
+#include "hal_types.h"
+#include "hal_board.h"
+#include "hal_drivers.h"
+#include "hal_adc.h"
+#include "hal_key.h"
+#include "osal.h"
+
+#include "hal_lcd.h"
+
+#include "SampleApp.h"
+
+
+#if (defined HAL_KEY) && (HAL_KEY == TRUE)
+
+/**************************************************************************************************
+ *                                              MACROS
+ **************************************************************************************************/
+
+/**************************************************************************************************
+ *                                            CONSTANTS
+ **************************************************************************************************/
+#define HAL_KEY_RISING_EDGE   0
+#define HAL_KEY_FALLING_EDGE  1
+
+#define HAL_KEY_DEBOUNCE_VALUE  25
+#define HAL_KEY_POLLING_VALUE   100
+
+/* CPU port interrupt */
+#define HAL_KEY_CPU_PORT_0_IF P0IF
+#define HAL_KEY_CPU_PORT_2_IF P2IF
+
+/* SW_6 is at P0.1 */
+#define HAL_KEY_SW_6_PORT   P0
+#define HAL_KEY_SW_6_BIT    BV(1)
+#define HAL_KEY_SW_6_SEL    P0SEL
+#define HAL_KEY_SW_6_DIR    P0DIR
+
+/* edge interrupt */
+#define HAL_KEY_SW_6_EDGEBIT  BV(0)
+#define HAL_KEY_SW_6_EDGE     HAL_KEY_FALLING_EDGE
+
+
+/* SW_6 interrupts */
+#define HAL_KEY_SW_6_IEN      IEN1  /* CPU interrupt mask register */
+#define HAL_KEY_SW_6_IENBIT   BV(5) /* Mask bit for all of Port_0 */
+#define HAL_KEY_SW_6_ICTL     P0IEN /* Port Interrupt Control register */
+#define HAL_KEY_SW_6_ICTLBIT  BV(1) /* P0IEN - P0.1 enable/disable bit */
+#define HAL_KEY_SW_6_PXIFG    P0IFG /* Interrupt flag at source */
+
+/* Joy stick move at P2.0 */
+#define HAL_KEY_JOY_MOVE_PORT   P2
+#define HAL_KEY_JOY_MOVE_BIT    BV(0)
+#define HAL_KEY_JOY_MOVE_SEL    P2SEL
+#define HAL_KEY_JOY_MOVE_DIR    P2DIR
+
+/* edge interrupt */
+#define HAL_KEY_JOY_MOVE_EDGEBIT  BV(3)
+#define HAL_KEY_JOY_MOVE_EDGE     HAL_KEY_FALLING_EDGE
+
+/* Joy move interrupts */
+#define HAL_KEY_JOY_MOVE_IEN      IEN2  /* CPU interrupt mask register */
+#define HAL_KEY_JOY_MOVE_IENBIT   BV(1) /* Mask bit for all of Port_2 */
+#define HAL_KEY_JOY_MOVE_ICTL     P2IEN /* Port Interrupt Control register */
+#define HAL_KEY_JOY_MOVE_ICTLBIT  BV(0) /* P2IENL - P2.0<->P2.3 enable/disable bit */
+#define HAL_KEY_JOY_MOVE_PXIFG    P2IFG /* Interrupt flag at source */
+
+#define HAL_KEY_JOY_CHN   HAL_ADC_CHANNEL_6
+
+
+/**************************************************************************************************
+ *                                            TYPEDEFS
+ **************************************************************************************************/
+
+
+/**************************************************************************************************
+ *                                        GLOBAL VARIABLES
+ **************************************************************************************************/
+static uint8 halKeySavedKeys;     /* used to store previous key state in polling mode */
+static halKeyCBack_t pHalKeyProcessFunction;
+static uint8 HalKeyConfigured;
+bool Hal_KeyIntEnable;            /* interrupt enable/disable flag */
+
+/**************************************************************************************************
+ *                                        FUNCTIONS - Local
+ **************************************************************************************************/
+void halProcessKeyInterrupt(void);
+uint8 halGetJoyKeyInput(void);
+
+void BuzzerControlKey(uint8 keys, uint8 state)
+{
+  
+  if(keys & HAL_KEY_SW_1)
+  {
+   #ifdef ZDO_COORDINATOR
+    osal_start_timerEx( SampleApp_TaskID, SAMPLEAPP_SEND_CONTROL_MASG_EVT,100);
+   #endif 
+  }
+
+}
+
+/**************************************************************************************************
+ *                                        FUNCTIONS - API
+ **************************************************************************************************/
+
+
+/**************************************************************************************************
+ * @fn      HalKeyInit
+ *
+ * @brief   Initilize Key Service
+ *
+ * @param   none
+ *
+ * @return  None
+ **************************************************************************************************/
+void HalKeyInit( void )
+{
+  /* Initialize previous key to 0 */
+  halKeySavedKeys = 0;
+
+  //HAL_KEY_SW_6_SEL &= ~(HAL_KEY_SW_6_BIT);    /* Set pin function to GPIO */
+  //HAL_KEY_SW_6_DIR &= ~(HAL_KEY_SW_6_BIT);    /* Set pin direction to Input */
+
+  //HAL_KEY_JOY_MOVE_SEL &= ~(HAL_KEY_JOY_MOVE_BIT); /* Set pin function to GPIO */
+  //HAL_KEY_JOY_MOVE_DIR &= ~(HAL_KEY_JOY_MOVE_BIT); /* Set pin direction to Input */
+    
+  
+    P0SEL &= ~0x02; //设置P0.1为普通IO口
+    P0DIR &= ~0X02; //按键接在P0.1口上，设P0.1为输入模式
+    P2SEL &= ~0x01;
+    P2DIR &=~0x01;
+    //HalLcdWriteString( "keyinit", HAL_LCD_LINE_3 );
+// 避免引脚悬空导致的电平浮动
+  HalKeyConfigured = FALSE;
+  /* Initialize callback function */
+  pHalKeyProcessFunction  = NULL;
+  //HalKeyConfigured = FALSE;
+  HalKeyConfig (HAL_KEY_INTERRUPT_DISABLE, BuzzerControlKey);
+  
+}
+
+/**************************************************************************************************
+ * @fn      HalKeyConfig
+ *
+ * @brief   Configure the Key serivce
+ *
+ * @param   interruptEnable - TRUE/FALSE, enable/disable interrupt
+ *          cback - pointer to the CallBack function
+ *
+ * @return  None
+ **************************************************************************************************/
+void HalKeyConfig (bool interruptEnable, halKeyCBack_t cback)
+{
+  /* Enable/Disable Interrupt or */
+  Hal_KeyIntEnable = interruptEnable;
+
+  /* Register the callback fucntion */
+  pHalKeyProcessFunction = cback;
+
+  /* Determine if interrupt is enable or not */
+  if (Hal_KeyIntEnable)
+  {
+    /* Rising/Falling edge configuratinn */
+
+    PICTL &= ~(HAL_KEY_SW_6_EDGEBIT);    /* Clear the edge bit */
+    /* For falling edge, the bit must be set. */
+  #if (HAL_KEY_SW_6_EDGE == HAL_KEY_FALLING_EDGE)
+    PICTL |= HAL_KEY_SW_6_EDGEBIT;
+  #endif
+
+
+    /* Interrupt configuration:
+     * - Enable interrupt generation at the port
+     * - Enable CPU interrupt
+     * - Clear any pending interrupt
+     */
+    HAL_KEY_SW_6_ICTL |= HAL_KEY_SW_6_ICTLBIT;
+    HAL_KEY_SW_6_IEN |= HAL_KEY_SW_6_IENBIT;
+    HAL_KEY_SW_6_PXIFG = ~(HAL_KEY_SW_6_BIT);
+
+
+
+    /* Rising/Falling edge configuratinn */
+
+    HAL_KEY_JOY_MOVE_ICTL &= ~(HAL_KEY_JOY_MOVE_EDGEBIT);    /* Clear the edge bit */
+    /* For falling edge, the bit must be set. */
+  #if (HAL_KEY_JOY_MOVE_EDGE == HAL_KEY_FALLING_EDGE)
+    HAL_KEY_JOY_MOVE_ICTL |= HAL_KEY_JOY_MOVE_EDGEBIT;
+  #endif
+
+
+    /* Interrupt configuration:
+     * - Enable interrupt generation at the port
+     * - Enable CPU interrupt
+     * - Clear any pending interrupt
+     */
+    HAL_KEY_JOY_MOVE_ICTL |= HAL_KEY_JOY_MOVE_ICTLBIT;
+    HAL_KEY_JOY_MOVE_IEN |= HAL_KEY_JOY_MOVE_IENBIT;
+    HAL_KEY_JOY_MOVE_PXIFG = ~(HAL_KEY_JOY_MOVE_BIT);
+
+
+    /* Do this only after the hal_key is configured - to work with sleep stuff */
+    if (HalKeyConfigured == TRUE)
+    {
+      osal_stop_timerEx( Hal_TaskID, HAL_KEY_EVENT);  /* Cancel polling if active */
+    }
+  }
+  else    /* Interrupts NOT enabled */
+  {
+    HAL_KEY_SW_6_ICTL &= ~(HAL_KEY_SW_6_ICTLBIT); /* don't generate interrupt */
+    HAL_KEY_SW_6_IEN &= ~(HAL_KEY_SW_6_IENBIT);   /* Clear interrupt enable bit */
+
+    osal_start_timerEx (Hal_TaskID, HAL_KEY_EVENT, HAL_KEY_POLLING_VALUE);    /* Kick off polling */
+    
+  }
+
+  /* Key now is configured */
+  HalKeyConfigured = TRUE;
+}
+
+
+/**************************************************************************************************
+ * @fn      HalKeyRead
+ *
+ * @brief   Read the current value of a key
+ *
+ * @param   None
+ *
+ * @return  keys - current keys status
+ **************************************************************************************************/
+uint8 HalKeyRead ( void )
+{
+  uint8 keys = 0;
+
+  if (HAL_PUSH_BUTTON1())
+  {
+    keys |= HAL_KEY_SW_6;
+  }
+
+/*  if ((HAL_KEY_JOY_MOVE_PORT & HAL_KEY_JOY_MOVE_BIT))  // Key is active low 
+  {
+    keys |= halGetJoyKeyInput();
+  }
+*/
+  return keys;
+}
+
+
+/**************************************************************************************************
+ * @fn      HalKeyPoll
+ *
+ * @brief   Called by hal_driver to poll the keys
+ *
+ * @param   None
+ *
+ * @return  None
+ **************************************************************************************************/
+void HalKeyPoll(void)
+{
+  uint8 keys = 0;
+/* if ((HAL_KEY_JOY_MOVE_PORT & HAL_KEY_JOY_MOVE_BIT))  // Key is active HIGH 
+  {
+    keys = halGetJoyKeyInput();
+  }
+*/
+  if (!P0_1)//S0
+  {
+    keys |= HAL_KEY_SW_1; 
+  }
+  if (!P2_0)//S1 
+  {
+    keys |= HAL_KEY_SW_6; 
+  }
+  if (!Hal_KeyIntEnable)
+  {
+    if (keys == halKeySavedKeys)
+    {
+      /* Exit - since no keys have changed */
+      return;
+    }
+    /* Store the current keys for comparation next time */
+    halKeySavedKeys = keys;
+  }
+  else
+  {
+    /* Key interrupt handled here */
+  }
+  
+  /* Invoke Callback if new keys were depressed */
+  if (keys && (pHalKeyProcessFunction))
+  {
+    BuzzerControlKey(keys, HAL_KEY_STATE_NORMAL);
+  }
+}
+
+/**************************************************************************************************
+ * @fn      halGetJoyKeyInput
+ *
+ * @brief   Map the ADC value to its corresponding key.
+ *
+ * @param   None
+ *
+ * @return  keys - current joy key status
+ **************************************************************************************************/
+uint8 halGetJoyKeyInput(void)
+{
+  /* The joystick control is encoded as an analog voltage.
+   * Read the JOY_LEVEL analog value and map it to joy movement.
+   */
+  uint8 adc;
+  uint8 ksave0 = 0;
+  uint8 ksave1;
+
+  /* Keep on reading the ADC until two consecutive key decisions are the same. */
+  do
+  {
+    ksave1 = ksave0;    /* save previouse key reading */
+
+    adc = HalAdcRead (HAL_KEY_JOY_CHN, HAL_ADC_RESOLUTION_8);
+
+    if ((adc >= 2) && (adc <= 38))
+    {
+       ksave0 |= HAL_KEY_UP;
+    }
+    else if ((adc >= 74) && (adc <= 88))
+    {
+      ksave0 |= HAL_KEY_RIGHT;
+    }
+    else if ((adc >= 60) && (adc <= 73))
+    {
+      ksave0 |= HAL_KEY_LEFT;
+    }
+    else if ((adc >= 39) && (adc <= 59))
+    {
+      ksave0 |= HAL_KEY_DOWN;
+    }
+    else if ((adc >= 89) && (adc <= 100))
+    {
+      ksave0 |= HAL_KEY_CENTER;
+    }
+  } while (ksave0 != ksave1);
+
+  return ksave0;
+}
+
+
+
+
+
+/**************************************************************************************************
+ * @fn      halProcessKeyInterrupt
+ *
+ * @brief   Checks to see if it's a valid key interrupt, saves interrupt driven key states for
+ *          processing by HalKeyRead(), and debounces keys by scheduling HalKeyRead() 25ms later.
+ *
+ * @param
+ *
+ * @return
+ **************************************************************************************************/
+void halProcessKeyInterrupt (void)
+{
+  bool valid=FALSE;
+
+  if (HAL_KEY_SW_6_PXIFG & HAL_KEY_SW_6_BIT)  /* Interrupt Flag has been set */
+  {
+    HAL_KEY_SW_6_PXIFG = ~(HAL_KEY_SW_6_BIT); /* Clear Interrupt Flag */
+    valid = TRUE;
+  }
+
+  if (HAL_KEY_JOY_MOVE_PXIFG & HAL_KEY_JOY_MOVE_BIT)  /* Interrupt Flag has been set */
+  {
+    HAL_KEY_JOY_MOVE_PXIFG = ~(HAL_KEY_JOY_MOVE_BIT); /* Clear Interrupt Flag */
+    valid = TRUE;
+  }
+
+  if (valid)
+  {
+    osal_start_timerEx (Hal_TaskID, HAL_KEY_EVENT, HAL_KEY_DEBOUNCE_VALUE);
+  }
+}
+
+/**************************************************************************************************
+ * @fn      HalKeyEnterSleep
+ *
+ * @brief  - Get called to enter sleep mode
+ *
+ * @param
+ *
+ * @return
+ **************************************************************************************************/
+void HalKeyEnterSleep ( void )
+{
+}
+
+/**************************************************************************************************
+ * @fn      HalKeyExitSleep
+ *
+ * @brief   - Get called when sleep is over
+ *
+ * @param
+ *
+ * @return  - return saved keys
+ **************************************************************************************************/
+uint8 HalKeyExitSleep ( void )
+{
+  /* Wake up and read keys */
+  return ( HalKeyRead () );
+}
+
+/***************************************************************************************************
+ *                                    INTERRUPT SERVICE ROUTINE
+ ***************************************************************************************************/
+
+/**************************************************************************************************
+ * @fn      halKeyPort0Isr
+ *
+ * @brief   Port0 ISR
+ *
+ * @param
+ *
+ * @return
+ **************************************************************************************************/
+HAL_ISR_FUNCTION( halKeyPort0Isr, P0INT_VECTOR )
+{
+  if (HAL_KEY_SW_6_PXIFG & HAL_KEY_SW_6_BIT)
+  {
+    halProcessKeyInterrupt();
+  }
+
+  /*
+    Clear the CPU interrupt flag for Port_0
+    PxIFG has to be cleared before PxIF
+  */
+  HAL_KEY_SW_6_PXIFG = 0;
+  HAL_KEY_CPU_PORT_0_IF = 0;
+}
+
+
+/**************************************************************************************************
+ * @fn      halKeyPort2Isr
+ *
+ * @brief   Port2 ISR
+ *
+ * @param
+ *
+ * @return
+ **************************************************************************************************/
+HAL_ISR_FUNCTION( halKeyPort2Isr, P2INT_VECTOR )
+{
+  if (HAL_KEY_JOY_MOVE_PXIFG & HAL_KEY_JOY_MOVE_BIT)
+  {
+    halProcessKeyInterrupt();
+  }
+
+  /*
+    Clear the CPU interrupt flag for Port_2
+    PxIFG has to be cleared before PxIF
+    Notes: P2_1 and P2_2 are debug lines.
+  */
+  HAL_KEY_JOY_MOVE_PXIFG = 0;
+  HAL_KEY_CPU_PORT_2_IF = 0;
+}
+
+#else
+
+
+void HalKeyInit(void){}
+void HalKeyConfig(bool interruptEnable, halKeyCBack_t cback){}
+uint8 HalKeyRead(void){ return 0;}
+void HalKeyPoll(void){}
+
+#endif /* HAL_KEY */
+
+
+
+
+
+/**************************************************************************************************
+**************************************************************************************************/
+
+
+

@@ -1,0 +1,3237 @@
+///////////////////////////////////////////////////////////////////////////////
+//                                                                            /
+// IAR C/C++ Compiler V8.10.1.40194/W32 for 8051        25/Dec/2025  20:03:54 /
+// Copyright 2004-2011 IAR Systems AB.                                        /
+//                                                                            /
+//    Core               =  plain                                             /
+//    Code model         =  banked                                            /
+//    Data model         =  large                                             /
+//    Calling convention =  xdata reentrant                                   /
+//    Constant location  =  data_rom                                          /
+//    Dptr setup         =  1,16                                              /
+//    Source file        =  E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\Source\S /
+//                          ampleApp.c                                        /
+//    Command line       =  -f E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZSta /
+//                          ck-2.5.1a\Projects\zstack\Samples\SampleApp\CC253 /
+//                          0DB\..\..\..\Tools\CC2530DB\f8wEndev.cfg          /
+//                          (-DCPU32MHZ -DROOT=__near_func                    /
+//                          -DMAC_CFG_TX_DATA_MAX=3 -DMAC_CFG_TX_MAX=6        /
+//                          -DMAC_CFG_RX_MAX=3) -f E:\2025-2作业\CC2530\期末\ /
+//                          4-twogas\自组网\ZStack-2.5.1a\Projects\zstack\Sam /
+//                          ples\SampleApp\CC2530DB\..\..\..\Tools\CC2530DB\f /
+//                          8wConfig.cfg (-DZIGBEEPRO -DSECURE=0              /
+//                          -DZG_SECURE_DYNAMIC=0 -DREFLECTOR                 /
+//                          -DDEFAULT_CHANLIST=0x00000800                     /
+//                          -DZDAPP_CONFIG_PAN_ID=0xFFF1                      /
+//                          -DNWK_START_DELAY=100 -DEXTENDED_JOINING_RANDOM_M /
+//                          ASK=0x007F -DBEACON_REQUEST_DELAY=100             /
+//                          -DBEACON_REQ_DELAY_MASK=0x00FF                    /
+//                          -DLINK_STATUS_JITTER_MASK=0x007F                  /
+//                          -DROUTE_EXPIRY_TIME=30 -DAPSC_ACK_WAIT_DURATION_P /
+//                          OLLED=3000 -DNWK_INDIRECT_MSG_TIMEOUT=7           /
+//                          -DMAX_RREQ_ENTRIES=8 -DAPSC_MAX_FRAME_RETRIES=3   /
+//                          -DNWK_MAX_DATA_RETRIES=2                          /
+//                          -DMAX_POLL_FAILURE_RETRIES=2 -DMAX_BCAST=9        /
+//                          -DAPS_MAX_GROUPS=16 -DMAX_RTG_ENTRIES=40          /
+//                          -DNWK_MAX_BINDING_ENTRIES=4                       /
+//                          -DMAX_BINDING_CLUSTER_IDS=4                       /
+//                          "-DDEFAULT_KEY={0x01, 0x03, 0x05, 0x07, 0x09,     /
+//                          0x0B, 0x0D, 0x0F, 0x00, 0x02, 0x04, 0x06, 0x08,   /
+//                          0x0A, 0x0C, 0x0D}" -DMAC_MAX_FRAME_SIZE=116       /
+//                          -DZDNWKMGR_MIN_TRANSMISSIONS=20 "-DCONST=const    /
+//                          __code" -DGENERIC=__generic                       /
+//                          -DRFD_RCVC_ALWAYS_ON=FALSE -DPOLL_RATE=1000       /
+//                          -DQUEUED_POLL_RATE=100 -DRESPONSE_POLL_RATE=100)  /
+//                          -DREJOIN_POLL_RATE=440 E:\2025-2作业\CC2530\期末\ /
+//                          4-twogas\自组网\ZStack-2.5.1a\Projects\zstack\Sam /
+//                          ples\SampleApp\Source\SampleApp.c -D              /
+//                          NWK_AUTO_POLL -D ZTOOL_P1 -D MT_TASK -D           /
+//                          MT_SYS_FUNC -D MT_ZDO_FUNC -D                     /
+//                          LCD_SUPPORTED=DEBUG -lC                           /
+//                          E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\CC2530DB /
+//                          \EndDeviceEB\List\ -lA E:\2025-2作业\CC2530\期末\ /
+//                          4-twogas\自组网\ZStack-2.5.1a\Projects\zstack\Sam /
+//                          ples\SampleApp\CC2530DB\EndDeviceEB\List\         /
+//                          --diag_suppress Pe001,Pa010 -o                    /
+//                          E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\CC2530DB /
+//                          \EndDeviceEB\Obj\ -e --no_code_motion --debug     /
+//                          --core=plain --dptr=16,1 --data_model=large       /
+//                          --code_model=banked --calling_convention=xdata_re /
+//                          entrant --place_constants=data_rom                /
+//                          --nr_virtual_regs 16 -I                           /
+//                          E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\CC2530DB /
+//                          \ -I E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZS /
+//                          tack-2.5.1a\Projects\zstack\Samples\SampleApp\CC2 /
+//                          530DB\..\Source\ -I E:\2025-2作业\CC2530\期末\4-t /
+//                          wogas\自组网\ZStack-2.5.1a\Projects\zstack\Sample /
+//                          s\SampleApp\CC2530DB\..\..\..\ZMain\TI2530DB\ -I  /
+//                          E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\CC2530DB /
+//                          \..\..\..\..\..\Components\hal\include\ -I        /
+//                          E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\CC2530DB /
+//                          \..\..\..\..\..\Components\hal\target\CC2530EB\   /
+//                          -I E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZSta /
+//                          ck-2.5.1a\Projects\zstack\Samples\SampleApp\CC253 /
+//                          0DB\..\..\..\..\..\Components\mac\include\ -I     /
+//                          E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\CC2530DB /
+//                          \..\..\..\..\..\Components\mac\high_level\ -I     /
+//                          E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\CC2530DB /
+//                          \..\..\..\..\..\Components\mac\low_level\srf04\   /
+//                          -I E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZSta /
+//                          ck-2.5.1a\Projects\zstack\Samples\SampleApp\CC253 /
+//                          0DB\..\..\..\..\..\Components\mac\low_level\srf04 /
+//                          \single_chip\ -I E:\2025-2作业\CC2530\期末\4-twog /
+//                          as\自组网\ZStack-2.5.1a\Projects\zstack\Samples\S /
+//                          ampleApp\CC2530DB\..\..\..\..\..\Components\mt\   /
+//                          -I E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZSta /
+//                          ck-2.5.1a\Projects\zstack\Samples\SampleApp\CC253 /
+//                          0DB\..\..\..\..\..\Components\osal\include\ -I    /
+//                          E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\CC2530DB /
+//                          \..\..\..\..\..\Components\services\saddr\ -I     /
+//                          E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\CC2530DB /
+//                          \..\..\..\..\..\Components\services\sdata\ -I     /
+//                          E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\CC2530DB /
+//                          \..\..\..\..\..\Components\stack\af\ -I           /
+//                          E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\CC2530DB /
+//                          \..\..\..\..\..\Components\stack\nwk\ -I          /
+//                          E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\CC2530DB /
+//                          \..\..\..\..\..\Components\stack\sapi\ -I         /
+//                          E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\CC2530DB /
+//                          \..\..\..\..\..\Components\stack\sec\ -I          /
+//                          E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\CC2530DB /
+//                          \..\..\..\..\..\Components\stack\sys\ -I          /
+//                          E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\CC2530DB /
+//                          \..\..\..\..\..\Components\stack\zdo\ -I          /
+//                          E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\CC2530DB /
+//                          \..\..\..\..\..\Components\zmac\ -I               /
+//                          E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\CC2530DB /
+//                          \..\..\..\..\..\Components\zmac\f8w\ -Ohz         /
+//    List file          =  E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack- /
+//                          2.5.1a\Projects\zstack\Samples\SampleApp\CC2530DB /
+//                          \EndDeviceEB\List\SampleApp.s51                   /
+//                                                                            /
+//                                                                            /
+///////////////////////////////////////////////////////////////////////////////
+
+        NAME SampleApp
+
+        RTMODEL "__SystemLibrary", "CLib"
+        RTMODEL "__calling_convention", "xdata_reentrant"
+        RTMODEL "__code_model", "banked"
+        RTMODEL "__core", "plain"
+        RTMODEL "__data_model", "large"
+        RTMODEL "__dptr_size", "16"
+        RTMODEL "__extended_stack", "disabled"
+        RTMODEL "__location_for_constants", "data"
+        RTMODEL "__number_of_dptrs", "1"
+        RTMODEL "__rt_version", "1"
+
+        RSEG DOVERLAY:DATA:NOROOT(0)
+        RSEG IOVERLAY:IDATA:NOROOT(0)
+        RSEG ISTACK:IDATA:NOROOT(0)
+        RSEG PSTACK:XDATA:NOROOT(0)
+        RSEG XSTACK:XDATA:NOROOT(0)
+
+        EXTERN ?ALLOC_XSTACK8
+        EXTERN ?BANKED_ENTER_XDATA
+        EXTERN ?BANKED_LEAVE_XDATA
+        EXTERN ?BDISPATCH
+        EXTERN ?DEALLOC_XSTACK8
+        EXTERN ?FLT_MUL
+        EXTERN ?FLT_TO_L
+        EXTERN ?L_MOV_X
+        EXTERN ?MOVE_LONG8_XDATA_XDATA
+        EXTERN ?PUSH_XSTACK8_X_TWO
+        EXTERN ?PUSH_XSTACK_I_ONE
+        EXTERN ?PUSH_XSTACK_I_TWO
+        EXTERN ?UL_TO_FLT
+        EXTERN ?US_SHR
+        EXTERN ?V0
+        EXTERN ?XSP
+        EXTERN ?XSTACK_DISP0_8
+        EXTERN __INIT_XDATA_I
+        EXTERN __INIT_XDATA_Z
+
+        PUBLIC ??CheckSum?relay
+        FUNCTION ??CheckSum?relay,0203H
+        PUBLIC ??GetGasPercentage?relay
+        FUNCTION ??GetGasPercentage?relay,0203H
+        PUBLIC ??GetLight?relay
+        FUNCTION ??GetLight?relay,0203H
+        PUBLIC ??SampleApp_CallBack?relay
+        FUNCTION ??SampleApp_CallBack?relay,0203H
+        PUBLIC ??SampleApp_Init?relay
+        FUNCTION ??SampleApp_Init?relay,0203H
+        PUBLIC ??SampleApp_ProcessEvent?relay
+        FUNCTION ??SampleApp_ProcessEvent?relay,0203H
+        FUNCTION ??SampleApp_ProcessMSGCmd?relay,0203H
+        FUNCTION ??SampleApp_Send_P2P_Message?relay,0203H
+        PUBLIC CheckSum
+        FUNCTION CheckSum,0203H
+        ARGFRAME XSTACK, 0, STACK
+        LOCFRAME XSTACK, 10, STACK
+        PUBLIC GetGasPercentage
+        FUNCTION GetGasPercentage,021203H
+        ARGFRAME XSTACK, 73, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        LOCFRAME XSTACK, 12, STACK
+        PUBLIC GetLight
+        FUNCTION GetLight,021201H
+        ARGFRAME XSTACK, 0, STACK
+        LOCFRAME XSTACK, 16, STACK
+        PUBWEAK P1DIR
+        PUBWEAK P1SEL
+        PUBLIC SampleApp_CallBack
+        FUNCTION SampleApp_CallBack,021203H
+        ARGFRAME XSTACK, 0, STACK
+        LOCFRAME ISTACK, 1, STACK
+        LOCFRAME XSTACK, 145, STACK
+        PUBLIC SampleApp_ClusterList
+        PUBLIC SampleApp_Flash_DstAddr
+        PUBLIC SampleApp_Init
+        FUNCTION SampleApp_Init,021203H
+        ARGFRAME XSTACK, 0, STACK
+        LOCFRAME XSTACK, 10, STACK
+        PUBLIC SampleApp_NwkState
+        PUBLIC SampleApp_P2P_DstAddr
+        PUBLIC SampleApp_Periodic_DstAddr
+        PUBLIC SampleApp_ProcessEvent
+        FUNCTION SampleApp_ProcessEvent,021203H
+        ARGFRAME XSTACK, 0, STACK
+        LOCFRAME XSTACK, 68, STACK
+        FUNCTION SampleApp_ProcessMSGCmd,021203H
+        ARGFRAME XSTACK, 62, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        LOCFRAME ISTACK, 1, STACK
+        LOCFRAME XSTACK, 65, STACK
+        FUNCTION SampleApp_Send_P2P_Message,021203H
+        ARGFRAME XSTACK, 62, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        LOCFRAME ISTACK, 2, STACK
+        LOCFRAME XSTACK, 82, STACK
+        PUBLIC SampleApp_SimpleDesc
+        PUBLIC SampleApp_TaskID
+        PUBLIC SampleApp_epDesc
+        PUBWEAK _A_P0
+        PUBWEAK __Constant_39000000
+        PUBWEAK __Constant_42c80000
+        PUBLIC d
+        PUBLIC m
+        PUBLIC `pc`
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA_SP SP IDATA
+        CFI StackFrame CFA_PSP16 PSP16 XDATA
+        CFI StackFrame CFA_XSP16 XSP16 XDATA
+        CFI StaticOverlayFrame CFA_IOVERLAY IOVERLAY
+        CFI StaticOverlayFrame CFA_DOVERLAY DOVERLAY
+        CFI Resource `PSW.CY`:1, `B.BR0`:1, `B.BR1`:1, `B.BR2`:1, `B.BR3`:1
+        CFI Resource `B.BR4`:1, `B.BR5`:1, `B.BR6`:1, `B.BR7`:1, `VB.BR8`:1
+        CFI Resource `VB.BR9`:1, `VB.BR10`:1, `VB.BR11`:1, `VB.BR12`:1
+        CFI Resource `VB.BR13`:1, `VB.BR14`:1, `VB.BR15`:1, VB:8, B:8, A:8
+        CFI Resource PSW:8, DPL0:8, DPH0:8, R0:8, R1:8, R2:8, R3:8, R4:8, R5:8
+        CFI Resource R6:8, R7:8, V0:8, V1:8, V2:8, V3:8, V4:8, V5:8, V6:8, V7:8
+        CFI Resource V8:8, V9:8, V10:8, V11:8, V12:8, V13:8, V14:8, V15:8, SP:8
+        CFI Resource PSPH:8, PSPL:8, PSP16:16, XSPH:8, XSPL:8, XSP16:16
+        CFI VirtualResource ?RET:24
+        CFI Resource ?BRET_EXT:8
+        CFI VirtualResource ?RET_HIGH:8, ?RET_LOW:8
+        CFI ResourceParts PSP16 PSPH, PSPL
+        CFI ResourceParts XSP16 XSPH, XSPL
+        CFI ResourceParts ?RET ?BRET_EXT, ?RET_HIGH, ?RET_LOW
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign -1
+        CFI ReturnAddress ?RET CODE
+        CFI CFA_DOVERLAY Used
+        CFI CFA_IOVERLAY Used
+        CFI CFA_SP SP+-3
+        CFI CFA_PSP16 PSP16+0
+        CFI CFA_XSP16 XSP16+0
+        CFI `PSW.CY` SameValue
+        CFI `B.BR0` SameValue
+        CFI `B.BR1` SameValue
+        CFI `B.BR2` SameValue
+        CFI `B.BR3` SameValue
+        CFI `B.BR4` SameValue
+        CFI `B.BR5` SameValue
+        CFI `B.BR6` SameValue
+        CFI `B.BR7` SameValue
+        CFI `VB.BR8` SameValue
+        CFI `VB.BR9` SameValue
+        CFI `VB.BR10` SameValue
+        CFI `VB.BR11` SameValue
+        CFI `VB.BR12` SameValue
+        CFI `VB.BR13` SameValue
+        CFI `VB.BR14` SameValue
+        CFI `VB.BR15` SameValue
+        CFI VB SameValue
+        CFI B Undefined
+        CFI A Undefined
+        CFI PSW SameValue
+        CFI DPL0 SameValue
+        CFI DPH0 SameValue
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 Undefined
+        CFI R5 Undefined
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI V0 SameValue
+        CFI V1 SameValue
+        CFI V2 SameValue
+        CFI V3 SameValue
+        CFI V4 SameValue
+        CFI V5 SameValue
+        CFI V6 SameValue
+        CFI V7 SameValue
+        CFI V8 SameValue
+        CFI V9 SameValue
+        CFI V10 SameValue
+        CFI V11 SameValue
+        CFI V12 SameValue
+        CFI V13 SameValue
+        CFI V14 SameValue
+        CFI V15 SameValue
+        CFI PSPH Undefined
+        CFI PSPL Undefined
+        CFI XSPH Undefined
+        CFI XSPL Undefined
+        CFI ?RET Concat
+        CFI ?BRET_EXT Frame(CFA_SP, 3)
+        CFI ?RET_HIGH Frame(CFA_SP, 2)
+        CFI ?RET_LOW Frame(CFA_SP, 1)
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign -1
+        CFI ReturnAddress ?RET CODE
+        CFI CFA_DOVERLAY Used
+        CFI CFA_IOVERLAY Used
+        CFI CFA_SP SP+-2
+        CFI CFA_PSP16 PSP16+0
+        CFI CFA_XSP16 XSP16+0
+        CFI `PSW.CY` SameValue
+        CFI `B.BR0` SameValue
+        CFI `B.BR1` SameValue
+        CFI `B.BR2` SameValue
+        CFI `B.BR3` SameValue
+        CFI `B.BR4` SameValue
+        CFI `B.BR5` SameValue
+        CFI `B.BR6` SameValue
+        CFI `B.BR7` SameValue
+        CFI `VB.BR8` SameValue
+        CFI `VB.BR9` SameValue
+        CFI `VB.BR10` SameValue
+        CFI `VB.BR11` SameValue
+        CFI `VB.BR12` SameValue
+        CFI `VB.BR13` SameValue
+        CFI `VB.BR14` SameValue
+        CFI `VB.BR15` SameValue
+        CFI VB SameValue
+        CFI B SameValue
+        CFI A SameValue
+        CFI PSW SameValue
+        CFI DPL0 SameValue
+        CFI DPH0 SameValue
+        CFI R0 SameValue
+        CFI R1 SameValue
+        CFI R2 SameValue
+        CFI R3 SameValue
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI V0 SameValue
+        CFI V1 SameValue
+        CFI V2 SameValue
+        CFI V3 SameValue
+        CFI V4 SameValue
+        CFI V5 SameValue
+        CFI V6 SameValue
+        CFI V7 SameValue
+        CFI V8 SameValue
+        CFI V9 SameValue
+        CFI V10 SameValue
+        CFI V11 SameValue
+        CFI V12 SameValue
+        CFI V13 SameValue
+        CFI V14 SameValue
+        CFI V15 SameValue
+        CFI PSPH Undefined
+        CFI PSPL Undefined
+        CFI XSPH Undefined
+        CFI XSPL Undefined
+        CFI ?RET Concat
+        CFI ?BRET_EXT SameValue
+        CFI ?RET_HIGH Frame(CFA_SP, 2)
+        CFI ?RET_LOW Frame(CFA_SP, 1)
+        CFI EndCommon cfiCommon1
+        
+MT_UartInit         SYMBOL "MT_UartInit"
+MT_UartRegisterTaskID SYMBOL "MT_UartRegisterTaskID"
+afRegister          SYMBOL "afRegister"
+RegisterForKeys     SYMBOL "RegisterForKeys"
+osal_rand           SYMBOL "osal_rand"
+osal_start_timerEx  SYMBOL "osal_start_timerEx"
+osal_msg_deallocate SYMBOL "osal_msg_deallocate"
+osal_msg_receive    SYMBOL "osal_msg_receive"
+sprintf             SYMBOL "sprintf"
+osal_strlen         SYMBOL "osal_strlen"
+HalUARTWrite        SYMBOL "HalUARTWrite"
+HalAdcRead          SYMBOL "HalAdcRead"
+HalLcdWriteString   SYMBOL "HalLcdWriteString"
+HalUARTRead         SYMBOL "HalUARTRead"
+NLME_GetShortAddr   SYMBOL "NLME_GetShortAddr"
+NLME_GetCoordShortAddr SYMBOL "NLME_GetCoordShortAddr"
+ReadDs18B20         SYMBOL "ReadDs18B20"
+AF_DataRequest      SYMBOL "AF_DataRequest"
+??AF_DataRequest?relay SYMBOL "?relay", AF_DataRequest
+??HalAdcRead?relay  SYMBOL "?relay", HalAdcRead
+??HalLcdWriteString?relay SYMBOL "?relay", HalLcdWriteString
+??HalUARTRead?relay SYMBOL "?relay", HalUARTRead
+??HalUARTWrite?relay SYMBOL "?relay", HalUARTWrite
+??MT_UartInit?relay SYMBOL "?relay", MT_UartInit
+??MT_UartRegisterTaskID?relay SYMBOL "?relay", MT_UartRegisterTaskID
+??NLME_GetCoordShortAddr?relay SYMBOL "?relay", NLME_GetCoordShortAddr
+??NLME_GetShortAddr?relay SYMBOL "?relay", NLME_GetShortAddr
+??ReadDs18B20?relay SYMBOL "?relay", ReadDs18B20
+??RegisterForKeys?relay SYMBOL "?relay", RegisterForKeys
+??afRegister?relay  SYMBOL "?relay", afRegister
+??osal_msg_deallocate?relay SYMBOL "?relay", osal_msg_deallocate
+??osal_msg_receive?relay SYMBOL "?relay", osal_msg_receive
+??osal_rand?relay   SYMBOL "?relay", osal_rand
+??osal_start_timerEx?relay SYMBOL "?relay", osal_start_timerEx
+??osal_strlen?relay SYMBOL "?relay", osal_strlen
+??sprintf?relay     SYMBOL "?relay", sprintf
+CheckSum            SYMBOL "CheckSum"
+??CheckSum?relay    SYMBOL "?relay", CheckSum
+GetGasPercentage    SYMBOL "GetGasPercentage"
+??GetGasPercentage?relay SYMBOL "?relay", GetGasPercentage
+GetLight            SYMBOL "GetLight"
+??GetLight?relay    SYMBOL "?relay", GetLight
+SampleApp_CallBack  SYMBOL "SampleApp_CallBack"
+??SampleApp_CallBack?relay SYMBOL "?relay", SampleApp_CallBack
+SampleApp_Init      SYMBOL "SampleApp_Init"
+??SampleApp_Init?relay SYMBOL "?relay", SampleApp_Init
+SampleApp_ProcessEvent SYMBOL "SampleApp_ProcessEvent"
+??SampleApp_ProcessEvent?relay SYMBOL "?relay", SampleApp_ProcessEvent
+
+        EXTERN MT_UartInit
+        FUNCTION MT_UartInit,0200H
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 10, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        EXTERN MT_UartRegisterTaskID
+        FUNCTION MT_UartRegisterTaskID,0200H
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 10, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        EXTERN afRegister
+        FUNCTION afRegister,0202H
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 10, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        EXTERN RegisterForKeys
+        FUNCTION RegisterForKeys,0202H
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 10, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        EXTERN osal_rand
+        FUNCTION osal_rand,0202H
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 62, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        EXTERN osal_start_timerEx
+        FUNCTION osal_start_timerEx,0202H
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 62, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        EXTERN osal_msg_deallocate
+        FUNCTION osal_msg_deallocate,0202H
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 62, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        EXTERN osal_msg_receive
+        FUNCTION osal_msg_receive,0202H
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 62, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        EXTERN sprintf
+        FUNCTION sprintf,0202H
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 77, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        EXTERN osal_strlen
+        FUNCTION osal_strlen,0202H
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 73, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        EXTERN HalUARTWrite
+        FUNCTION HalUARTWrite,0202H
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 145, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        EXTERN HalAdcRead
+        FUNCTION HalAdcRead,0202H
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 16, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        EXTERN HalLcdWriteString
+        FUNCTION HalLcdWriteString,0202H
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 73, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        EXTERN HalUARTRead
+        FUNCTION HalUARTRead,0202H
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 145, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        EXTERN NLME_GetShortAddr
+        FUNCTION NLME_GetShortAddr,0202H
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 73, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        EXTERN NLME_GetCoordShortAddr
+        FUNCTION NLME_GetCoordShortAddr,0202H
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 73, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        EXTERN ReadDs18B20
+        FUNCTION ReadDs18B20,0202H
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 73, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        EXTERN AF_DataRequest
+        FUNCTION AF_DataRequest,0202H
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 82, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        EXTERN ??AF_DataRequest?relay
+        FUNCTION ??AF_DataRequest?relay,00H
+        EXTERN ??HalAdcRead?relay
+        FUNCTION ??HalAdcRead?relay,00H
+        EXTERN ??HalLcdWriteString?relay
+        FUNCTION ??HalLcdWriteString?relay,00H
+        EXTERN ??HalUARTRead?relay
+        FUNCTION ??HalUARTRead?relay,00H
+        EXTERN ??HalUARTWrite?relay
+        FUNCTION ??HalUARTWrite?relay,00H
+        EXTERN ??MT_UartInit?relay
+        FUNCTION ??MT_UartInit?relay,00H
+        EXTERN ??MT_UartRegisterTaskID?relay
+        FUNCTION ??MT_UartRegisterTaskID?relay,00H
+        EXTERN ??NLME_GetCoordShortAddr?relay
+        FUNCTION ??NLME_GetCoordShortAddr?relay,00H
+        EXTERN ??NLME_GetShortAddr?relay
+        FUNCTION ??NLME_GetShortAddr?relay,00H
+        EXTERN ??ReadDs18B20?relay
+        FUNCTION ??ReadDs18B20?relay,00H
+        EXTERN ??RegisterForKeys?relay
+        FUNCTION ??RegisterForKeys?relay,00H
+        EXTERN ??afRegister?relay
+        FUNCTION ??afRegister?relay,00H
+        EXTERN ??osal_msg_deallocate?relay
+        FUNCTION ??osal_msg_deallocate?relay,00H
+        EXTERN ??osal_msg_receive?relay
+        FUNCTION ??osal_msg_receive?relay,00H
+        EXTERN ??osal_rand?relay
+        FUNCTION ??osal_rand?relay,00H
+        EXTERN ??osal_start_timerEx?relay
+        FUNCTION ??osal_start_timerEx?relay,00H
+        EXTERN ??osal_strlen?relay
+        FUNCTION ??osal_strlen?relay,00H
+        EXTERN ??sprintf?relay
+        FUNCTION ??sprintf?relay,00H
+
+// E:\2025-2作业\CC2530\期末\4-twogas\自组网\ZStack-2.5.1a\Projects\zstack\Samples\SampleApp\Source\SampleApp.c
+//    1 /*********************************************************************
+//    2  * INCLUDES
+//    3  */
+//    4 
+//    5 #include <stdio.h>
+//    6 #include <string.h>
+//    7 #include "AF.h"
+//    8 #include "OnBoard.h"
+
+        ASEGN SFR_AN:DATA:NOROOT,080H
+// union <unnamed> volatile __sfr _A_P0
+_A_P0:
+        DATA8
+        DS 1
+
+        ASEGN SFR_AN:DATA:NOROOT,0f4H
+// unsigned char volatile __sfr P1SEL
+P1SEL:
+        DATA8
+        DS 1
+
+        ASEGN SFR_AN:DATA:NOROOT,0feH
+// unsigned char volatile __sfr P1DIR
+P1DIR:
+        DATA8
+        DS 1
+//    9 #include "OSAL_Tasks.h"
+//   10 #include "SampleApp.h"
+//   11 #include "ZDApp.h"
+//   12 #include "ZDObject.h"
+//   13 #include "ZDProfile.h"
+//   14 
+//   15 #include "hal_drivers.h"
+//   16 #include "hal_key.h"
+//   17 #if defined ( LCD_SUPPORTED )
+//   18   #include "hal_lcd.h"
+//   19 #endif
+//   20 #include "hal_led.h"
+//   21 #include "hal_uart.h"
+//   22 #include "hal_adc.h"
+//   23 #include "ds18b20.h"
+//   24 #include "sapi.h"
+//   25 
+//   26 
+//   27 /*********************************************************************
+//   28  * MACROS
+//   29  */
+//   30 
+//   31 /*********************************************************************
+//   32  * CONSTANTS
+//   33  */
+//   34 
+//   35 // General UART frame offsets
+//   36 #define FRAME_SOF_OFFSET                    0
+//   37 #define FRAME_LENGTH_OFFSET                 1 
+//   38 #define FRAME_CMD0_OFFSET                   2
+//   39 #define FRAME_CMD1_OFFSET                   3
+//   40 #define FRAME_DATA_OFFSET                   4
+//   41 
+//   42 // ZB_RECEIVE_DATA_INDICATION offsets
+//   43 #define ZB_RECV_SRC_OFFSET                  0
+//   44 #define ZB_RECV_CMD_OFFSET                  2
+//   45 #define ZB_RECV_LEN_OFFSET                  4
+//   46 #define ZB_RECV_DATA_OFFSET                 6
+//   47 #define ZB_RECV_FCS_OFFSET                  8
+//   48 
+//   49 // ZB_RECEIVE_DATA_INDICATION frame length
+//   50 #define ZB_RECV_LENGTH                      15
+//   51 
+//   52 // PING response frame length and offset
+//   53 #define SYS_PING_RSP_LENGTH                 7 
+//   54 #define SYS_PING_CMD_OFFSET                 1
+//   55 
+//   56 // Stack Profile
+//   57 #define ZIGBEE_2007                         0x0040
+//   58 #define ZIGBEE_PRO_2007                     0x0041
+//   59 
+//   60 #ifdef ZIGBEEPRO
+//   61 #define STACK_PROFILE                       ZIGBEE_PRO_2007             
+//   62 #else 
+//   63 #define STACK_PROFILE                       ZIGBEE_2007
+//   64 #endif
+//   65 
+//   66 #define CPT_SOP                             0xFE
+//   67 #define SYS_PING_REQUEST                    0x0021
+//   68 #define SYS_PING_RESPONSE                   0x0161
+//   69 #define ZB_RECEIVE_DATA_INDICATION          0x8746
+//   70 
+//   71 #define RX_BUF_LEN                        128
+//   72 
+//   73 
+//   74 
+//   75 #if !defined( SAMPLE_APP_PORT )
+//   76 #define SAMPLE_APP_PORT  0
+//   77 #endif
+//   78 
+//   79 #if !defined( SAMPLE_APP_BAUD )
+//   80   #define SAMPLE_APP_BAUD  HAL_UART_BR_115200
+//   81 #endif
+//   82 
+//   83 // When the Rx buf space is less than this threshold, invoke the Rx callback.
+//   84 #if !defined( SAMPLE_APP_THRESH )
+//   85 #define SAMPLE_APP_THRESH  64
+//   86 #endif
+//   87 
+//   88 #if !defined( SAMPLE_APP_RX_SZ )
+//   89 #define SAMPLE_APP_RX_SZ  128
+//   90 #endif
+//   91 
+//   92 #if !defined( SAMPLE_APP_TX_SZ )
+//   93 #define SAMPLE_APP_TX_SZ  128
+//   94 #endif
+//   95 
+//   96 // Millisecs of idle time after a byte is received before invoking Rx callback.
+//   97 #if !defined( SAMPLE_APP_IDLE )
+//   98 #define SAMPLE_APP_IDLE  6
+//   99 #endif
+//  100 
+//  101 // Loopback Rx bytes to Tx for throughput testing.
+//  102 #if !defined( SAMPLE_APP_LOOPBACK )
+//  103 #define SAMPLE_APP_LOOPBACK  FALSE
+//  104 #endif
+//  105 
+//  106 // This is the max byte count per OTA message.
+//  107 #if !defined( SAMPLE_APP_TX_MAX )
+//  108 #define SAMPLE_APP_TX_MAX  80
+//  109 #endif
+//  110 
+//  111 #define SAMPLE_APP_RSP_CNT  4
+//  112 
+//  113 // This list should be filled with Application specific Cluster IDs.
+
+        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
+        DATA32
+//  114 const cId_t SampleApp_ClusterList[SAMPLE_MAX_CLUSTERS] =
+SampleApp_ClusterList:
+        DATA16
+        DW 1
+        DW 2
+//  115 {
+//  116   SAMPLEAPP_P2P_CLUSTERID,
+//  117   SAMPLEAPP_PERIODIC_CLUSTERID,
+//  118 };
+//  119 
+
+        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
+        DATA8
+//  120 const SimpleDescriptionFormat_t SampleApp_SimpleDesc =
+SampleApp_SimpleDesc:
+        DB 11
+        DATA16
+        DW 3845
+        DW 1
+        DATA8
+        DB 0
+        DB 2
+        DATA16
+        DW SampleApp_ClusterList
+        DATA8
+        DB 2
+        DATA16
+        DW SampleApp_ClusterList
+//  121 {
+//  122   SAMPLEAPP_ENDPOINT,              //  int   Endpoint;
+//  123   SAMPLEAPP_PROFID,                //  uint16 AppProfId[2];
+//  124   SAMPLEAPP_DEVICEID,              //  uint16 AppDeviceId[2];
+//  125   SAMPLEAPP_DEVICE_VERSION,        //  int   AppDevVer:4;
+//  126   SAMPLEAPP_FLAGS,                 //  int   AppFlags:4;
+//  127   SAMPLE_MAX_CLUSTERS,          //  byte  AppNumInClusters;
+//  128   (cId_t *)SampleApp_ClusterList,  //  byte *pAppInClusterList;
+//  129   SAMPLE_MAX_CLUSTERS,          //  byte  AppNumOutClusters;
+//  130   (cId_t *)SampleApp_ClusterList   //  byte *pAppOutClusterList;
+//  131 };
+//  132 
+
+        RSEG XDATA_I:XDATA:NOROOT(0)
+//  133 endPointDesc_t SampleApp_epDesc =
+SampleApp_epDesc:
+        DATA8
+        DS 6
+        REQUIRE `?<Initializer for SampleApp_epDesc>`
+        REQUIRE __INIT_XDATA_I
+//  134 {
+//  135   SAMPLEAPP_ENDPOINT,
+//  136  &SampleApp_TaskID,
+//  137   (SimpleDescriptionFormat_t *)&SampleApp_SimpleDesc,
+//  138   noLatencyReqs
+//  139 };
+//  140 
+//  141 /*********************************************************************
+//  142  * TYPEDEFS
+//  143  */
+//  144 
+//  145 /*********************************************************************
+//  146  * GLOBAL VARIABLES
+//  147  */
+
+        RSEG XDATA_Z:XDATA:NOROOT(0)
+        DATA8
+//  148 devStates_t SampleApp_NwkState;   
+SampleApp_NwkState:
+        DS 1
+        REQUIRE __INIT_XDATA_Z
+
+        RSEG XDATA_Z:XDATA:NOROOT(0)
+        DATA8
+//  149 uint8 SampleApp_TaskID;           // Task ID for internal task/event processing.
+SampleApp_TaskID:
+        DS 1
+        REQUIRE __INIT_XDATA_Z
+//  150 
+//  151 /*********************************************************************
+//  152  * EXTERNAL VARIABLES
+//  153  */
+//  154 
+//  155 /*********************************************************************
+//  156  * EXTERNAL FUNCTIONS
+//  157  */
+//  158 
+//  159 /*********************************************************************
+//  160  * LOCAL VARIABLES
+//  161  */
+//  162 
+
+        RSEG XDATA_Z:XDATA:NOROOT(0)
+        DATA8
+//  163 static uint8 SampleApp_MsgID;
+SampleApp_MsgID:
+        DS 1
+        REQUIRE __INIT_XDATA_Z
+//  164 
+
+        RSEG XDATA_Z:XDATA:NOROOT(0)
+        DATA8
+//  165 afAddrType_t SampleApp_Periodic_DstAddr; //广播
+SampleApp_Periodic_DstAddr:
+        DS 12
+        REQUIRE __INIT_XDATA_Z
+
+        RSEG XDATA_Z:XDATA:NOROOT(0)
+        DATA8
+//  166 afAddrType_t SampleApp_Flash_DstAddr;    //组播
+SampleApp_Flash_DstAddr:
+        DS 12
+        REQUIRE __INIT_XDATA_Z
+
+        RSEG XDATA_Z:XDATA:NOROOT(0)
+        DATA8
+//  167 afAddrType_t SampleApp_P2P_DstAddr;      //点播
+SampleApp_P2P_DstAddr:
+        DS 12
+        REQUIRE __INIT_XDATA_Z
+//  168 
+//  169 
+
+        RSEG XDATA_Z:XDATA:NOROOT(0)
+        DATA8
+//  170 static afAddrType_t SampleApp_TxAddr;
+SampleApp_TxAddr:
+        DS 12
+        REQUIRE __INIT_XDATA_Z
+//  171 static uint8 SampleApp_TxSeq;
+//  172 static uint8 SampleApp_TxBuf[SAMPLE_APP_TX_MAX+1];
+//  173 static uint8 SampleApp_TxLen;
+//  174 
+//  175 static afAddrType_t SampleApp_RxAddr;
+
+        RSEG XDATA_Z:XDATA:NOROOT(0)
+        DATA8
+//  176 static uint8 SampleApp_RxSeq;
+SampleApp_RxSeq:
+        DS 1
+        REQUIRE __INIT_XDATA_Z
+//  177 static uint8 SampleApp_RspBuf[SAMPLE_APP_RSP_CNT];
+//  178 
+//  179 /*********************************************************************
+//  180  * LOCAL FUNCTIONS
+//  181  */
+//  182 
+//  183 static void SampleApp_ProcessMSGCmd( afIncomingMSGPacket_t *pkt );
+//  184 void SampleApp_CallBack(uint8 port, uint8 event); 
+//  185 static void SampleApp_Send_P2P_Message( void );
+//  186 static void packDataAndSend(uint8 fc, uint8* data, uint8 len);
+//  187 
+//  188 
+//  189 /*********************************************************************
+//  190  * @fn      SampleApp_Init
+//  191  *
+//  192  * @brief   This is called during OSAL tasks' initialization.
+//  193  *
+//  194  * @param   task_id - the Task ID assigned by OSAL.
+//  195  *
+//  196  * @return  none
+//  197  */
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+//  198 void SampleApp_Init( uint8 task_id )
+SampleApp_Init:
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI Function SampleApp_Init
+        CODE
+//  199 {
+        FUNCALL SampleApp_Init, MT_UartInit
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 10, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 10, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_Init, MT_UartRegisterTaskID
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 10, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 10, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_Init, afRegister
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 10, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 10, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_Init, RegisterForKeys
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 10, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 10, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        MOV     A,#-0xa
+        LCALL   ?BANKED_ENTER_XDATA
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 10)
+        ; Saved register size: 10
+        ; Auto size: 0
+        MOV     A,R1
+        MOV     R6,A
+//  200   halUARTCfg_t uartConfig;
+//  201 
+//  202   SampleApp_TaskID = task_id;
+        MOV     DPTR,#SampleApp_TaskID
+        MOVX    @DPTR,A
+//  203   SampleApp_RxSeq = 0xC3;
+        MOV     DPTR,#SampleApp_RxSeq
+        MOV     A,#-0x3d
+        MOVX    @DPTR,A
+//  204   SampleApp_NwkState = DEV_INIT;       
+        MOV     DPTR,#SampleApp_NwkState
+        MOV     A,#0x1
+        MOVX    @DPTR,A
+//  205 
+//  206   MT_UartInit();                  //串口初始化
+        ; Setup parameters for call to function MT_UartInit
+        LCALL   ??MT_UartInit?relay
+//  207   MT_UartRegisterTaskID(task_id); //注册串口任务
+        ; Setup parameters for call to function MT_UartRegisterTaskID
+        MOV     ?V0 + 0,R6
+        MOV     R2,?V0 + 0
+        MOV     R3,#0x0
+        LCALL   ??MT_UartRegisterTaskID?relay
+//  208   afRegister( (endPointDesc_t *)&SampleApp_epDesc );
+        ; Setup parameters for call to function afRegister
+        MOV     R2,#SampleApp_epDesc & 0xff
+        MOV     R3,#(SampleApp_epDesc >> 8) & 0xff
+        LCALL   ??afRegister?relay
+//  209   RegisterForKeys( task_id );
+        ; Setup parameters for call to function RegisterForKeys
+        MOV     A,R6
+        MOV     R1,A
+        LCALL   ??RegisterForKeys?relay
+//  210 
+//  211 #ifdef ZDO_COORDINATOR
+//  212   
+//  213   //协调器初始化蜂鸣器
+//  214   P0SEL &= ~0x80;       
+//  215   P0DIR |= 0x80;  
+//  216   P0_7=1;
+//  217   //P0SEL &= ~0x02; //设置P0.1为普通IO口
+//  218   //P0DIR &= ~0X02; //按键接在P0.1口上，设P0.1为输入模式
+//  219   
+//  220 #else
+//  221   //因为温度传感器在读取时会进行多次初始化，所以终端初始化时并没有初始化温度传感器引脚
+//  222   //P15是光敏传感器的DO引脚
+//  223  //gas or light
+//  224   P1SEL &= ~0x20;                 //设置P1.5为普通IO口
+        ANL     0xf4,#0xdf
+//  225   P1DIR &= ~0x20;                 //P1.5定义为输入口
+        ANL     0xfe,#0xdf
+//  226 #endif
+//  227   
+//  228 
+//  229   SampleApp_Periodic_DstAddr.addrMode = (afAddrMode_t)AddrBroadcast;//广播
+        MOV     DPTR,#SampleApp_Periodic_DstAddr + 8
+        MOV     A,#0xf
+        LCALL   ??Subroutine9_0 & 0xFFFF
+//  230   SampleApp_Periodic_DstAddr.endPoint = SAMPLEAPP_ENDPOINT;
+//  231   SampleApp_Periodic_DstAddr.addr.shortAddr = 0xFFFF;
+??CrossCallReturnLabel_12:
+        MOV     DPTR,#SampleApp_Periodic_DstAddr
+        MOV     A,#-0x1
+        MOVX    @DPTR,A
+        INC     DPTR
+        MOVX    @DPTR,A
+//  232 
+//  233   // Setup for the flash command's destination address - Group 1
+//  234   SampleApp_Flash_DstAddr.addrMode = (afAddrMode_t)afAddrGroup;//组播
+        MOV     DPTR,#SampleApp_Flash_DstAddr + 8
+        MOV     A,#0x1
+        LCALL   ??Subroutine9_0 & 0xFFFF
+//  235   SampleApp_Flash_DstAddr.endPoint = SAMPLEAPP_ENDPOINT;
+//  236   SampleApp_Flash_DstAddr.addr.shortAddr = SAMPLEAPP_FLASH_GROUP;
+??CrossCallReturnLabel_13:
+        MOV     DPTR,#SampleApp_Flash_DstAddr
+        MOV     A,#0x1
+        MOVX    @DPTR,A
+        INC     DPTR
+        CLR     A
+        MOVX    @DPTR,A
+//  237   
+//  238   SampleApp_P2P_DstAddr.addrMode = (afAddrMode_t)Addr16Bit; //点播 
+        MOV     DPTR,#SampleApp_P2P_DstAddr + 8
+        LCALL   ?Subroutine4 & 0xFFFF
+//  239   SampleApp_P2P_DstAddr.endPoint = SAMPLEAPP_ENDPOINT; 
+//  240   SampleApp_P2P_DstAddr.addr.shortAddr = 0x0000;            //发给协调器
+??CrossCallReturnLabel_10:
+        MOV     DPTR,#SampleApp_P2P_DstAddr
+        CLR     A
+        MOVX    @DPTR,A
+        INC     DPTR
+        MOVX    @DPTR,A
+//  241 
+//  242   
+//  243 }
+        SJMP    ??Subroutine7_0
+        CFI EndBlock cfiBlock0
+        REQUIRE P1SEL
+        REQUIRE P1DIR
+//  244 
+//  245 /*********************************************************************
+//  246  * @fn      SampleApp_ProcessEvent
+//  247  *
+//  248  * @brief   Generic Application Task event processor.
+//  249  *
+//  250  * @param   task_id  - The OSAL assigned task ID.
+//  251  * @param   events   - Bit map of events to process.
+//  252  *
+//  253  * @return  Event flags of all unprocessed events.
+//  254  */
+
+        RSEG XDATA_Z:XDATA:NOROOT(0)
+        DATA16
+//  255 uint8 d[2] = {0,0};
+d:
+        DS 2
+        REQUIRE __INIT_XDATA_Z
+
+        RSEG XDATA_Z:XDATA:NOROOT(0)
+        DATA8
+//  256 uint8 m = 0;
+m:
+        DS 1
+        REQUIRE __INIT_XDATA_Z
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+?Subroutine0:
+        CFI Block cfiBlock1 Using cfiCommon0
+        CFI NoFunction
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 63)
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI Invalid
+        LCALL   ?DEALLOC_XSTACK8
+        CFI EndBlock cfiBlock1
+        REQUIRE ??Subroutine7_0
+        ; // Fall through to label ??Subroutine7_0
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+??Subroutine7_0:
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 10)
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        MOV     R7,#0x2
+        LJMP    ?BANKED_LEAVE_XDATA
+        CFI EndBlock cfiBlock2
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+//  257 UINT16 SampleApp_ProcessEvent( uint8 task_id, UINT16 events )
+SampleApp_ProcessEvent:
+        CFI Block cfiBlock3 Using cfiCommon0
+        CFI Function SampleApp_ProcessEvent
+        CODE
+//  258 {
+        FUNCALL SampleApp_ProcessEvent, SampleApp_Send_P2P_Message
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 62, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 62, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_ProcessEvent, osal_rand
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 62, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 62, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_ProcessEvent, osal_start_timerEx
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 62, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 62, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_ProcessEvent, osal_start_timerEx
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 62, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 62, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_ProcessEvent, osal_msg_deallocate
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 62, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 62, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_ProcessEvent, osal_msg_receive
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 62, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 62, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_ProcessEvent, SampleApp_ProcessMSGCmd
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 62, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 62, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_ProcessEvent, sprintf
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 68, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 68, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_ProcessEvent, osal_strlen
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 62, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 62, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_ProcessEvent, HalUARTWrite
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 62, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 62, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_ProcessEvent, HalUARTWrite
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 62, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 62, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        MOV     A,#-0xc
+        LCALL   ?BANKED_ENTER_XDATA
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI V3 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI V2 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 12)
+        ; Saved register size: 12
+        ; Auto size: 50
+        MOV     A,#-0x32
+        LCALL   ?ALLOC_XSTACK8
+        CFI CFA_XSP16 add(XSP16, 62)
+        MOV     A,R2
+        MOV     R6,A
+        MOV     A,R3
+        MOV     R7,A
+//  259   (void)task_id;  // Intentionally unreferenced parameter
+//  260   
+//  261   if ( events & SYS_EVENT_MSG )
+        ANL     A,#0x80
+        JNZ     ??SampleApp_ProcessEvent_0
+//  262   {
+//  263     afIncomingMSGPacket_t *MSGpkt;
+//  264 
+//  265     while ( (MSGpkt = (afIncomingMSGPacket_t *)osal_msg_receive( SampleApp_TaskID )) )
+//  266     {
+//  267       switch ( MSGpkt->hdr.event )
+//  268       {
+//  269       case AF_INCOMING_MSG_CMD:
+//  270         SampleApp_ProcessMSGCmd( MSGpkt );
+//  271         uint8 debugStr[50];
+//  272         if(d[0]>=5||d[1]>=5){P0_7=0;m=1;}
+//  273         else if(d[0]<5&&d[0]<5){P0_7=1;m=0;}
+//  274         sprintf(debugStr, "GAS1:%d GAS2:%d, on:%d", d[0],d[1],m);
+//  275         HalUARTWrite(0, debugStr, osal_strlen(debugStr));
+//  276         HalUARTWrite(0, "\r\n", 2);
+//  277         break;
+//  278       case ZDO_STATE_CHANGE:
+//  279         SampleApp_NwkState = (devStates_t)(MSGpkt->hdr.status);
+//  280         if ( //(SampleApp_NwkState == DEV_ZB_COORD)||
+//  281             (SampleApp_NwkState == DEV_ROUTER)
+//  282             || (SampleApp_NwkState == DEV_END_DEVICE) )
+//  283         {
+//  284             
+//  285             osal_start_timerEx( SampleApp_TaskID,
+//  286                               SAMPLEAPP_SEND_PERIODIC_MSG_EVT,
+//  287                               SAMPLEAPP_SEND_PERIODIC_MSG_TIMEOUT );
+//  288         }
+//  289         else
+//  290         {
+//  291           // Device is no longer in the network
+//  292         }
+//  293         break;
+//  294 
+//  295       default:
+//  296         break;
+//  297       }
+//  298 
+//  299       osal_msg_deallocate( (uint8 *)MSGpkt );
+//  300     }
+//  301 
+//  302     return ( events ^ SYS_EVENT_MSG );
+//  303   }
+//  304 
+//  305   if ( events & SAMPLEAPP_SEND_PERIODIC_MSG_EVT )
+        MOV     A,R6
+        MOV     C,0xE0 /* A   */.0
+        JC      $+5
+        LJMP    ??SampleApp_ProcessEvent_1 & 0xFFFF
+//  306   {
+//  307     // 
+//  308     SampleApp_Send_P2P_Message();
+        ; Setup parameters for call to function SampleApp_Send_P2P_Message
+        LCALL   ??SampleApp_Send_P2P_Message?relay
+//  309 
+//  310     // Setup to send message again in normal period (+ a little jitter)
+//  311     osal_start_timerEx( SampleApp_TaskID, SAMPLEAPP_SEND_PERIODIC_MSG_EVT,
+//  312         (SAMPLEAPP_SEND_PERIODIC_MSG_TIMEOUT + (osal_rand() & 0x00FF)) );
+        ; Setup parameters for call to function osal_rand
+        LCALL   ??osal_rand?relay
+        ; Setup parameters for call to function osal_start_timerEx
+        MOV     A,R2
+        ADD     A,#-0x30
+        MOV     R4,A
+        CLR     A
+        ADDC    A,#0x7
+        MOV     R5,A
+        MOV     R2,#0x1
+        MOV     R3,#0x0
+        MOV     DPTR,#SampleApp_TaskID
+        MOVX    A,@DPTR
+        MOV     R1,A
+        LCALL   ??osal_start_timerEx?relay
+//  313 
+//  314     // return unprocessed events
+//  315     return (events ^ SAMPLEAPP_SEND_PERIODIC_MSG_EVT);
+        MOV     A,R6
+        XRL     A,#0x1
+        MOV     R2,A
+        MOV     A,R7
+??SampleApp_ProcessEvent_2:
+        MOV     R3,A
+        LJMP    ??SampleApp_ProcessEvent_3 & 0xFFFF
+//  316   }
+??SampleApp_ProcessEvent_4:
+        INC     DPTR
+        MOVX    A,@DPTR
+        MOV     DPTR,#SampleApp_NwkState
+        MOVX    @DPTR,A
+        XRL     A,#0x7
+        JZ      ??SampleApp_ProcessEvent_5
+        MOVX    A,@DPTR
+        XRL     A,#0x6
+        JNZ     ??SampleApp_ProcessEvent_6
+??SampleApp_ProcessEvent_5:
+        ; Setup parameters for call to function osal_start_timerEx
+        MOV     R4,#-0x30
+        MOV     R5,#0x7
+        MOV     R2,#0x1
+        MOV     R3,#0x0
+        MOV     DPTR,#SampleApp_TaskID
+        MOVX    A,@DPTR
+        MOV     R1,A
+        LCALL   ??osal_start_timerEx?relay
+??SampleApp_ProcessEvent_6:
+        ; Setup parameters for call to function osal_msg_deallocate
+        MOV     R2,?V0 + 0
+        MOV     R3,?V0 + 1
+        LCALL   ??osal_msg_deallocate?relay
+??SampleApp_ProcessEvent_0:
+        ; Setup parameters for call to function osal_msg_receive
+        MOV     DPTR,#SampleApp_TaskID
+        MOVX    A,@DPTR
+        MOV     R1,A
+        LCALL   ??osal_msg_receive?relay
+        MOV     ?V0 + 0,R2
+        MOV     ?V0 + 1,R3
+        MOV     A,R2
+        ORL     A,?V0 + 1
+        JNZ     $+5
+        LJMP    ??SampleApp_ProcessEvent_7 & 0xFFFF
+        MOV     DPL,R2
+        MOV     DPH,R3
+        MOVX    A,@DPTR
+        ADD     A,#-0x1a
+        JZ      ??SampleApp_ProcessEvent_8
+        ADD     A,#0x49
+        JZ      ??SampleApp_ProcessEvent_4
+        SJMP    ??SampleApp_ProcessEvent_6
+??SampleApp_ProcessEvent_8:
+        ; Setup parameters for call to function SampleApp_ProcessMSGCmd
+        LCALL   ??SampleApp_ProcessMSGCmd?relay
+        MOV     DPTR,#d
+        MOVX    A,@DPTR
+        CLR     C
+        SUBB    A,#0x5
+        JNC     ??SampleApp_ProcessEvent_9
+        INC     DPTR
+        MOVX    A,@DPTR
+        CLR     C
+        SUBB    A,#0x5
+        JC      ??SampleApp_ProcessEvent_10
+??SampleApp_ProcessEvent_9:
+        CLR     0x80.7
+        MOV     DPTR,#m
+        MOV     A,#0x1
+        SJMP    ??SampleApp_ProcessEvent_11
+??SampleApp_ProcessEvent_10:
+        SETB    0x80.7
+        MOV     DPTR,#m
+        CLR     A
+??SampleApp_ProcessEvent_11:
+        MOVX    @DPTR,A
+        ; Setup parameters for call to function sprintf
+        MOVX    A,@DPTR
+        MOV     ?V0 + 2,A
+        MOV     ?V0 + 3,#0x0
+        MOV     R0,#?V0 + 2
+        LCALL   ?PUSH_XSTACK_I_TWO
+        CFI CFA_XSP16 add(XSP16, 64)
+        MOV     DPTR,#d + 1
+        MOVX    A,@DPTR
+        MOV     ?V0 + 2,A
+        MOV     R0,#?V0 + 2
+        LCALL   ?PUSH_XSTACK_I_TWO
+        CFI CFA_XSP16 add(XSP16, 66)
+        MOV     DPTR,#d
+        MOVX    A,@DPTR
+        MOV     ?V0 + 2,A
+        MOV     R0,#?V0 + 2
+        LCALL   ?PUSH_XSTACK_I_TWO
+        CFI CFA_XSP16 add(XSP16, 68)
+        MOV     R4,#`?<Constant "GAS1:%d GAS2:%d, on:%d">` & 0xff
+        MOV     R5,#(`?<Constant "GAS1:%d GAS2:%d, on:%d">` >> 8) & 0xff
+        MOV     A,#0x6
+        LCALL   ?XSTACK_DISP0_8
+        MOV     R2,DPL
+        MOV     R3,DPH
+        LCALL   ??sprintf?relay
+        MOV     A,#0x6
+        LCALL   ?DEALLOC_XSTACK8
+        CFI CFA_XSP16 add(XSP16, 62)
+        ; Setup parameters for call to function HalUARTWrite
+        ; Setup parameters for call to function osal_strlen
+        MOV     DPL,?XSP + 0
+        MOV     DPH,?XSP + 1
+        MOV     R2,DPL
+        MOV     R3,DPH
+        LCALL   ??osal_strlen?relay
+        MOV     A,R2
+        MOV     R4,A
+        MOV     A,R3
+        MOV     R5,A
+        MOV     DPL,?XSP + 0
+        MOV     DPH,?XSP + 1
+        LCALL   ?Subroutine2 & 0xFFFF
+??CrossCallReturnLabel_0:
+        LJMP    ??SampleApp_ProcessEvent_6 & 0xFFFF
+??SampleApp_ProcessEvent_7:
+        MOV     A,R6
+        MOV     R2,A
+        MOV     A,R7
+        XRL     A,#0x80
+        LJMP    ??SampleApp_ProcessEvent_2 & 0xFFFF
+//  317 
+//  318 
+//  319   return ( 0 );  // Discard unknown events.
+??SampleApp_ProcessEvent_1:
+        MOV     R2,#0x0
+        MOV     R3,#0x0
+??SampleApp_ProcessEvent_3:
+        MOV     A,#0x32
+        CFI EndBlock cfiBlock3
+        REQUIRE ?Subroutine1
+        REQUIRE _A_P0
+        ; // Fall through to label ?Subroutine1
+//  320 }
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+?Subroutine1:
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 62)
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI V2 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V3 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI Invalid
+        LCALL   ?DEALLOC_XSTACK8
+        CFI EndBlock cfiBlock4
+        REQUIRE ??Subroutine8_0
+        ; // Fall through to label ??Subroutine8_0
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+??Subroutine8_0:
+        CFI Block cfiBlock5 Using cfiCommon0
+        CFI NoFunction
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 12)
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI V2 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V3 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        MOV     R7,#0x4
+        LJMP    ?BANKED_LEAVE_XDATA
+        CFI EndBlock cfiBlock5
+//  321 
+//  322 static uint8 calcFCS(uint8 *pBuf, uint8 len)
+//  323 {
+//  324   uint8 rtrn = 0;
+//  325 
+//  326   while (len--)
+//  327   {
+//  328     rtrn ^= *pBuf++;
+//  329   }
+//  330 
+//  331   return rtrn;
+//  332 }
+//  333 
+//  334 
+//  335 //取光照值,接在P06上
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+//  336 uint8 GetLight()
+GetLight:
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI Function GetLight
+        CODE
+//  337 {
+        FUNCALL GetLight, HalAdcRead
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 16, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 16, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        MOV     A,#-0x10
+        LCALL   ?BANKED_ENTER_XDATA
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI V7 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI V6 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V5 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI V4 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI V3 load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI V2 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-13)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-14)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-15)))
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-16)))
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 16)
+        ; Saved register size: 16
+        ; Auto size: 0
+//  338     uint8 temp=0;//百分比的整数值
+//  339     float vol=0.0; //adc采样电压  
+//  340     uint16 adc= HalAdcRead(HAL_ADC_CHANNEL_6, HAL_ADC_RESOLUTION_14); //ADC 采样值 P06口
+        ; Setup parameters for call to function HalAdcRead
+        MOV     R2,#0x4
+        MOV     R1,#0x6
+        LCALL   ??HalAdcRead?relay
+        MOV     ?V0 + 0,R2
+        MOV     ?V0 + 1,R3
+        MOV     R0,?V0 + 0
+        MOV     R1,?V0 + 1
+//  341 
+//  342     //最大采样值8192(因为最高位是符号位)
+//  343     if(adc>=8192)
+        CLR     C
+        MOV     A,R1
+        SUBB    A,#0x20
+        JC      ??GetLight_0
+//  344     {
+//  345         return 0;
+        MOV     R1,#0x0
+        SJMP    ??GetLight_1
+//  346     }
+//  347     
+//  348     adc=8192-adc;//反相一下，因为低湿度时AO口输出较高电平
+//  349                    //          高湿度时AO口输出较低电平   
+//  350 
+//  351     //转化为百分比
+//  352     vol=(float)((float)adc)/8192.0;
+//  353        
+//  354     //取百分比两位数字
+//  355     temp=vol*100;
+//  356 
+//  357     return temp;
+??GetLight_0:
+        CLR     A
+        CLR     C
+        SUBB    A,R0
+        MOV     ?V0 + 0,A
+        MOV     A,#0x20
+        SUBB    A,R1
+        MOV     ?V0 + 1,A
+        CLR     A
+        MOV     ?V0 + 2,A
+        MOV     ?V0 + 3,A
+        MOV     R0,#?V0 + 0
+        LCALL   ?UL_TO_FLT
+        MOV     DPTR,#__Constant_39000000
+        MOV     R0,#?V0 + 4
+        LCALL   ?L_MOV_X
+        MOV     R0,#?V0 + 0
+        MOV     R1,#?V0 + 4
+        LCALL   ?FLT_MUL
+        MOV     DPTR,#__Constant_42c80000
+        MOV     R0,#?V0 + 4
+        LCALL   ?L_MOV_X
+        MOV     R0,#?V0 + 0
+        MOV     R1,#?V0 + 4
+        LCALL   ?FLT_MUL
+        MOV     R0,#?V0 + 0
+        LCALL   ?FLT_TO_L
+        MOV     R1,?V0 + 0
+??GetLight_1:
+        MOV     R7,#0x8
+        LJMP    ?BANKED_LEAVE_XDATA
+        CFI EndBlock cfiBlock6
+//  358 }
+//  359 
+//  360 static void sendGtwReport(uint16 source, uint16 parent, uint8 temp, uint8 voltage)
+//  361 {
+//  362   uint8 pFrame[ZB_RECV_LENGTH];
+//  363   
+//  364   // Start of Frame Delimiter
+//  365   pFrame[FRAME_SOF_OFFSET] = CPT_SOP; // Start of Frame Delimiter
+//  366   
+//  367   // Length
+//  368   pFrame[FRAME_LENGTH_OFFSET] = 10;
+//  369   
+//  370   // Command type
+//  371   pFrame[FRAME_CMD0_OFFSET] = LO_UINT16(ZB_RECEIVE_DATA_INDICATION);   
+//  372   pFrame[FRAME_CMD1_OFFSET] = HI_UINT16(ZB_RECEIVE_DATA_INDICATION); 
+//  373   
+//  374   // Source address
+//  375   pFrame[FRAME_DATA_OFFSET+ ZB_RECV_SRC_OFFSET] = LO_UINT16(source); 
+//  376   pFrame[FRAME_DATA_OFFSET+ ZB_RECV_SRC_OFFSET+ 1] = HI_UINT16(source);
+//  377   
+//  378   // Command ID
+//  379   pFrame[FRAME_DATA_OFFSET+ ZB_RECV_CMD_OFFSET] = LO_UINT16(SAMPLEAPP_P2P_CLUSTERID); 
+//  380   pFrame[FRAME_DATA_OFFSET+ ZB_RECV_CMD_OFFSET+ 1] = HI_UINT16(SAMPLEAPP_P2P_CLUSTERID);
+//  381   
+//  382   // Length
+//  383   pFrame[FRAME_DATA_OFFSET+ ZB_RECV_LEN_OFFSET] = LO_UINT16(4); 
+//  384   pFrame[FRAME_DATA_OFFSET+ ZB_RECV_LEN_OFFSET+ 1] = HI_UINT16(4);
+//  385   
+//  386   // Data
+//  387   pFrame[FRAME_DATA_OFFSET+ ZB_RECV_DATA_OFFSET] = temp;
+//  388   pFrame[FRAME_DATA_OFFSET+ ZB_RECV_DATA_OFFSET+ 1] = voltage; 
+//  389   pFrame[FRAME_DATA_OFFSET+ ZB_RECV_DATA_OFFSET+ 2] = LO_UINT16(parent); 
+//  390   pFrame[FRAME_DATA_OFFSET+ ZB_RECV_DATA_OFFSET+ 3] = HI_UINT16(parent);
+//  391   
+//  392   // Frame Check Sequence
+//  393   pFrame[ZB_RECV_LENGTH - 1] = calcFCS(&pFrame[FRAME_LENGTH_OFFSET], (ZB_RECV_LENGTH - 2) );
+//  394   
+//  395   // Write report to UART
+//  396   HalUARTWrite(HAL_UART_PORT_0,pFrame, ZB_RECV_LENGTH);
+//  397 }
+//  398 
+//  399 
+//  400 
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+//  401 void SampleApp_ProcessMSGCmd( afIncomingMSGPacket_t *pkt )
+SampleApp_ProcessMSGCmd:
+        CFI Block cfiBlock7 Using cfiCommon0
+        CFI Function SampleApp_ProcessMSGCmd
+        CODE
+//  402 {
+        FUNCALL SampleApp_ProcessMSGCmd, sprintf
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 65, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 65, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_ProcessMSGCmd, HalLcdWriteString
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 63, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 63, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_ProcessMSGCmd, sprintf
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 65, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 65, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_ProcessMSGCmd, HalLcdWriteString
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 63, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 63, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        MOV     A,#-0xa
+        LCALL   ?BANKED_ENTER_XDATA
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 10)
+        ; Saved register size: 10
+        ; Auto size: 53
+        MOV     A,#-0x35
+        LCALL   ?ALLOC_XSTACK8
+        CFI CFA_XSP16 add(XSP16, 63)
+//  403   uint8 buff[20]={0};
+//  404   uint8 debugStr[50];
+//  405   switch ( pkt->clusterId )
+        MOV     DPL,R2
+        MOV     DPH,R3
+        INC     DPTR
+        INC     DPTR
+        INC     DPTR
+        INC     DPTR
+        MOVX    A,@DPTR
+        XRL     A,#0x1
+        JNZ     ??SampleApp_ProcessMSGCmd_0
+        INC     DPTR
+        MOVX    A,@DPTR
+??SampleApp_ProcessMSGCmd_0:
+        JZ      $+5
+        LJMP    ??SampleApp_ProcessMSGCmd_1 & 0xFFFF
+//  406   {
+//  407   // 接收终端上传的温度数据
+//  408   case SAMPLEAPP_P2P_CLUSTERID: 
+//  409     {
+//  410       uint16 nwkAddr = BUILD_UINT16(pkt->cmd.Data[0],pkt->cmd.Data[1]);
+//  411       uint16 parentShortAddr = BUILD_UINT16(pkt->cmd.Data[2],pkt->cmd.Data[3]);
+//  412       uint8 t[3];
+//  413       t[0] = pkt->cmd.Data[4];
+        MOV     A,R2
+        ADD     A,#0x22
+        MOV     DPL,A
+        MOV     A,R3
+        ADDC    A,#0x0
+        MOV     DPH,A
+        MOVX    A,@DPTR
+        MOV     R0,A
+        INC     DPTR
+        MOVX    A,@DPTR
+        MOV     R1,A
+        MOV     DPL,R0
+        MOV     DPH,R1
+        INC     DPTR
+        INC     DPTR
+        INC     DPTR
+        INC     DPTR
+        MOVX    A,@DPTR
+        MOV     DPL,?XSP + 0
+        MOV     DPH,?XSP + 1
+        LCALL   ?Subroutine3 & 0xFFFF
+//  414       t[1] = pkt->cmd.Data[5];//光照
+??CrossCallReturnLabel_2:
+        MOVX    A,@DPTR
+        PUSH    A
+        CFI CFA_SP SP+-1
+        MOV     A,#0x1
+        LCALL   ?XSTACK_DISP0_8
+        POP     A
+        CFI CFA_SP SP+0
+        LCALL   ?Subroutine3 & 0xFFFF
+//  415       t[2] = pkt->cmd.Data[6];//pc
+??CrossCallReturnLabel_3:
+        INC     DPTR
+        MOVX    A,@DPTR
+        MOV     R0,A
+        MOV     A,#0x2
+        LCALL   ?XSTACK_DISP0_8
+        MOV     A,R0
+        MOVX    @DPTR,A
+//  416       if(t[2]==1)
+        MOV     A,#0x1
+        XRL     A,R0
+        JNZ     ??SampleApp_ProcessMSGCmd_2
+//  417       {
+//  418         d[0]=t[1];
+        MOV     A,#0x1
+        LCALL   ?XSTACK_DISP0_8
+        MOVX    A,@DPTR
+        MOV     ?V0 + 0,A
+        MOV     DPTR,#d
+        MOVX    @DPTR,A
+//  419         sprintf(debugStr, "onegas:%3d", t[1]);
+        ; Setup parameters for call to function sprintf
+        MOV     ?V0 + 1,#0x0
+        MOV     R0,#?V0 + 0
+        LCALL   ?PUSH_XSTACK_I_TWO
+        CFI CFA_XSP16 add(XSP16, 65)
+        MOV     R4,#`?<Constant "onegas:%3d">` & 0xff
+        MOV     R5,#(`?<Constant "onegas:%3d">` >> 8) & 0xff
+        MOV     A,#0x5
+        LCALL   ?XSTACK_DISP0_8
+        LCALL   ?Subroutine5 & 0xFFFF
+??CrossCallReturnLabel_4:
+        LCALL   ?DEALLOC_XSTACK8
+        CFI CFA_XSP16 add(XSP16, 63)
+//  420         HalLcdWriteString((char*)debugStr, HAL_LCD_LINE_3 );
+        ; Setup parameters for call to function HalLcdWriteString
+        MOV     R1,#0x3
+        MOV     A,R1
+        SJMP    ??SampleApp_ProcessMSGCmd_3
+//  421       }
+//  422       else
+//  423       {
+//  424         d[1]=t[1];
+??SampleApp_ProcessMSGCmd_2:
+        MOV     A,#0x1
+        LCALL   ?XSTACK_DISP0_8
+        MOVX    A,@DPTR
+        MOV     ?V0 + 0,A
+        MOV     DPTR,#d + 1
+        MOVX    @DPTR,A
+//  425         sprintf(debugStr, "towgas:%3d", t[1]);
+        ; Setup parameters for call to function sprintf
+        MOV     ?V0 + 1,#0x0
+        MOV     R0,#?V0 + 0
+        LCALL   ?PUSH_XSTACK_I_TWO
+        CFI CFA_XSP16 add(XSP16, 65)
+        MOV     R4,#`?<Constant "towgas:%3d">` & 0xff
+        MOV     R5,#(`?<Constant "towgas:%3d">` >> 8) & 0xff
+        MOV     A,#0x5
+        LCALL   ?XSTACK_DISP0_8
+        LCALL   ?Subroutine5 & 0xFFFF
+??CrossCallReturnLabel_5:
+        LCALL   ?DEALLOC_XSTACK8
+        CFI CFA_XSP16 add(XSP16, 63)
+//  426         HalLcdWriteString((char*)debugStr, HAL_LCD_LINE_4 );
+        ; Setup parameters for call to function HalLcdWriteString
+        MOV     R1,#0x4
+        MOV     A,#0x3
+??SampleApp_ProcessMSGCmd_3:
+        LCALL   ?XSTACK_DISP0_8
+        MOV     R2,DPL
+        MOV     R3,DPH
+        LCALL   ??HalLcdWriteString?relay
+//  427       }
+//  428     }
+//  429     break;
+//  430 
+//  431   case SAMPLEAPP_PERIODIC_CLUSTERID:
+//  432 
+//  433     break;
+//  434 
+//  435     default:
+//  436       break;
+//  437   }
+//  438 }
+??SampleApp_ProcessMSGCmd_1:
+        MOV     A,#0x35
+        LJMP    ?Subroutine0 & 0xFFFF
+        CFI EndBlock cfiBlock7
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+?Subroutine3:
+        CFI Block cfiCond8 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_2
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 63)
+        CFI Block cfiCond9 Using cfiCommon0
+        CFI (cfiCond9) NoFunction
+        CFI (cfiCond9) Conditional ??CrossCallReturnLabel_3
+        CFI (cfiCond9) R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond9) VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond9) V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond9) V1 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond9) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI (cfiCond9) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI (cfiCond9) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI (cfiCond9) ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI (cfiCond9) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI (cfiCond9) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI (cfiCond9) CFA_SP SP+0
+        CFI (cfiCond9) CFA_XSP16 add(XSP16, 63)
+        CFI Block cfiPicker10 Using cfiCommon1
+        CFI (cfiPicker10) NoFunction
+        CFI (cfiPicker10) Picker
+        MOVX    @DPTR,A
+        MOV     DPL,R0
+        MOV     DPH,R1
+        INC     DPTR
+        INC     DPTR
+        INC     DPTR
+        INC     DPTR
+        INC     DPTR
+        RET
+        CFI EndBlock cfiCond8
+        CFI EndBlock cfiCond9
+        CFI EndBlock cfiPicker10
+//  439 
+//  440 
+//  441 static void sysPingRsp(void)
+//  442 {
+//  443   uint8 pBuf[SYS_PING_RSP_LENGTH];
+//  444   
+//  445   // Start of Frame Delimiter
+//  446   pBuf[FRAME_SOF_OFFSET] = CPT_SOP;
+//  447   
+//  448   // Length
+//  449   pBuf[FRAME_LENGTH_OFFSET] = 2; 
+//  450   
+//  451   // Command type
+//  452   pBuf[FRAME_CMD0_OFFSET] = LO_UINT16(SYS_PING_RESPONSE); 
+//  453   pBuf[FRAME_CMD1_OFFSET] = HI_UINT16(SYS_PING_RESPONSE);
+//  454   
+//  455   // Stack profile
+//  456   pBuf[FRAME_DATA_OFFSET] = LO_UINT16(STACK_PROFILE);
+//  457   pBuf[FRAME_DATA_OFFSET+ 1] = HI_UINT16(STACK_PROFILE);
+//  458   
+//  459   // Frame Check Sequence
+//  460   pBuf[SYS_PING_RSP_LENGTH - 1] = calcFCS(&pBuf[FRAME_LENGTH_OFFSET], (SYS_PING_RSP_LENGTH - 2));
+//  461   
+//  462   // Write frame to UART
+//  463   HalUARTWrite(HAL_UART_PORT_0,pBuf, SYS_PING_RSP_LENGTH);
+//  464 }
+//  465 
+//  466 
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+//  467 void SampleApp_CallBack(uint8 port, uint8 event)
+SampleApp_CallBack:
+        CFI Block cfiBlock11 Using cfiCommon0
+        CFI Function SampleApp_CallBack
+        CODE
+//  468 {
+        FUNCALL SampleApp_CallBack, HalUARTRead
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 145, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 145, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_CallBack, HalUARTWrite
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 145, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 145, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        MOV     A,#-0xa
+        LCALL   ?BANKED_ENTER_XDATA
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 10)
+        ; Saved register size: 10
+        ; Auto size: 135
+        MOV     A,#0x79
+        LCALL   ?ALLOC_XSTACK8
+        CFI CFA_XSP16 add(XSP16, 145)
+        MOV     A,R2
+        MOV     R6,A
+//  469   uint8 pBuf[RX_BUF_LEN];
+//  470   uint16 cmd;
+//  471   uint16 len;
+//  472   
+//  473   if ( event != HAL_UART_TX_EMPTY ) 
+        MOV     A,#0x10
+        XRL     A,R6
+        JNZ     $+5
+        LJMP    ??SampleApp_CallBack_0 & 0xFFFF
+//  474   {
+//  475   
+//  476     // Read from UART
+//  477     len = HalUARTRead( HAL_UART_PORT_0, pBuf, RX_BUF_LEN );
+//  478     
+//  479     if ( len>0 ) 
+        ; Setup parameters for call to function HalUARTRead
+        MOV     R4,#-0x80
+        MOV     R5,#0x0
+        MOV     A,#0x7
+        LCALL   ?XSTACK_DISP0_8
+        MOV     R2,DPL
+        MOV     R3,DPH
+        MOV     R1,#0x0
+        LCALL   ??HalUARTRead?relay
+        MOV     ?V0 + 1,R3
+        MOV     A,R2
+        ORL     A,?V0 + 1
+        JNZ     $+5
+        LJMP    ??SampleApp_CallBack_0 & 0xFFFF
+//  480     {
+//  481       cmd = BUILD_UINT16(pBuf[SYS_PING_CMD_OFFSET+ 1], pBuf[SYS_PING_CMD_OFFSET]);
+//  482   
+//  483       if( (pBuf[FRAME_SOF_OFFSET] == CPT_SOP) && (cmd == SYS_PING_REQUEST) ) 
+        MOV     A,#0x7
+        LCALL   ?XSTACK_DISP0_8
+        MOVX    A,@DPTR
+        XRL     A,#0xfe
+        JNZ     ??SampleApp_CallBack_0
+        MOV     A,#0x9
+        LCALL   ?XSTACK_DISP0_8
+        MOVX    A,@DPTR
+        MOV     R2,A
+        MOV     A,#0x8
+        LCALL   ?XSTACK_DISP0_8
+        MOVX    A,@DPTR
+        MOV     R1,A
+        MOV     A,R2
+        MOV     R0,A
+        MOV     A,#0x21
+        XRL     A,R0
+        JNZ     ??SampleApp_CallBack_1
+        MOV     A,R1
+??SampleApp_CallBack_1:
+        JNZ     ??SampleApp_CallBack_0
+//  484       {
+//  485         sysPingRsp();
+        MOV     DPL,?XSP + 0
+        MOV     DPH,?XSP + 1
+        MOV     A,#-0x2
+        MOVX    @DPTR,A
+        MOV     A,#0x1
+        LCALL   ?XSTACK_DISP0_8
+        MOV     A,#0x2
+        MOVX    @DPTR,A
+        LCALL   ?XSTACK_DISP0_8
+        MOV     A,#0x61
+        MOVX    @DPTR,A
+        MOV     A,#0x3
+        LCALL   ?XSTACK_DISP0_8
+        MOV     A,#0x1
+        MOVX    @DPTR,A
+        MOV     A,#0x4
+        LCALL   ?XSTACK_DISP0_8
+        MOV     A,#0x41
+        MOVX    @DPTR,A
+        MOV     A,#0x5
+        LCALL   ?XSTACK_DISP0_8
+        CLR     A
+        MOVX    @DPTR,A
+        MOV     R0,#0x5
+        INC     A
+        LCALL   ?XSTACK_DISP0_8
+        MOV     ?V0 + 0,#0x0
+        SJMP    ??SampleApp_CallBack_2
+??SampleApp_CallBack_3:
+        MOVX    A,@DPTR
+        XRL     ?V0 + 0,A
+        INC     DPTR
+??SampleApp_CallBack_2:
+        MOV     A,R0
+        MOV     R7,A
+        MOV     A,#-0x1
+        ADD     A,R7
+        DEC     R0
+        INC     A
+        JNZ     ??SampleApp_CallBack_3
+        MOV     A,#0x6
+        LCALL   ?XSTACK_DISP0_8
+        MOV     A,?V0 + 0
+        MOVX    @DPTR,A
+        ; Setup parameters for call to function HalUARTWrite
+        MOV     R4,#0x7
+        MOV     R5,#0x0
+        MOV     DPL,?XSP + 0
+        MOV     DPH,?XSP + 1
+        MOV     R2,DPL
+        MOV     R3,DPH
+        MOV     R1,#0x0
+        LCALL   ??HalUARTWrite?relay
+//  486       }
+//  487     }
+//  488   }
+//  489 }
+??SampleApp_CallBack_0:
+        MOV     A,#-0x79
+        LJMP    ?Subroutine0 & 0xFFFF
+        CFI EndBlock cfiBlock11
+//  490 
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+//  491 uint8 GetGasPercentage(void)
+GetGasPercentage:
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI Function GetGasPercentage
+        CODE
+//  492 {
+        FUNCALL GetGasPercentage, HalAdcRead
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 12, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 12, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        MOV     A,#-0xc
+        LCALL   ?BANKED_ENTER_XDATA
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI V3 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI V2 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 12)
+        ; Saved register size: 12
+        ; Auto size: 0
+//  493     uint16 adc = HalAdcRead(HAL_ADC_CHANNEL_6, HAL_ADC_RESOLUTION_14);
+        ; Setup parameters for call to function HalAdcRead
+        MOV     R2,#0x4
+        MOV     R1,#0x6
+        LCALL   ??HalAdcRead?relay
+        MOV     ?V0 + 0,R2
+        MOV     ?V0 + 1,R3
+//  494     const uint16 ADC_MAX = 8192;
+//  495     
+//  496     if(adc > ADC_MAX) adc = ADC_MAX;
+        CLR     C
+        MOV     A,R2
+        SUBB    A,#0x1
+        MOV     A,R3
+        SUBB    A,#0x20
+        JC      ??GetGasPercentage_0
+        MOV     ?V0 + 0,#0x0
+        MOV     ?V0 + 1,#0x20
+//  497     
+//  498     // 转换为百分比（0-100%）
+//  499     return (adc * 100) / ADC_MAX;
+??GetGasPercentage_0:
+        MOV     A,?V0 + 0
+        MOV     B,#0x64
+        MUL     AB
+        MOV     ?V0 + 0,A
+        MOV     R0,B
+        MOV     B,#0x64
+        MOV     A,?V0 + 1
+        MUL     AB
+        ADD     A,R0
+        MOV     ?V0 + 1,A
+        MOV     A,#0xd
+        MOV     R0,#?V0 + 0
+        LCALL   ?US_SHR
+        MOV     R1,?V0 + 0
+        LJMP    ??Subroutine8_0 & 0xFFFF
+        CFI EndBlock cfiBlock12
+//  500 }
+//  501 
+//  502 /*********************************************************************
+//  503  * @fn      SampleApp_Send_P2P_Message
+//  504  *
+//  505  * @brief   point to point.
+//  506  *
+//  507  * @param   none
+//  508  *
+//  509  * @return  none
+//  510  */
+
+        RSEG XDATA_I:XDATA:NOROOT(0)
+//  511 uint8 pc = 1;   //1/2
+`pc`:
+        DATA8
+        DS 1
+        REQUIRE `?<Initializer for pc>`
+        REQUIRE __INIT_XDATA_I
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+//  512 void SampleApp_Send_P2P_Message( void )
+SampleApp_Send_P2P_Message:
+        CFI Block cfiBlock13 Using cfiCommon0
+        CFI Function SampleApp_Send_P2P_Message
+        CODE
+//  513 {
+        FUNCALL SampleApp_Send_P2P_Message, NLME_GetShortAddr
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 73, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 73, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_Send_P2P_Message, NLME_GetCoordShortAddr
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 73, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 73, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_Send_P2P_Message, ReadDs18B20
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 73, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 73, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_Send_P2P_Message, GetGasPercentage
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 73, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 73, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_Send_P2P_Message, sprintf
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 75, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 75, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_Send_P2P_Message, HalLcdWriteString
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 73, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 73, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_Send_P2P_Message, sprintf
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 75, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 75, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_Send_P2P_Message, HalLcdWriteString
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 73, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 73, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_Send_P2P_Message, sprintf
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 77, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 77, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_Send_P2P_Message, osal_strlen
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 73, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 73, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_Send_P2P_Message, HalUARTWrite
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 73, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 73, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_Send_P2P_Message, HalUARTWrite
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 73, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 73, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        FUNCALL SampleApp_Send_P2P_Message, AF_DataRequest
+        LOCFRAME ISTACK, 0, STACK
+        LOCFRAME PSTACK, 0, STACK
+        LOCFRAME XSTACK, 82, STACK
+        LOCFRAME IOVERLAY, 0, STATIC
+        LOCFRAME DOVERLAY, 0, STATIC
+        ARGFRAME ISTACK, 0, STACK
+        ARGFRAME PSTACK, 0, STACK
+        ARGFRAME XSTACK, 82, STACK
+        ARGFRAME IOVERLAY, 0, STATIC
+        ARGFRAME DOVERLAY, 0, STATIC
+        MOV     A,#-0xc
+        LCALL   ?BANKED_ENTER_XDATA
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI V3 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI V2 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 12)
+        ; Saved register size: 12
+        ; Auto size: 61
+        MOV     A,#-0x3d
+        LCALL   ?ALLOC_XSTACK8
+        CFI CFA_XSP16 add(XSP16, 73)
+//  514   uint8 str[7]={0};
+        MOV     A,#0x4
+        LCALL   ?XSTACK_DISP0_8
+        MOV     R4,DPL
+        MOV     R5,DPH
+        MOV     DPH,#(`?<Constant {0}>` >> 8) & 0xff
+        MOV     DPL,#`?<Constant {0}>` & 0xff
+        MOV     A,#0x7
+        LCALL   ?MOVE_LONG8_XDATA_XDATA
+//  515   uint16 temp[2];          
+//  516   uint16 nwkAddr = NLME_GetShortAddr();
+        ; Setup parameters for call to function NLME_GetShortAddr
+        LCALL   ??NLME_GetShortAddr?relay
+        MOV     ?V0 + 0,R2
+        MOV     ?V0 + 1,R3
+        MOV     R6,?V0 + 0
+        MOV     R7,?V0 + 1
+//  517   uint16 parentShortAddr=NLME_GetCoordShortAddr();
+        ; Setup parameters for call to function NLME_GetCoordShortAddr
+        LCALL   ??NLME_GetCoordShortAddr?relay
+        MOV     ?V0 + 0,R2
+        MOV     ?V0 + 1,R3
+//  518  
+//  519   temp[0] = ReadDs18B20();//temp
+        ; Setup parameters for call to function ReadDs18B20
+        LCALL   ??ReadDs18B20?relay
+        MOV     A,R1
+        MOV     DPL,?XSP + 0
+        MOV     DPH,?XSP + 1
+        MOVX    @DPTR,A
+        INC     DPTR
+        CLR     A
+        MOVX    @DPTR,A
+//  520   temp[1] = GetGasPercentage();//gas
+        ; Setup parameters for call to function GetGasPercentage
+        LCALL   ??GetGasPercentage?relay
+        MOV     A,R1
+        MOV     R0,A
+        MOV     A,#0x2
+        LCALL   ?XSTACK_DISP0_8
+        MOV     A,R0
+        MOVX    @DPTR,A
+        INC     DPTR
+        CLR     A
+        MOVX    @DPTR,A
+//  521 
+//  522   str[0] = LO_UINT16(nwkAddr);
+        MOV     A,#0x4
+        LCALL   ?XSTACK_DISP0_8
+        MOV     A,R6
+        MOVX    @DPTR,A
+//  523   str[1] = HI_UINT16(nwkAddr);
+        MOV     A,#0x5
+        LCALL   ?XSTACK_DISP0_8
+        MOV     A,R7
+        MOVX    @DPTR,A
+//  524   str[2] = LO_UINT16(parentShortAddr);
+        MOV     A,#0x6
+        LCALL   ?XSTACK_DISP0_8
+        MOV     A,?V0 + 0
+        MOVX    @DPTR,A
+//  525   str[3] = HI_UINT16(parentShortAddr);
+        MOV     A,?V0 + 1
+        MOV     ?V0 + 0,A
+        MOV     A,#0x7
+        LCALL   ?XSTACK_DISP0_8
+        MOV     A,?V0 + 0
+        MOVX    @DPTR,A
+//  526   
+//  527   str[4] = temp[0];//temp
+        MOV     DPL,?XSP + 0
+        MOV     DPH,?XSP + 1
+        MOVX    A,@DPTR
+        PUSH    A
+        CFI CFA_SP SP+-1
+        MOV     A,#0x8
+        LCALL   ?XSTACK_DISP0_8
+        POP     A
+        CFI CFA_SP SP+0
+        MOVX    @DPTR,A
+//  528   str[5] = temp[1];//gas
+        MOV     A,#0x2
+        LCALL   ?XSTACK_DISP0_8
+        MOVX    A,@DPTR
+        MOV     ?V0 + 0,A
+        INC     DPTR
+        MOVX    A,@DPTR
+        MOV     ?V0 + 1,A
+        MOV     A,#0x9
+        LCALL   ?XSTACK_DISP0_8
+        MOV     A,?V0 + 0
+        MOVX    @DPTR,A
+//  529   str[6] = pc;//pc
+        MOV     DPTR,#`pc`
+        MOVX    A,@DPTR
+        PUSH    A
+        CFI CFA_SP SP+-1
+        MOV     A,#0xa
+        LCALL   ?XSTACK_DISP0_8
+        POP     A
+        CFI CFA_SP SP+0
+        MOVX    @DPTR,A
+//  530   
+//  531   uint8 debugStr[50];
+//  532   
+//  533   sprintf(debugStr, "GAS:%d",temp[1]);
+        ; Setup parameters for call to function sprintf
+        MOV     R0,#?V0 + 0
+        LCALL   ?PUSH_XSTACK_I_TWO
+        CFI CFA_XSP16 add(XSP16, 75)
+        MOV     R4,#`?<Constant "GAS:%d">` & 0xff
+        MOV     R5,#(`?<Constant "GAS:%d">` >> 8) & 0xff
+        MOV     A,#0xd
+        LCALL   ?XSTACK_DISP0_8
+        LCALL   ?Subroutine5 & 0xFFFF
+??CrossCallReturnLabel_6:
+        LCALL   ?DEALLOC_XSTACK8
+        CFI CFA_XSP16 add(XSP16, 73)
+//  534   HalLcdWriteString((char*)debugStr, HAL_LCD_LINE_3 );
+        ; Setup parameters for call to function HalLcdWriteString
+        MOV     R1,#0x3
+        MOV     A,#0xb
+        LCALL   ?XSTACK_DISP0_8
+        LCALL   ?Subroutine6 & 0xFFFF
+//  535   sprintf(debugStr, "TEMP:%d", temp[0]);
+??CrossCallReturnLabel_8:
+        LCALL   ?PUSH_XSTACK8_X_TWO
+        CFI CFA_XSP16 add(XSP16, 75)
+        MOV     R4,#`?<Constant "TEMP:%d">` & 0xff
+        MOV     R5,#(`?<Constant "TEMP:%d">` >> 8) & 0xff
+        MOV     A,#0xd
+        LCALL   ?XSTACK_DISP0_8
+        LCALL   ?Subroutine5 & 0xFFFF
+??CrossCallReturnLabel_7:
+        LCALL   ?DEALLOC_XSTACK8
+        CFI CFA_XSP16 add(XSP16, 73)
+//  536   HalLcdWriteString((char*)debugStr, HAL_LCD_LINE_4 );
+        ; Setup parameters for call to function HalLcdWriteString
+        MOV     R1,#0x4
+        MOV     A,#0xb
+        LCALL   ?XSTACK_DISP0_8
+        LCALL   ?Subroutine6 & 0xFFFF
+//  537   
+//  538   sprintf(debugStr, "GAS:%d TEMP:%d", temp[1],temp[0]);
+??CrossCallReturnLabel_9:
+        LCALL   ?PUSH_XSTACK8_X_TWO
+        CFI CFA_XSP16 add(XSP16, 75)
+        MOV     R0,#?V0 + 0
+        LCALL   ?PUSH_XSTACK_I_TWO
+        CFI CFA_XSP16 add(XSP16, 77)
+        MOV     R4,#`?<Constant "GAS:%d TEMP:%d">` & 0xff
+        MOV     R5,#(`?<Constant "GAS:%d TEMP:%d">` >> 8) & 0xff
+        MOV     A,#0xf
+        LCALL   ?XSTACK_DISP0_8
+        MOV     R2,DPL
+        MOV     R3,DPH
+        LCALL   ??sprintf?relay
+        MOV     A,#0x4
+        LCALL   ?DEALLOC_XSTACK8
+        CFI CFA_XSP16 add(XSP16, 73)
+//  539   HalUARTWrite(0, debugStr, osal_strlen(debugStr));
+        ; Setup parameters for call to function HalUARTWrite
+        ; Setup parameters for call to function osal_strlen
+        MOV     A,#0xb
+        LCALL   ?XSTACK_DISP0_8
+        MOV     R2,DPL
+        MOV     R3,DPH
+        LCALL   ??osal_strlen?relay
+        MOV     A,R2
+        MOV     R4,A
+        MOV     A,R3
+        MOV     R5,A
+        MOV     A,#0xb
+        LCALL   ?XSTACK_DISP0_8
+        LCALL   ?Subroutine2 & 0xFFFF
+//  540   HalUARTWrite(0, "\r\n", 2);
+//  541   
+//  542   SampleApp_TxAddr.addrMode = (afAddrMode_t)Addr16Bit;
+??CrossCallReturnLabel_1:
+        MOV     DPTR,#SampleApp_TxAddr + 8
+        LCALL   ?Subroutine4 & 0xFFFF
+//  543   SampleApp_TxAddr.endPoint = SAMPLEAPP_ENDPOINT;
+//  544   SampleApp_TxAddr.addr.shortAddr = 0x0;
+??CrossCallReturnLabel_11:
+        MOV     DPTR,#SampleApp_TxAddr
+        CLR     A
+        MOVX    @DPTR,A
+        INC     DPTR
+        MOVX    @DPTR,A
+//  545 
+//  546 
+//  547 
+//  548 
+//  549   //无线发送到协调器
+//  550   if ( AF_DataRequest( &SampleApp_P2P_DstAddr, &SampleApp_epDesc,
+//  551                        SAMPLEAPP_P2P_CLUSTERID,
+//  552                        7,
+//  553                        str,
+//  554                        &SampleApp_MsgID,
+//  555                        AF_DISCV_ROUTE,
+//  556                        AF_DEFAULT_RADIUS ) == afStatus_SUCCESS )
+        ; Setup parameters for call to function AF_DataRequest
+        MOV     ?V0 + 0,#0x1e
+        MOV     R0,#?V0 + 0
+        LCALL   ?PUSH_XSTACK_I_ONE
+        CFI CFA_XSP16 add(XSP16, 74)
+        MOV     ?V0 + 0,#SampleApp_MsgID & 0xff
+        MOV     ?V0 + 1,#(SampleApp_MsgID >> 8) & 0xff
+        MOV     R0,#?V0 + 0
+        LCALL   ?PUSH_XSTACK_I_TWO
+        CFI CFA_XSP16 add(XSP16, 76)
+        MOV     A,#0x7
+        LCALL   ?XSTACK_DISP0_8
+        MOV     ?V0 + 0,DPL
+        MOV     ?V0 + 1,DPH
+        MOV     R0,#?V0 + 0
+        LCALL   ?PUSH_XSTACK_I_TWO
+        CFI CFA_XSP16 add(XSP16, 78)
+        MOV     ?V0 + 0,#0x7
+        MOV     ?V0 + 1,#0x0
+        MOV     R0,#?V0 + 0
+        LCALL   ?PUSH_XSTACK_I_TWO
+        CFI CFA_XSP16 add(XSP16, 80)
+        MOV     ?V0 + 0,#0x1
+        MOV     R0,#?V0 + 0
+        LCALL   ?PUSH_XSTACK_I_TWO
+        CFI CFA_XSP16 add(XSP16, 82)
+        MOV     R1,#0x20
+        MOV     R4,#SampleApp_epDesc & 0xff
+        MOV     R5,#(SampleApp_epDesc >> 8) & 0xff
+        MOV     R2,#SampleApp_P2P_DstAddr & 0xff
+        MOV     R3,#(SampleApp_P2P_DstAddr >> 8) & 0xff
+        LCALL   ??AF_DataRequest?relay
+        MOV     A,#0x9
+        LCALL   ?DEALLOC_XSTACK8
+        CFI CFA_XSP16 add(XSP16, 73)
+//  557   {
+//  558   }
+//  559   else
+//  560   {
+//  561     // Error occurred in request to send.
+//  562   }
+//  563 }
+        MOV     A,#0x3d
+        LJMP    ?Subroutine1 & 0xFFFF
+        CFI EndBlock cfiBlock13
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+?Subroutine6:
+        CFI Block cfiCond14 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_8
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI V2 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V3 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 73)
+        CFI Block cfiCond15 Using cfiCommon0
+        CFI (cfiCond15) NoFunction
+        CFI (cfiCond15) Conditional ??CrossCallReturnLabel_9
+        CFI (cfiCond15) R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI (cfiCond15) VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI (cfiCond15) V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond15) V1 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond15) V2 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond15) V3 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond15) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI (cfiCond15) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI (cfiCond15) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI (cfiCond15) ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI (cfiCond15) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI (cfiCond15) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI (cfiCond15) CFA_SP SP+0
+        CFI (cfiCond15) CFA_XSP16 add(XSP16, 73)
+        CFI Block cfiPicker16 Using cfiCommon1
+        CFI (cfiPicker16) NoFunction
+        CFI (cfiPicker16) Picker
+        MOV     R2,DPL
+        MOV     R3,DPH
+        LCALL   ??HalLcdWriteString?relay
+        ; Setup parameters for call to function sprintf
+        ; Setup parameters for call to function sprintf
+        MOV     DPL,?XSP + 0
+        MOV     DPH,?XSP + 1
+        RET
+        CFI EndBlock cfiCond14
+        CFI EndBlock cfiCond15
+        CFI EndBlock cfiPicker16
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+?Subroutine5:
+        CFI Block cfiCond17 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_4
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 65)
+        CFI Block cfiCond18 Using cfiCommon0
+        CFI (cfiCond18) NoFunction
+        CFI (cfiCond18) Conditional ??CrossCallReturnLabel_5
+        CFI (cfiCond18) R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond18) VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond18) V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond18) V1 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond18) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI (cfiCond18) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI (cfiCond18) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI (cfiCond18) ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI (cfiCond18) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI (cfiCond18) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI (cfiCond18) CFA_SP SP+0
+        CFI (cfiCond18) CFA_XSP16 add(XSP16, 65)
+        CFI Block cfiCond19 Using cfiCommon0
+        CFI (cfiCond19) NoFunction
+        CFI (cfiCond19) Conditional ??CrossCallReturnLabel_6
+        CFI (cfiCond19) R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI (cfiCond19) VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI (cfiCond19) V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond19) V1 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond19) V2 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond19) V3 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond19) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI (cfiCond19) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI (cfiCond19) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI (cfiCond19) ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI (cfiCond19) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI (cfiCond19) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI (cfiCond19) CFA_SP SP+0
+        CFI (cfiCond19) CFA_XSP16 add(XSP16, 75)
+        CFI Block cfiCond20 Using cfiCommon0
+        CFI (cfiCond20) NoFunction
+        CFI (cfiCond20) Conditional ??CrossCallReturnLabel_7
+        CFI (cfiCond20) R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI (cfiCond20) VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI (cfiCond20) V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond20) V1 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond20) V2 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond20) V3 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond20) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI (cfiCond20) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI (cfiCond20) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI (cfiCond20) ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI (cfiCond20) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI (cfiCond20) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI (cfiCond20) CFA_SP SP+0
+        CFI (cfiCond20) CFA_XSP16 add(XSP16, 75)
+        CFI Block cfiPicker21 Using cfiCommon1
+        CFI (cfiPicker21) NoFunction
+        CFI (cfiPicker21) Picker
+        MOV     R2,DPL
+        MOV     R3,DPH
+        LCALL   ??sprintf?relay
+        MOV     A,#0x2
+        RET
+        CFI EndBlock cfiCond17
+        CFI EndBlock cfiCond18
+        CFI EndBlock cfiCond19
+        CFI EndBlock cfiCond20
+        CFI EndBlock cfiPicker21
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+?Subroutine4:
+        CFI Block cfiCond22 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_10
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 10)
+        CFI Block cfiCond23 Using cfiCommon0
+        CFI (cfiCond23) NoFunction
+        CFI (cfiCond23) Conditional ??CrossCallReturnLabel_11
+        CFI (cfiCond23) R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI (cfiCond23) VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI (cfiCond23) V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond23) V1 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond23) V2 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond23) V3 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond23) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI (cfiCond23) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI (cfiCond23) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI (cfiCond23) ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI (cfiCond23) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI (cfiCond23) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI (cfiCond23) CFA_SP SP+0
+        CFI (cfiCond23) CFA_XSP16 add(XSP16, 73)
+        CFI Block cfiPicker24 Using cfiCommon1
+        CFI (cfiPicker24) NoFunction
+        CFI (cfiPicker24) Picker
+        MOV     A,#0x2
+        CFI EndBlock cfiCond22
+        CFI EndBlock cfiCond23
+        CFI EndBlock cfiPicker24
+        REQUIRE ??Subroutine9_0
+        ; // Fall through to label ??Subroutine9_0
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+??Subroutine9_0:
+        CFI Block cfiCond25 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_12
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 10)
+        CFI Block cfiCond26 Using cfiCommon0
+        CFI (cfiCond26) NoFunction
+        CFI (cfiCond26) Conditional ??CrossCallReturnLabel_13
+        CFI (cfiCond26) R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond26) VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond26) V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond26) V1 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond26) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI (cfiCond26) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI (cfiCond26) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI (cfiCond26) ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI (cfiCond26) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI (cfiCond26) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI (cfiCond26) CFA_SP SP+0
+        CFI (cfiCond26) CFA_XSP16 add(XSP16, 10)
+        CFI Block cfiCond27 Using cfiCommon0
+        CFI (cfiCond27) NoFunction
+        CFI (cfiCond27) Conditional ??CrossCallReturnLabel_10
+        CFI (cfiCond27) R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond27) VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond27) V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond27) V1 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond27) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI (cfiCond27) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI (cfiCond27) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI (cfiCond27) ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI (cfiCond27) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI (cfiCond27) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI (cfiCond27) CFA_SP SP+0
+        CFI (cfiCond27) CFA_XSP16 add(XSP16, 10)
+        CFI Block cfiCond28 Using cfiCommon0
+        CFI (cfiCond28) NoFunction
+        CFI (cfiCond28) Conditional ??CrossCallReturnLabel_11
+        CFI (cfiCond28) R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI (cfiCond28) VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI (cfiCond28) V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond28) V1 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond28) V2 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond28) V3 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond28) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI (cfiCond28) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI (cfiCond28) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI (cfiCond28) ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI (cfiCond28) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI (cfiCond28) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI (cfiCond28) CFA_SP SP+0
+        CFI (cfiCond28) CFA_XSP16 add(XSP16, 73)
+        CFI Block cfiPicker29 Using cfiCommon1
+        CFI (cfiPicker29) NoFunction
+        CFI (cfiPicker29) Picker
+        MOVX    @DPTR,A
+        INC     DPTR
+        MOV     A,#0xb
+        MOVX    @DPTR,A
+        RET
+        CFI EndBlock cfiCond25
+        CFI EndBlock cfiCond26
+        CFI EndBlock cfiCond27
+        CFI EndBlock cfiCond28
+        CFI EndBlock cfiPicker29
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+?Subroutine2:
+        CFI Block cfiCond30 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_0
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI V2 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V3 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 62)
+        CFI Block cfiCond31 Using cfiCommon0
+        CFI (cfiCond31) NoFunction
+        CFI (cfiCond31) Conditional ??CrossCallReturnLabel_1
+        CFI (cfiCond31) R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI (cfiCond31) VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI (cfiCond31) V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond31) V1 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond31) V2 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond31) V3 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond31) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI (cfiCond31) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI (cfiCond31) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI (cfiCond31) ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI (cfiCond31) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI (cfiCond31) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI (cfiCond31) CFA_SP SP+0
+        CFI (cfiCond31) CFA_XSP16 add(XSP16, 73)
+        CFI Block cfiPicker32 Using cfiCommon1
+        CFI (cfiPicker32) NoFunction
+        CFI (cfiPicker32) Picker
+        MOV     R2,DPL
+        MOV     R3,DPH
+        MOV     R1,#0x0
+        LCALL   ??HalUARTWrite?relay
+        ; Setup parameters for call to function HalUARTWrite
+        ; Setup parameters for call to function HalUARTWrite
+        MOV     R4,#0x2
+        MOV     R5,#0x0
+        MOV     R2,#`?<Constant "\\r\\n">` & 0xff
+        MOV     R3,#(`?<Constant "\\r\\n">` >> 8) & 0xff
+        MOV     R1,#0x0
+        LCALL   ??HalUARTWrite?relay
+        RET
+        CFI EndBlock cfiCond30
+        CFI EndBlock cfiCond31
+        CFI EndBlock cfiPicker32
+//  564 
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+//  565 uint8 CheckSum(uint8 *pdata, uint8 len)
+CheckSum:
+        CFI Block cfiBlock33 Using cfiCommon0
+        CFI Function CheckSum
+        CODE
+//  566 {
+        MOV     A,#-0xa
+        LCALL   ?BANKED_ENTER_XDATA
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 10)
+        ; Saved register size: 10
+        ; Auto size: 0
+        MOV     A,R1
+        MOV     R4,A
+//  567 	uint8 i;
+//  568 	uint8 check_sum=0;
+        MOV     R1,#0x0
+//  569 
+//  570 	for(i=0; i<len; i++)
+        MOV     R0,#0x0
+        SJMP    ??CheckSum_0
+//  571 	{
+//  572 		check_sum += pdata[i];
+??CheckSum_1:
+        MOV     ?V0 + 0,R0
+        MOV     A,R2
+        ADD     A,?V0 + 0
+        MOV     DPL,A
+        MOV     A,R3
+        ADDC    A,#0x0
+        MOV     DPH,A
+        MOVX    A,@DPTR
+        ADD     A,R1
+        MOV     R1,A
+//  573 	}
+        INC     R0
+??CheckSum_0:
+        MOV     A,R0
+        CLR     C
+        SUBB    A,R4
+        JC      ??CheckSum_1
+//  574 	return check_sum;
+        LJMP    ??Subroutine7_0 & 0xFFFF
+        CFI EndBlock cfiBlock33
+//  575 }
+
+        RSEG XDATA_ID:CODE:NOROOT(0)
+`?<Initializer for SampleApp_epDesc>`:
+        DATA8
+        DB 11
+        DATA16
+        DW SampleApp_TaskID
+        DW SampleApp_SimpleDesc
+        DATA8
+        DB 0
+
+        RSEG XDATA_ID:CODE:NOROOT(0)
+`?<Initializer for pc>`:
+        DATA8
+        DB 1
+
+        RSEG BANK_RELAYS:CODE:REORDER:NOROOT(0)
+??SampleApp_Init?relay:
+        LCALL   ?BDISPATCH
+        DATA
+        DC24    SampleApp_Init
+
+        RSEG BANK_RELAYS:CODE:REORDER:NOROOT(0)
+??SampleApp_ProcessEvent?relay:
+        LCALL   ?BDISPATCH
+        DATA
+        DC24    SampleApp_ProcessEvent
+
+        RSEG BANK_RELAYS:CODE:REORDER:NOROOT(0)
+??GetLight?relay:
+        LCALL   ?BDISPATCH
+        DATA
+        DC24    GetLight
+
+        RSEG BANK_RELAYS:CODE:REORDER:NOROOT(0)
+??SampleApp_ProcessMSGCmd?relay:
+        LCALL   ?BDISPATCH
+        DATA
+        DC24    SampleApp_ProcessMSGCmd
+
+        RSEG BANK_RELAYS:CODE:REORDER:NOROOT(0)
+??SampleApp_CallBack?relay:
+        LCALL   ?BDISPATCH
+        DATA
+        DC24    SampleApp_CallBack
+
+        RSEG BANK_RELAYS:CODE:REORDER:NOROOT(0)
+??GetGasPercentage?relay:
+        LCALL   ?BDISPATCH
+        DATA
+        DC24    GetGasPercentage
+
+        RSEG BANK_RELAYS:CODE:REORDER:NOROOT(0)
+??SampleApp_Send_P2P_Message?relay:
+        LCALL   ?BDISPATCH
+        DATA
+        DC24    SampleApp_Send_P2P_Message
+
+        RSEG BANK_RELAYS:CODE:REORDER:NOROOT(0)
+??CheckSum?relay:
+        LCALL   ?BDISPATCH
+        DATA
+        DC24    CheckSum
+
+        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
+        DATA8
+`?<Constant "GAS1:%d GAS2:%d, on:%d">`:
+        DB "GAS1:%d GAS2:%d, on:%d"
+
+        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
+        DATA8
+`?<Constant "\\r\\n">`:
+        DB "\015\012"
+
+        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
+        DATA8
+`?<Constant "onegas:%3d">`:
+        DB "onegas:%3d"
+
+        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
+        DATA8
+`?<Constant "towgas:%3d">`:
+        DB "towgas:%3d"
+
+        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
+        DATA8
+`?<Constant {0}>`:
+        DB 0
+        DB 0, 0, 0, 0, 0, 0
+
+        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
+        DATA8
+`?<Constant "GAS:%d">`:
+        DB "GAS:%d"
+
+        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
+        DATA8
+`?<Constant "TEMP:%d">`:
+        DB "TEMP:%d"
+
+        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
+        DATA8
+`?<Constant "GAS:%d TEMP:%d">`:
+        DB "GAS:%d TEMP:%d"
+
+        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
+        DATA32
+__Constant_39000000:
+        DD 39000000H
+
+        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
+        DATA32
+__Constant_42c80000:
+        DD 42C80000H
+
+        END
+//  576 
+//  577 //数据打包发送
+//  578 /**
+//  579 *fc:功能码
+//  580 *data:上传的数据
+//  581 *len:数据长度
+//  582 格式:len,校验,fc,内容,$,@,
+//  583 */
+//  584 void packDataAndSend(uint8 fc, uint8* data, uint8 len)
+//  585 {
+//  586     osal_memset(SampleApp_TxBuf, 0, SAMPLE_APP_TX_MAX+1);
+//  587 
+//  588 
+//  589     //数据包长度
+//  590     SampleApp_TxBuf[0]=3+len;
+//  591 
+//  592     //功能码
+//  593     SampleApp_TxBuf[2]=fc;
+//  594 
+//  595     //发送的数据
+//  596     if(len>0)
+//  597     {
+//  598         osal_memcpy(SampleApp_TxBuf+3, data, len);
+//  599     }
+//  600 
+//  601     //校验和,从fc开始，
+//  602     SampleApp_TxBuf[1]=CheckSum(SampleApp_TxBuf+2, len+1);
+//  603 
+//  604     //数据结尾
+//  605     SampleApp_TxBuf[3+len]='$';
+//  606     SampleApp_TxBuf[4+len]='@';
+//  607 
+//  608     //发送长度
+//  609     SampleApp_TxLen=5+len;
+//  610 
+//  611     //接着发数据包
+//  612     HalUARTWrite(0,SampleApp_TxBuf, SampleApp_TxLen);
+//  613 }
+// 
+// 1 372 bytes in segment BANKED_CODE
+//    48 bytes in segment BANK_RELAYS
+//     3 bytes in segment SFR_AN
+//     7 bytes in segment XDATA_I
+//     7 bytes in segment XDATA_ID
+//   109 bytes in segment XDATA_ROM_C
+//    55 bytes in segment XDATA_Z
+// 
+// 1 427 bytes of CODE  memory
+//   101 bytes of CONST memory (+ 8 bytes shared)
+//     0 bytes of DATA  memory (+ 3 bytes shared)
+//    62 bytes of XDATA memory
+//
+//Errors: none
+//Warnings: 21

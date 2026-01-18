@@ -1,0 +1,66 @@
+//林圆圆	230715121025
+#include "ioCC2530.h"
+
+#define SW1 P1_2
+#define LED1 P1_0
+#define LED2 P1_1
+
+int INT_Flag = 0;
+
+void delay(int k)
+{
+  int i, j;
+  for(i = 0;  i<10;  i++)
+    for(j = 0;  j<k; j++);
+}
+
+void Led_Init(void)
+{
+  P1SEL &= ~0x03;
+  P1DIR |= 0x03;
+  LED1 = 1;
+  LED2 = 0;
+}
+
+void Key_Init(void)
+{
+  P1DIR &= ~0x04;
+  P1SEL &= ~0x04;
+  P1INP &= ~0x04;
+  PICTL |= 0x02;
+  P1IE |= 0x04;
+  LEN2 |= 0x10;
+  EA = 1;
+  P1IFG |= 0x00;
+}
+
+void main(void)
+{
+  Key_Init();
+  Led_Init();
+
+  while(1)
+  {
+    if(INT_Flag == 1)
+    {
+      LED1 =~LED1;
+      LED2 =~LED2;
+      delay(500);
+    }
+    else
+    {
+      INT_Flag = 0;
+    }
+  }
+}
+
+#pragma vector = P1INT_VECTOR
+__interrupt void P1_INT_Service(void)
+{
+     if( P1IFG & 0x04)
+    {
+       EA = 0;
+       P1IFG &= ~0x04;
+    }
+    INT_Flag = 0;
+)

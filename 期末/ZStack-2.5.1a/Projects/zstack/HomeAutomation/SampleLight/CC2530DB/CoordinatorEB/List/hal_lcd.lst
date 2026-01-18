@@ -1,0 +1,842 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V8.10.1.40194/W32 for 8051         27/Nov/2025  16:04:57 #
+# Copyright 2004-2011 IAR Systems AB.                                         #
+#                                                                             #
+#    Core               =  plain                                              #
+#    Code model         =  banked                                             #
+#    Data model         =  large                                              #
+#    Calling convention =  xdata reentrant                                    #
+#    Constant location  =  data_rom                                           #
+#    Dptr setup         =  1,16                                               #
+#    Source file        =  E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Component #
+#                          s\hal\target\CC2530EB\hal_lcd.c                    #
+#    Command line       =  -f E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projec #
+#                          ts\zstack\HomeAutomation\SampleLight\CC2530DB\..\. #
+#                          .\..\Tools\CC2530DB\f8wCoord.cfg (-DCPU32MHZ       #
+#                          -DROOT=__near_func -DMAC_CFG_APP_PENDING_QUEUE=TRU #
+#                          E -DMAC_CFG_TX_DATA_MAX=5 -DMAC_CFG_TX_MAX=8       #
+#                          -DMAC_CFG_RX_MAX=5 -DZDO_COORDINATOR -DRTR_NWK)    #
+#                          -f E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projec #
+#                          ts\zstack\HomeAutomation\SampleLight\CC2530DB\..\. #
+#                          .\..\Tools\CC2530DB\f8wConfig.cfg (-DZIGBEEPRO     #
+#                          -DSECURE=0 -DZG_SECURE_DYNAMIC=0 -DREFLECTOR       #
+#                          -DDEFAULT_CHANLIST=0x00000800                      #
+#                          -DZDAPP_CONFIG_PAN_ID=0xFFF1                       #
+#                          -DNWK_START_DELAY=100 -DEXTENDED_JOINING_RANDOM_MA #
+#                          SK=0x007F -DBEACON_REQUEST_DELAY=100               #
+#                          -DBEACON_REQ_DELAY_MASK=0x00FF                     #
+#                          -DLINK_STATUS_JITTER_MASK=0x007F                   #
+#                          -DROUTE_EXPIRY_TIME=30 -DAPSC_ACK_WAIT_DURATION_PO #
+#                          LLED=3000 -DNWK_INDIRECT_MSG_TIMEOUT=7             #
+#                          -DMAX_RREQ_ENTRIES=8 -DAPSC_MAX_FRAME_RETRIES=3    #
+#                          -DNWK_MAX_DATA_RETRIES=2                           #
+#                          -DMAX_POLL_FAILURE_RETRIES=2 -DMAX_BCAST=9         #
+#                          -DAPS_MAX_GROUPS=16 -DMAX_RTG_ENTRIES=40           #
+#                          -DNWK_MAX_BINDING_ENTRIES=4                        #
+#                          -DMAX_BINDING_CLUSTER_IDS=4 "-DDEFAULT_KEY={0x01,  #
+#                          0x03, 0x05, 0x07, 0x09, 0x0B, 0x0D, 0x0F, 0x00,    #
+#                          0x02, 0x04, 0x06, 0x08, 0x0A, 0x0C, 0x0D}"         #
+#                          -DMAC_MAX_FRAME_SIZE=116                           #
+#                          -DZDNWKMGR_MIN_TRANSMISSIONS=20 "-DCONST=const     #
+#                          __code" -DGENERIC=__generic                        #
+#                          -DRFD_RCVC_ALWAYS_ON=FALSE -DPOLL_RATE=1000        #
+#                          -DQUEUED_POLL_RATE=100 -DRESPONSE_POLL_RATE=100    #
+#                          -DREJOIN_POLL_RATE=440) -f                         #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\Tools\CC2530DB\f8wZCL.cfg (-DZCL_READ            #
+#                          -DZCL_WRITE -DZCL_BASIC -DZCL_IDENTIFY             #
+#                          -DZCL_ON_OFF -DZCL_KEY_ESTABLISH                   #
+#                          -DZCL_KEY_ESTABLISHMENT_KEY_GENERATE_TIMEOUT=4     #
+#                          -DZCL_KEY_ESTABLISHMENT_MAC_GENERATE_TIMEOUT=10    #
+#                          -DZCL_KEY_ESTABLISHMENT_EKEY_GENERATE_TIMEOUT=10   #
+#                          -DZCL_LOAD_CONTROL -DZCL_SIMPLE_METERING           #
+#                          -DZCL_PRICING -DZCL_MESSAGE -DZCL_TUNNELING        #
+#                          -DZCL_TOU) -DZCL_DEVICE_MGMT                       #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Component #
+#                          s\hal\target\CC2530EB\hal_lcd.c -D ZTOOL_P1 -D     #
+#                          MT_TASK -D MT_APP_FUNC -D MT_SYS_FUNC -D           #
+#                          MT_ZDO_FUNC -D LCD_SUPPORTED=DEBUG -lC             #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\Coordin #
+#                          atorEB\List\ -lA E:\2025-2作业\CC2530\实验4\ZStack #
+#                          -2.5.1a\Projects\zstack\HomeAutomation\SampleLight #
+#                          \CC2530DB\CoordinatorEB\List\ --diag_suppress      #
+#                          Pe001,Pa010 -o E:\2025-2作业\CC2530\实验4\ZStack-2 #
+#                          .5.1a\Projects\zstack\HomeAutomation\SampleLight\C #
+#                          C2530DB\CoordinatorEB\Obj\ -e --no_code_motion     #
+#                          --debug --core=plain --dptr=16,1                   #
+#                          --data_model=large --code_model=banked             #
+#                          --calling_convention=xdata_reentrant               #
+#                          --place_constants=data_rom --nr_virtual_regs 16    #
+#                          -I E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projec #
+#                          ts\zstack\HomeAutomation\SampleLight\CC2530DB\ -I  #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\Sour #
+#                          ce\ -I E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Pr #
+#                          ojects\zstack\HomeAutomation\SampleLight\CC2530DB\ #
+#                          ..\..\Source\ -I E:\2025-2作业\CC2530\实验4\ZStack #
+#                          -2.5.1a\Projects\zstack\HomeAutomation\SampleLight #
+#                          \CC2530DB\..\..\..\ZMain\TI2530DB\ -I              #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\..\..\Components\hal\include\ -I                 #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\..\..\Components\hal\target\CC2530EB\ -I         #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\..\..\Components\mac\include\ -I                 #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\..\..\Components\mac\high_level\ -I              #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\..\..\Components\mac\low_level\srf04\ -I         #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\..\..\Components\mac\low_level\srf04\single_chip #
+#                          \ -I E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Proj #
+#                          ects\zstack\HomeAutomation\SampleLight\CC2530DB\.. #
+#                          \..\..\..\..\Components\mt\ -I                     #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\..\..\Components\osal\include\ -I                #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\..\..\Components\services\saddr\ -I              #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\..\..\Components\services\sdata\ -I              #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\..\..\Components\stack\af\ -I                    #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\..\..\Components\stack\nwk\ -I                   #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\..\..\Components\stack\sapi\ -I                  #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\..\..\Components\stack\sec\ -I                   #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\..\..\Components\stack\sys\ -I                   #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\..\..\Components\stack\zcl\ -I                   #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\..\..\Components\stack\zdo\ -I                   #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\..\..\Components\zmac\ -I                        #
+#                          E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\..\..\. #
+#                          .\..\..\Components\zmac\f8w\ -Ohz                  #
+#                          --require_prototypes                               #
+#    List file          =  E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\Coordin #
+#                          atorEB\List\hal_lcd.lst                            #
+#    Object file        =  E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Projects\ #
+#                          zstack\HomeAutomation\SampleLight\CC2530DB\Coordin #
+#                          atorEB\Obj\hal_lcd.r51                             #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+E:\2025-2作业\CC2530\实验4\ZStack-2.5.1a\Components\hal\target\CC2530EB\hal_lcd.c
+      1          /****************************************************************************
+      2          * Filename: hal_lcd.c
+      3          * Author:  sz-yy.taobao.com
+      4          * Description: OLED driver
+      5          ****************************************************************************/
+      6          #include "hal_types.h"
+      7          #include "hal_lcd.h"
+      8          #include "OSAL.h"
+      9          #include "OnBoard.h"
+     10          #include "hal_assert.h"
+     11          #include <string.h>
+     12          
+     13          #ifdef OLED_1306
+     14          
+     15          #if defined (ZTOOL_P1) || defined (ZTOOL_P2)
+     16            #include "DebugTrace.h"
+     17          #endif
+     18          
+     19          #define LCD_SCL P1_2       //SCLK  时钟 D0（SCLK）
+     20          #define LCD_SDA P1_3       //SDA   D1（MOSI） 数据
+     21          #define LCD_RST P1_7       //_RES  hardware reset   复位 
+     22          #define LCD_DC  P0_0       //A0  H/L 命令数据选通端，H：数据，L:命令
+     23          
+     24          #define XLevelL            0x00
+     25          #define XLevelH            0x10
+     26          #define XLevel             ((XLevelH&0x0F)*16+XLevelL)
+     27          #define Max_Column         128
+     28          #define Max_Row            64
+     29          #define Brightness         0xCF 
+     30          #define X_WIDTH            128
+     31          #define Y_WIDTH            64
+     32          
+     33          #define LCD_MAX_BUF        25
+     34          #define HAL_LCD_MAX_CHARS  16   // Max number of chars on a single LCD line 
+     35          
+     36          //英文编码为0~127，所以大于127的中文
+     37          #define IS_CHINESE(x)       (((unsigned char)(x))>(unsigned char)0x7f )
+     38          
+     39          const unsigned char F8X16[]=	  
+     40          {
+     41            0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,// 0
+     42            0x00,0x00,0x00,0xF8,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x33,0x30,0x00,0x00,0x00,//! 1
+     43            0x00,0x10,0x0C,0x06,0x10,0x0C,0x06,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,//" 2
+     44            0x40,0xC0,0x78,0x40,0xC0,0x78,0x40,0x00,0x04,0x3F,0x04,0x04,0x3F,0x04,0x04,0x00,//# 3
+     45            0x00,0x70,0x88,0xFC,0x08,0x30,0x00,0x00,0x00,0x18,0x20,0xFF,0x21,0x1E,0x00,0x00,//$ 4
+     46            0xF0,0x08,0xF0,0x00,0xE0,0x18,0x00,0x00,0x00,0x21,0x1C,0x03,0x1E,0x21,0x1E,0x00,//% 5
+     47            0x00,0xF0,0x08,0x88,0x70,0x00,0x00,0x00,0x1E,0x21,0x23,0x24,0x19,0x27,0x21,0x10,//& 6
+     48            0x10,0x16,0x0E,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,//' 7
+     49            0x00,0x00,0x00,0xE0,0x18,0x04,0x02,0x00,0x00,0x00,0x00,0x07,0x18,0x20,0x40,0x00,//( 8
+     50            0x00,0x02,0x04,0x18,0xE0,0x00,0x00,0x00,0x00,0x40,0x20,0x18,0x07,0x00,0x00,0x00,//) 9
+     51            0x40,0x40,0x80,0xF0,0x80,0x40,0x40,0x00,0x02,0x02,0x01,0x0F,0x01,0x02,0x02,0x00,//* 10
+     52            0x00,0x00,0x00,0xF0,0x00,0x00,0x00,0x00,0x01,0x01,0x01,0x1F,0x01,0x01,0x01,0x00,//+ 11
+     53            0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x80,0xB0,0x70,0x00,0x00,0x00,0x00,0x00,//, 12
+     54            0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x01,0x01,0x01,0x01,0x01,0x01,//- 13
+     55            0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x30,0x30,0x00,0x00,0x00,0x00,0x00,//. 14
+     56            0x00,0x00,0x00,0x00,0x80,0x60,0x18,0x04,0x00,0x60,0x18,0x06,0x01,0x00,0x00,0x00,/// 15
+     57            0x00,0xE0,0x10,0x08,0x08,0x10,0xE0,0x00,0x00,0x0F,0x10,0x20,0x20,0x10,0x0F,0x00,//0 16
+     58            0x00,0x10,0x10,0xF8,0x00,0x00,0x00,0x00,0x00,0x20,0x20,0x3F,0x20,0x20,0x00,0x00,//1 17
+     59            0x00,0x70,0x08,0x08,0x08,0x88,0x70,0x00,0x00,0x30,0x28,0x24,0x22,0x21,0x30,0x00,//2 18
+     60            0x00,0x30,0x08,0x88,0x88,0x48,0x30,0x00,0x00,0x18,0x20,0x20,0x20,0x11,0x0E,0x00,//3 19
+     61            0x00,0x00,0xC0,0x20,0x10,0xF8,0x00,0x00,0x00,0x07,0x04,0x24,0x24,0x3F,0x24,0x00,//4 20
+     62            0x00,0xF8,0x08,0x88,0x88,0x08,0x08,0x00,0x00,0x19,0x21,0x20,0x20,0x11,0x0E,0x00,//5 21
+     63            0x00,0xE0,0x10,0x88,0x88,0x18,0x00,0x00,0x00,0x0F,0x11,0x20,0x20,0x11,0x0E,0x00,//6 22
+     64            0x00,0x38,0x08,0x08,0xC8,0x38,0x08,0x00,0x00,0x00,0x00,0x3F,0x00,0x00,0x00,0x00,//7 23
+     65            0x00,0x70,0x88,0x08,0x08,0x88,0x70,0x00,0x00,0x1C,0x22,0x21,0x21,0x22,0x1C,0x00,//8 24
+     66            0x00,0xE0,0x10,0x08,0x08,0x10,0xE0,0x00,0x00,0x00,0x31,0x22,0x22,0x11,0x0F,0x00,//9 25
+     67            0x00,0x00,0x00,0xC0,0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x30,0x30,0x00,0x00,0x00,//: 26
+     68            0x00,0x00,0x00,0x80,0x00,0x00,0x00,0x00,0x00,0x00,0x80,0x60,0x00,0x00,0x00,0x00,//; 27
+     69            0x00,0x00,0x80,0x40,0x20,0x10,0x08,0x00,0x00,0x01,0x02,0x04,0x08,0x10,0x20,0x00,//< 28
+     70            0x40,0x40,0x40,0x40,0x40,0x40,0x40,0x00,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x00,//= 29
+     71            0x00,0x08,0x10,0x20,0x40,0x80,0x00,0x00,0x00,0x20,0x10,0x08,0x04,0x02,0x01,0x00,//> 30
+     72            0x00,0x70,0x48,0x08,0x08,0x08,0xF0,0x00,0x00,0x00,0x00,0x30,0x36,0x01,0x00,0x00,//? 31
+     73            0xC0,0x30,0xC8,0x28,0xE8,0x10,0xE0,0x00,0x07,0x18,0x27,0x24,0x23,0x14,0x0B,0x00,//@ 32
+     74            0x00,0x00,0xC0,0x38,0xE0,0x00,0x00,0x00,0x20,0x3C,0x23,0x02,0x02,0x27,0x38,0x20,//A 33
+     75            0x08,0xF8,0x88,0x88,0x88,0x70,0x00,0x00,0x20,0x3F,0x20,0x20,0x20,0x11,0x0E,0x00,//B 34
+     76            0xC0,0x30,0x08,0x08,0x08,0x08,0x38,0x00,0x07,0x18,0x20,0x20,0x20,0x10,0x08,0x00,//C 35
+     77            0x08,0xF8,0x08,0x08,0x08,0x10,0xE0,0x00,0x20,0x3F,0x20,0x20,0x20,0x10,0x0F,0x00,//D 36
+     78            0x08,0xF8,0x88,0x88,0xE8,0x08,0x10,0x00,0x20,0x3F,0x20,0x20,0x23,0x20,0x18,0x00,//E 37
+     79            0x08,0xF8,0x88,0x88,0xE8,0x08,0x10,0x00,0x20,0x3F,0x20,0x00,0x03,0x00,0x00,0x00,//F 38
+     80            0xC0,0x30,0x08,0x08,0x08,0x38,0x00,0x00,0x07,0x18,0x20,0x20,0x22,0x1E,0x02,0x00,//G 39
+     81            0x08,0xF8,0x08,0x00,0x00,0x08,0xF8,0x08,0x20,0x3F,0x21,0x01,0x01,0x21,0x3F,0x20,//H 40
+     82            0x00,0x08,0x08,0xF8,0x08,0x08,0x00,0x00,0x00,0x20,0x20,0x3F,0x20,0x20,0x00,0x00,//I 41
+     83            0x00,0x00,0x08,0x08,0xF8,0x08,0x08,0x00,0xC0,0x80,0x80,0x80,0x7F,0x00,0x00,0x00,//J 42
+     84            0x08,0xF8,0x88,0xC0,0x28,0x18,0x08,0x00,0x20,0x3F,0x20,0x01,0x26,0x38,0x20,0x00,//K 43
+     85            0x08,0xF8,0x08,0x00,0x00,0x00,0x00,0x00,0x20,0x3F,0x20,0x20,0x20,0x20,0x30,0x00,//L 44
+     86            0x08,0xF8,0xF8,0x00,0xF8,0xF8,0x08,0x00,0x20,0x3F,0x00,0x3F,0x00,0x3F,0x20,0x00,//M 45
+     87            0x08,0xF8,0x30,0xC0,0x00,0x08,0xF8,0x08,0x20,0x3F,0x20,0x00,0x07,0x18,0x3F,0x00,//N 46
+     88            0xE0,0x10,0x08,0x08,0x08,0x10,0xE0,0x00,0x0F,0x10,0x20,0x20,0x20,0x10,0x0F,0x00,//O 47
+     89            0x08,0xF8,0x08,0x08,0x08,0x08,0xF0,0x00,0x20,0x3F,0x21,0x01,0x01,0x01,0x00,0x00,//P 48
+     90            0xE0,0x10,0x08,0x08,0x08,0x10,0xE0,0x00,0x0F,0x18,0x24,0x24,0x38,0x50,0x4F,0x00,//Q 49
+     91            0x08,0xF8,0x88,0x88,0x88,0x88,0x70,0x00,0x20,0x3F,0x20,0x00,0x03,0x0C,0x30,0x20,//R 50
+     92            0x00,0x70,0x88,0x08,0x08,0x08,0x38,0x00,0x00,0x38,0x20,0x21,0x21,0x22,0x1C,0x00,//S 51
+     93            0x18,0x08,0x08,0xF8,0x08,0x08,0x18,0x00,0x00,0x00,0x20,0x3F,0x20,0x00,0x00,0x00,//T 52
+     94            0x08,0xF8,0x08,0x00,0x00,0x08,0xF8,0x08,0x00,0x1F,0x20,0x20,0x20,0x20,0x1F,0x00,//U 53
+     95            0x08,0x78,0x88,0x00,0x00,0xC8,0x38,0x08,0x00,0x00,0x07,0x38,0x0E,0x01,0x00,0x00,//V 54
+     96            0xF8,0x08,0x00,0xF8,0x00,0x08,0xF8,0x00,0x03,0x3C,0x07,0x00,0x07,0x3C,0x03,0x00,//W 55
+     97            0x08,0x18,0x68,0x80,0x80,0x68,0x18,0x08,0x20,0x30,0x2C,0x03,0x03,0x2C,0x30,0x20,//X 56
+     98            0x08,0x38,0xC8,0x00,0xC8,0x38,0x08,0x00,0x00,0x00,0x20,0x3F,0x20,0x00,0x00,0x00,//Y 57
+     99            0x10,0x08,0x08,0x08,0xC8,0x38,0x08,0x00,0x20,0x38,0x26,0x21,0x20,0x20,0x18,0x00,//Z 58
+    100            0x00,0x00,0x00,0xFE,0x02,0x02,0x02,0x00,0x00,0x00,0x00,0x7F,0x40,0x40,0x40,0x00,//[ 59
+    101            0x00,0x0C,0x30,0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x06,0x38,0xC0,0x00,//\ 60
+    102            0x00,0x02,0x02,0x02,0xFE,0x00,0x00,0x00,0x00,0x40,0x40,0x40,0x7F,0x00,0x00,0x00,//] 61
+    103            0x00,0x00,0x04,0x02,0x02,0x02,0x04,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,//^ 62
+    104            0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,//_ 63
+    105            0x00,0x02,0x02,0x04,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,//` 64
+    106            0x00,0x00,0x80,0x80,0x80,0x80,0x00,0x00,0x00,0x19,0x24,0x22,0x22,0x22,0x3F,0x20,//a 65
+    107            0x08,0xF8,0x00,0x80,0x80,0x00,0x00,0x00,0x00,0x3F,0x11,0x20,0x20,0x11,0x0E,0x00,//b 66
+    108            0x00,0x00,0x00,0x80,0x80,0x80,0x00,0x00,0x00,0x0E,0x11,0x20,0x20,0x20,0x11,0x00,//c 67
+    109            0x00,0x00,0x00,0x80,0x80,0x88,0xF8,0x00,0x00,0x0E,0x11,0x20,0x20,0x10,0x3F,0x20,//d 68
+    110            0x00,0x00,0x80,0x80,0x80,0x80,0x00,0x00,0x00,0x1F,0x22,0x22,0x22,0x22,0x13,0x00,//e 69
+    111            0x00,0x80,0x80,0xF0,0x88,0x88,0x88,0x18,0x00,0x20,0x20,0x3F,0x20,0x20,0x00,0x00,//f 70
+    112            0x00,0x00,0x80,0x80,0x80,0x80,0x80,0x00,0x00,0x6B,0x94,0x94,0x94,0x93,0x60,0x00,//g 71
+    113            0x08,0xF8,0x00,0x80,0x80,0x80,0x00,0x00,0x20,0x3F,0x21,0x00,0x00,0x20,0x3F,0x20,//h 72
+    114            0x00,0x80,0x98,0x98,0x00,0x00,0x00,0x00,0x00,0x20,0x20,0x3F,0x20,0x20,0x00,0x00,//i 73
+    115            0x00,0x00,0x00,0x80,0x98,0x98,0x00,0x00,0x00,0xC0,0x80,0x80,0x80,0x7F,0x00,0x00,//j 74
+    116            0x08,0xF8,0x00,0x00,0x80,0x80,0x80,0x00,0x20,0x3F,0x24,0x02,0x2D,0x30,0x20,0x00,//k 75
+    117            0x00,0x08,0x08,0xF8,0x00,0x00,0x00,0x00,0x00,0x20,0x20,0x3F,0x20,0x20,0x00,0x00,//l 76
+    118            0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x00,0x20,0x3F,0x20,0x00,0x3F,0x20,0x00,0x3F,//m 77
+    119            0x80,0x80,0x00,0x80,0x80,0x80,0x00,0x00,0x20,0x3F,0x21,0x00,0x00,0x20,0x3F,0x20,//n 78
+    120            0x00,0x00,0x80,0x80,0x80,0x80,0x00,0x00,0x00,0x1F,0x20,0x20,0x20,0x20,0x1F,0x00,//o 79
+    121            0x80,0x80,0x00,0x80,0x80,0x00,0x00,0x00,0x80,0xFF,0xA1,0x20,0x20,0x11,0x0E,0x00,//p 80
+    122            0x00,0x00,0x00,0x80,0x80,0x80,0x80,0x00,0x00,0x0E,0x11,0x20,0x20,0xA0,0xFF,0x80,//q 81
+    123            0x80,0x80,0x80,0x00,0x80,0x80,0x80,0x00,0x20,0x20,0x3F,0x21,0x20,0x00,0x01,0x00,//r 82
+    124            0x00,0x00,0x80,0x80,0x80,0x80,0x80,0x00,0x00,0x33,0x24,0x24,0x24,0x24,0x19,0x00,//s 83
+    125            0x00,0x80,0x80,0xE0,0x80,0x80,0x00,0x00,0x00,0x00,0x00,0x1F,0x20,0x20,0x00,0x00,//t 84
+    126            0x80,0x80,0x00,0x00,0x00,0x80,0x80,0x00,0x00,0x1F,0x20,0x20,0x20,0x10,0x3F,0x20,//u 85
+    127            0x80,0x80,0x80,0x00,0x00,0x80,0x80,0x80,0x00,0x01,0x0E,0x30,0x08,0x06,0x01,0x00,//v 86
+    128            0x80,0x80,0x00,0x80,0x00,0x80,0x80,0x80,0x0F,0x30,0x0C,0x03,0x0C,0x30,0x0F,0x00,//w 87
+    129            0x00,0x80,0x80,0x00,0x80,0x80,0x80,0x00,0x00,0x20,0x31,0x2E,0x0E,0x31,0x20,0x00,//x 88
+    130            0x80,0x80,0x80,0x00,0x00,0x80,0x80,0x80,0x80,0x81,0x8E,0x70,0x18,0x06,0x01,0x00,//y 89
+    131            0x00,0x80,0x80,0x80,0x80,0x80,0x80,0x00,0x00,0x21,0x30,0x2C,0x22,0x21,0x30,0x00,//z 90
+    132            0x00,0x00,0x00,0x00,0x80,0x7C,0x02,0x02,0x00,0x00,0x00,0x00,0x00,0x3F,0x40,0x40,//{ 91
+    133            0x00,0x00,0x00,0x00,0xFF,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFF,0x00,0x00,0x00,//| 92
+    134            0x00,0x02,0x02,0x7C,0x80,0x00,0x00,0x00,0x00,0x40,0x40,0x3F,0x00,0x00,0x00,0x00,//} 93
+    135            0x00,0x06,0x01,0x01,0x02,0x02,0x04,0x04,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,//~ 94
+    136          };
+    137          
+    138          typedef struct _hz_16_16_
+    139          {
+    140              char* gpk;
+    141              unsigned char code[32];
+    142          }hanziku;
+    143          
+    144          //汉字字表
+    145          const hanziku tabel_hanzi[] =
+    146          {
+    147              //找不到就显示这个，两个空格
+    148              {{"  "},
+    149              {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+    150              0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}},
+    151          
+    152          
+    153          /*--  文字:  温  --*/
+    154          /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+    155              {{"温"},
+    156              {0x10,0x21,0x86,0x70,0x00,0x7E,0x4A,0x4A,0x4A,0x4A,0x4A,0x7E,0x00,0x00,0x00,0x00,
+    157              0x02,0xFE,0x01,0x40,0x7F,0x41,0x41,0x7F,0x41,0x41,0x7F,0x41,0x41,0x7F,0x40,0x00}},
+    158          
+    159          /*--  文字:  度  --*/
+    160          /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+    161              {{"度"},
+    162              {0x00,0x00,0xFC,0x04,0x24,0x24,0xFC,0xA5,0xA6,0xA4,0xFC,0x24,0x24,0x24,0x04,0x00,
+    163              0x80,0x60,0x1F,0x80,0x80,0x42,0x46,0x2A,0x12,0x12,0x2A,0x26,0x42,0xC0,0x40,0x00}},
+    164          
+    165          /*--  文字:  ：  --*/
+    166          /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+    167              {{"："},
+    168              {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+    169              0x00,0x00,0x36,0x36,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}},
+    170          
+    171          /*--  文字:  湿  --*/
+    172          /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+    173              {{"湿"},
+    174              {0x10,0x60,0x02,0xCC,0x00,0x00,0x3E,0x2A,0xAA,0x2A,0xAA,0x2A,0x3E,0x00,0x00,0x00,
+    175              0x08,0x08,0xFE,0x01,0x40,0x42,0x4C,0x40,0x7F,0x40,0x7F,0x48,0x44,0x42,0x40,0x00}},
+    176          
+    177              /*--  文字:  光  --*/
+    178              /*--  楷体_GB231212;  此字体下对应的点阵为：宽x高=16x16   --*/
+    179              {{"光"},
+    180              {0x40,0x40,0x42,0x44,0x58,0xC0,0x40,0x7F,0x40,0xC0,0x50,0x48,0x46,0x40,0x40,0x00,
+    181              0x80,0x80,0x40,0x20,0x18,0x07,0x00,0x00,0x00,0x3F,0x40,0x40,0x40,0x40,0x78,0x00}},
+    182          
+    183              /*--  文字:  照  --*/
+    184              /*--  楷体_GB231212;  此字体下对应的点阵为：宽x高=16x16   --*/
+    185              {{"照"},
+    186              {0x00,0xFE,0x42,0x42,0x42,0xFE,0x00,0x42,0xA2,0x9E,0x82,0xA2,0xC2,0xBE,0x00,0x00,
+    187              0x80,0x6F,0x08,0x08,0x28,0xCF,0x00,0x00,0x2F,0xC8,0x08,0x08,0x28,0xCF,0x00,0x00}},
+    188          
+    189              /*--  文字:  大  --*/
+    190              /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+    191              {{"大"},
+    192              {0x20,0x20,0x20,0x20,0x20,0x20,0x20,0xFF,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x00,
+    193              0x80,0x80,0x40,0x20,0x10,0x0C,0x03,0x00,0x03,0x0C,0x10,0x20,0x40,0x80,0x80,0x00}},
+    194          
+    195              /*--  文字:  小  --*/
+    196              /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+    197              {{"小"},
+    198              {0x00,0x00,0x00,0xE0,0x00,0x00,0x00,0xFF,0x00,0x00,0x00,0x20,0x40,0x80,0x00,0x00,
+    199              0x08,0x04,0x03,0x00,0x00,0x40,0x80,0x7F,0x00,0x00,0x00,0x00,0x00,0x01,0x0E,0x00}},
+    200          
+    201              /*--  文字:  于  --*/
+    202              /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+    203              {{"于"},
+    204              {0x40,0x40,0x42,0x42,0x42,0x42,0x42,0xFE,0x42,0x42,0x42,0x42,0x42,0x40,0x40,0x00,
+    205              0x00,0x00,0x00,0x00,0x00,0x40,0x80,0x7F,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}},
+    206          
+    207              /*--  文字:  报  --*/
+    208              /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+    209              {{"报"},
+    210              {0x10,0x10,0x10,0xFF,0x10,0x90,0x00,0xFE,0x82,0x82,0x82,0x92,0xA2,0x9E,0x00,0x00,
+    211              0x04,0x44,0x82,0x7F,0x01,0x00,0x00,0xFF,0x80,0x43,0x2C,0x10,0x2C,0x43,0x80,0x00}},
+    212          
+    213              /*--  文字:  警  --*/
+    214              /*--  宋体12;  此字体下对应的点阵为：宽x高=16x16   --*/
+    215              {{"警"},
+    216              {0x12,0xEA,0xAF,0xAA,0xEA,0x0F,0xFA,0x02,0x88,0x8C,0x57,0x24,0x54,0x8C,0x84,0x00,
+    217              0x02,0x02,0xEA,0xAA,0xAA,0xAB,0xAA,0xAB,0xAA,0xAA,0xAA,0xAA,0xEA,0x02,0x02,0x00}},
+    218          };
+    219          
+    220          unsigned char* getChineseCode(char* chinese)
+                                ^
+Error[Pa045]: function "getChineseCode" has no prototype
+    221          {
+    222              int i;
+    223              int tableLen=sizeof(tabel_hanzi)/sizeof(hanziku);
+    224          
+    225              if(chinese==0);
+    226          
+    227              for(i=0; i<tableLen; i++)
+    228              {
+    229                  if(tabel_hanzi[i].gpk[0]==chinese[0] && tabel_hanzi[i].gpk[1]==chinese[1])
+    230                  {
+    231                      return (unsigned char*)tabel_hanzi[i].code;
+    232                  }
+    233              }
+    234          
+    235              return (unsigned char*)tabel_hanzi[0].code;
+    236          }
+    237          
+    238          
+    239          #if (HAL_LCD == TRUE)
+    240          void HalLcd_HW_Init(void);
+    241          void HalLcd_HW_WaitUs(uint16 i);
+    242          void HalLcd_HW_Clear(void);
+    243          void HalLcd_HW_Control(uint8 cmd);
+    244          void HalLcd_HW_Write(uint8 data);
+    245          void HalLcd_HW_SetContrast(uint8 value);
+    246          void HalLcd_HW_WriteChar(uint8 line, uint8 col, char text);
+    247          void HalLcd_HW_WriteLine(uint8 line, const char *pText);
+    248          
+    249          void DelayMS(unsigned int msec);
+    250          void LCD_DLY_ms(unsigned int ms);
+    251          void LCD_WrDat(unsigned char dat);
+    252          void LCD_WrCmd(unsigned char cmd);
+    253          void LCD_Set_Pos(unsigned char x, unsigned char y);
+    254          void LCD_Fill(unsigned char bmp_dat) ;
+    255          void LCD_CLS(void);
+    256          void LcdClearLine(unsigned char y, unsigned char count);
+    257          
+    258          void LCD_P8x16Str(unsigned char x, unsigned char y,unsigned char ch[]);
+    259          void HalLcdDisplayPercentBar( char *title, uint8 value );
+    260          void LCD_P16x16Ch(unsigned char x, unsigned char y, unsigned char N);
+    261          #endif //LCD
+    262          
+    263          
+    264          /**************************************************************************************************
+    265           * @fn      HalLcdInit
+    266           *
+    267           * @brief   Initilize LCD Service
+    268           *
+    269           * @param   init - pointer to void that contains the initialized value
+    270           *
+    271           * @return  None
+    272           **************************************************************************************************/
+    273          void HalLcdInit(void)
+    274          {
+    275          #if (HAL_LCD == TRUE)
+    276            HalLcd_HW_Init();
+    277          #endif
+    278          }
+    279          
+    280          /**************************************************************************************************
+    281           * @fn      HalLcdWriteValue
+    282           *
+    283           * @brief   Write a value to the LCD
+    284           *
+    285           * @param   value  - value that will be displayed
+    286           *          radix  - 8, 10, 16
+    287           *          option - display options
+    288           *
+    289           * @return  None
+    290           **************************************************************************************************/
+    291          void HalLcdWriteValue ( uint32 value, const uint8 radix, uint8 option)
+    292          {
+    293          #if (HAL_LCD == TRUE)
+    294            uint8 buf[LCD_MAX_BUF];
+    295          
+    296            _ltoa( value, &buf[0], radix );
+    297            HalLcdWriteString( (char*)buf, option );
+    298          #endif
+    299          }
+    300          
+    301          /**************************************************************************************************
+    302           * @fn      HalLcdWriteScreen
+    303           *
+    304           * @brief   Write a value to the LCD
+    305           *
+    306           * @param   line1  - string that will be displayed on line 1
+    307           *          line2  - string that will be displayed on line 2
+    308           *
+    309           * @return  None
+    310           **************************************************************************************************/
+    311          void HalLcdWriteScreen( char *line1, char *line2 )
+    312          {
+    313          #if (HAL_LCD == TRUE)
+    314            HalLcdWriteString( line1, 1 );
+    315            HalLcdWriteString( line2, 2 );
+    316          #endif
+    317          }
+    318          
+    319          /**************************************************************************************************
+    320           * @fn      HalLcdWriteStringValue
+    321           *
+    322           * @brief   Write a string followed by a value to the LCD
+    323           *
+    324           * @param   title  - Title that will be displayed before the value
+    325           *          value  - value
+    326           *          format - redix
+    327           *          line   - line number
+    328           *
+    329           * @return  None
+    330           **************************************************************************************************/
+    331          void HalLcdWriteStringValue( char *title, uint16 value, uint8 format, uint8 line )
+    332          {
+    333          #if (HAL_LCD == TRUE)
+    334            uint8 tmpLen;
+    335            uint8 buf[LCD_MAX_BUF];
+    336            uint32 err;
+    337          
+    338            tmpLen = (uint8)osal_strlen( (char*)title );
+    339            osal_memcpy( buf, title, tmpLen );
+    340            //buf[tmpLen] = ' ';
+    341            err = (uint32)(value);
+    342            _ltoa( err, &buf[tmpLen], format );
+    343            HalLcdWriteString( (char*)buf, line );		
+    344          #endif
+    345          }
+    346          
+    347          /**************************************************************************************************
+    348           * @fn      HalLcdWriteStringValue
+    349           *
+    350           * @brief   Write a string followed by a value to the LCD
+    351           *
+    352           * @param   title   - Title that will be displayed before the value
+    353           *          value1  - value #1
+    354           *          format1 - redix of value #1
+    355           *          value2  - value #2
+    356           *          format2 - redix of value #2
+    357           *          line    - line number
+    358           *
+    359           * @return  None
+    360           **************************************************************************************************/
+    361          void HalLcdWriteStringValueValue( char *title, uint16 value1, uint8 format1,
+    362                                            uint16 value2, uint8 format2, uint8 line )
+    363          {
+    364          
+    365          #if (HAL_LCD == TRUE)
+    366          
+    367            uint8 tmpLen;
+    368            uint8 buf[LCD_MAX_BUF];
+    369            uint32 err;
+    370          
+    371            tmpLen = (uint8)osal_strlen( (char*)title );
+    372            if ( tmpLen )
+    373            {
+    374              osal_memcpy( buf, title, tmpLen );
+    375              //buf[tmpLen++] = ' ';
+    376            }
+    377          
+    378            err = (uint32)(value1);
+    379            _ltoa( err, &buf[tmpLen], format1 );
+    380            tmpLen = (uint8)osal_strlen( (char*)buf );
+    381          
+    382            buf[tmpLen++] = ',';
+    383            buf[tmpLen++] = ' ';
+    384            err = (uint32)(value2);
+    385            _ltoa( err, &buf[tmpLen], format2 );
+    386          
+    387            HalLcdWriteString( (char *)buf, line );		
+    388          
+    389          #endif
+    390          }
+    391          
+    392          #if (HAL_LCD == TRUE)
+    393          void DelayMS(unsigned int msec)
+    394          { 
+    395              unsigned int i,j;
+    396              
+    397              for (i=0; i<msec; i++)
+    398                  for (j=0; j<530; j++);
+    399          }
+    400          
+    401          /*********************LCD 延时1ms************************************/
+    402          void LCD_DLY_ms(unsigned int ms)
+    403          {                         
+    404              unsigned int a;
+    405              while(ms)
+    406              {
+    407                  a=1800;
+    408                  while(a--);
+    409                  ms--;
+    410              }
+    411              return;
+    412          }
+    413          
+    414          /*********************LCD写数据************************************/ 
+    415          void LCD_WrDat(unsigned char dat)     
+    416          {
+    417              unsigned char i=8, temp=0;
+    418              LCD_DC=1;  
+    419              for(i=0;i<8;i++) //发送一个八位数据 
+    420              {
+    421                  LCD_SCL=0;  
+    422                  
+    423                  temp = dat&0x80;
+    424                  if (temp == 0)
+    425                  {
+    426                      LCD_SDA = 0;
+    427                  }
+    428                  else
+    429                  {
+    430                      LCD_SDA = 1;
+    431                  }
+    432                  LCD_SCL=1;             
+    433                  dat<<=1;    
+    434              }
+    435          }
+    436          
+    437          /*********************LCD写命令************************************/                                        
+    438          void LCD_WrCmd(unsigned char cmd)
+    439          {
+    440              unsigned char i=8, temp=0;
+    441              LCD_DC=0;
+    442              for(i=0;i<8;i++) //发送一个八位数据 
+    443              { 
+    444                  LCD_SCL=0; 
+    445                 
+    446                  temp = cmd&0x80;
+    447                  if (temp == 0)
+    448                  {
+    449                      LCD_SDA = 0;
+    450                  }
+    451                  else
+    452                  {
+    453                      LCD_SDA = 1;
+    454                  }
+    455                  LCD_SCL=1;
+    456                  cmd<<=1;;        
+    457              }     
+    458          }
+    459          
+    460          /*********************LCD 设置坐标************************************/
+    461          void LCD_Set_Pos(unsigned char x, unsigned char y) 
+    462          {
+    463              if(x>127) return;
+    464              if(y>7) return;
+    465          
+    466              LCD_WrCmd(0xb0+y);
+    467              LCD_WrCmd(x&0x0f);
+    468              LCD_WrCmd(((x>>4)&0x07)|0x10); 
+    469          } 
+    470          
+    471          /*********************LCD全屏************************************/
+    472          void LCD_Fill(unsigned char bmp_dat) 
+    473          {
+    474              unsigned char y,x;
+    475              for(y=0;y<8;y++)
+    476              {
+    477                  LCD_Set_Pos(0, y);
+    478                  for(x=0;x<X_WIDTH;x++)
+    479                      LCD_WrDat(bmp_dat);
+    480              }
+    481          }
+    482          
+    483          /*********************LCD复位************************************/
+    484          void LCD_CLS(void)
+    485          {
+    486              unsigned char y,x;    
+    487              for(y=0;y<8;y++)
+    488              {
+    489                  LCD_Set_Pos(0, y);
+    490                  for(x=0;x<X_WIDTH;x++)
+    491                      LCD_WrDat(0);
+    492              }
+    493          }
+    494          
+    495          void LcdClearLine(unsigned char y, unsigned char count)
+    496          {
+    497              unsigned char x,j;	
+    498              
+    499              for(j=y; j<(y+count); j++)
+    500              {
+    501                  LCD_WrCmd(0xb0+j);
+    502                  LCD_WrCmd(0x01);
+    503                  LCD_WrCmd(0x10); 
+    504                  for(x=0;x<X_WIDTH;x++)
+    505                     LCD_WrDat(0);
+    506              }
+    507          }
+    508          
+    509          void HalLcdWriteString (char *str, uint8 option)
+    510          {
+    511            uint8 x=0,y=0,strLen;
+    512            uint8 lcdBuf[HAL_LCD_MAX_CHARS+1];
+    513              
+    514            x=0;
+    515            y = (option-1)*2;
+    516            strLen = (uint8)osal_strlen( (char*)str );
+    517          
+    518            /* Check boundries */
+    519            if ( strLen > HAL_LCD_MAX_CHARS )
+    520              strLen = HAL_LCD_MAX_CHARS;
+    521          
+    522            osal_memset(lcdBuf, 0, HAL_LCD_MAX_CHARS+1);
+    523            osal_memcpy( lcdBuf, str, strLen );
+    524            
+    525            LcdClearLine(y, 2);
+    526            LCD_P8x16Str(x, y, lcdBuf);
+    527          }
+    528          
+    529          #if 1
+    530          /***能描述：显示8*16一组标准ASCII字符串     显示的坐标（x,y），y为页范围0～7***/
+    531          void LCD_P8x16Str(unsigned char x, unsigned char y,unsigned char ch[])
+    532          {
+    533              unsigned char c=0,i=0,j=0;
+    534              unsigned char* addr=0;
+    535              unsigned char wm=0;
+    536          
+    537              while (ch[j]!='\0')
+    538              {    
+    539                  if(x>120){
+    540                      x=0;
+    541                      y++;
+    542                  }
+    543                  
+    544                  LCD_Set_Pos(x,y); 
+    545                  if(IS_CHINESE(ch[j]))
+    546                  {
+    547                      //中文显示
+    548                      addr=getChineseCode(&ch[j]);
+                                                 ^
+Warning[Pe167]: argument of type "unsigned char *" is incompatible with
+          parameter of type "char *"
+    549          
+    550                      for(wm = 0;wm < 16;wm++)               
+    551                      {
+    552                          LCD_WrDat(addr[wm]);    
+    553                      }      
+    554          
+    555                      LCD_Set_Pos(x,y + 1); 
+    556                      for(wm = 0;wm < 16;wm++)          
+    557                      {
+    558                          LCD_WrDat(addr[16+wm]);
+    559                      }
+    560                      
+    561                      x+=16;
+    562                      j+=2;
+    563                  }
+    564                  else
+    565                  {
+    566                      //英文显示
+    567                      c =ch[j]-32;
+    568          
+    569                      for(i=0;i<8;i++)
+    570                      {
+    571                          LCD_WrDat(F8X16[c*16+i]);
+    572                      }
+    573          
+    574                      LCD_Set_Pos(x,y+1);    
+    575                      for(i=0;i<8;i++)
+    576                      {
+    577                          LCD_WrDat(F8X16[c*16+i+8]);  
+    578                      }
+    579          
+    580                      x+=8;
+    581                      j++;
+    582                  }
+    583              }
+    584          }
+    585          #else
+    586          /***能描述：显示8*16一组标准ASCII字符串     显示的坐标（x,y），y为页范围0～7***/
+    587          void LCD_P8x16Str(unsigned char x, unsigned char y,unsigned char ch[])
+    588          {
+    589              unsigned char c=0,i=0,j=0;
+    590              
+    591              while (ch[j]!='\0')
+    592              {    
+    593                  c =ch[j]-32;
+    594                  if(x>120){
+    595                    x=0;
+    596                    y++;
+    597                  }
+    598                  LCD_Set_Pos(x,y);    
+    599                  for(i=0;i<8;i++)     
+    600                      LCD_WrDat(F8X16[c*16+i]);
+    601                  LCD_Set_Pos(x,y+1);    
+    602                  for(i=0;i<8;i++)     
+    603                      LCD_WrDat(F8X16[c*16+i+8]);  
+    604                  x+=8;
+    605                  j++;
+    606              }
+    607          }
+    608          
+    609          /*****************功能描述：显示16*16点阵  显示的坐标（x,y），y为页范围0～7****************************/
+    610          void LCD_P16x16Ch(unsigned char x, unsigned char y, unsigned char N)
+    611          {
+    612              unsigned char wm=0;
+    613              unsigned int adder=2*N;//32*N;        
+    614              LCD_Set_Pos(x , y);
+    615              for(wm = 0;wm < 16;wm++)               
+    616              {
+    617                  LCD_WrDat(F16x16[adder]);    
+    618                  adder += 1;
+    619              }      
+    620              LCD_Set_Pos(x,y + 1); 
+    621              for(wm = 0;wm < 16;wm++)          
+    622              {
+    623                  LCD_WrDat(F16x16[adder]);
+    624                  adder += 1;
+    625              }           
+    626          }
+    627          #endif
+    628          
+    629          void HalLcd_HW_WaitUs(uint16 microSecs)
+    630          {
+    631            while(microSecs--)
+    632            {
+    633              /* 32 NOPs == 1 usecs */
+    634              asm("nop"); asm("nop"); asm("nop"); asm("nop");
+    635              asm("nop"); asm("nop"); asm("nop"); asm("nop");
+    636            }
+    637          }
+    638          
+    639          void HalLcd_HW_Init(void)
+    640          {
+    641              P0SEL &= 0xFE; //让P0.0为普通IO口，
+    642              P0DIR |= 0x01; //让P0.0为为输出
+    643          
+    644              P1SEL &= 0x73; //让 P1.2 P1.3 P1.7为普通IO口
+    645              P1DIR |= 0x8C; //把 P1.2 P1.3 1.7设置为输出
+    646              
+    647              LCD_SCL=1;
+    648              LCD_RST=0;
+    649              LCD_DLY_ms(50);
+    650              LCD_RST=1;      //从上电到下面开始初始化要有足够的时间，即等待RC复位完毕   
+    651              LCD_WrCmd(0xae);//--turn off oled panel
+    652              LCD_WrCmd(0x00);//---set low column address
+    653              LCD_WrCmd(0x10);//---set high column address
+    654              LCD_WrCmd(0x40);//--set start line address  Set Mapping RAM Display Start Line (0x00~0x3F)
+    655              LCD_WrCmd(0x81);//--set contrast control register
+    656              LCD_WrCmd(0xcf); // Set SEG Output Current Brightness
+    657              LCD_WrCmd(0xa1);//--Set SEG/Column Mapping     0xa0左右反置 0xa1正常
+    658              LCD_WrCmd(0xc8);//Set COM/Row Scan Direction   0xc0上下反置 0xc8正常
+    659              LCD_WrCmd(0xa6);//--set normal display
+    660              LCD_WrCmd(0xa8);//--set multiplex ratio(1 to 64)
+    661              LCD_WrCmd(0x3f);//--1/64 duty
+    662              LCD_WrCmd(0xd3);//-set display offset    Shift Mapping RAM Counter (0x00~0x3F)
+    663              LCD_WrCmd(0x00);//-not offset
+    664              LCD_WrCmd(0xd5);//--set display clock divide ratio/oscillator frequency
+    665              LCD_WrCmd(0x80);//--set divide ratio, Set Clock as 100 Frames/Sec
+    666              LCD_WrCmd(0xd9);//--set pre-charge period
+    667              LCD_WrCmd(0xf1);//Set Pre-Charge as 15 Clocks & Discharge as 1 Clock
+    668              LCD_WrCmd(0xda);//--set com pins hardware configuration
+    669              LCD_WrCmd(0x12);
+    670              LCD_WrCmd(0xdb);//--set vcomh
+    671              LCD_WrCmd(0x40);//Set VCOM Deselect Level
+    672              LCD_WrCmd(0x20);//-Set Page Addressing Mode (0x00/0x01/0x02)
+    673              LCD_WrCmd(0x02);//
+    674              LCD_WrCmd(0x8d);//--set Charge Pump enable/disable
+    675              LCD_WrCmd(0x14);//--set(0x10) disable
+    676              LCD_WrCmd(0xa4);// Disable Entire Display On (0xa4/0xa5)
+    677              LCD_WrCmd(0xa6);// Disable Inverse Display On (0xa6/a7) 
+    678              LCD_WrCmd(0xaf);//--turn on oled panel
+    679              LCD_Fill(0x00);  //初始清屏 
+    680              LCD_Set_Pos(0,0); 
+    681          }
+    682          
+    683          #endif
+    684          #endif
+
+Errors: 1
+Warnings: 1
